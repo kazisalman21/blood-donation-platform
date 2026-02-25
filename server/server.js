@@ -1,7 +1,11 @@
+const dns = require('dns');
+dns.setServers(['8.8.8.8', '8.8.4.4']); // Google DNS — fixes ISP SRV record blocking
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
+const { startReminderJob } = require('./jobs/reminderJob');
 
 const app = express();
 
@@ -33,6 +37,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully');
+    startReminderJob();
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
