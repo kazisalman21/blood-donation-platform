@@ -120,8 +120,8 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 
 | # | Feature | Sprint | Backend | Frontend | Status |
 |---|---------|--------|---------|----------|--------|
-| F5 | Donation History & Statistics | 1 | ✅ Done | ⚠️ Basic table exists | Needs Enhancement |
-| F12 | Request History & Records | 1 | ✅ Done | ⚠️ Basic table exists | Needs Enhancement |
+| F5 | Donation History & Statistics | 1 | ✅ Done | ✅ Done | ✅ Complete |
+| F12 | Request History & Records | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Backend ready | ❌ Need LeaderboardPage.jsx | Pending |
 | F14 | Eligibility Reminder & Health Tips | 2 | ✅ Cron job ready | ❌ Need email templates | Pending |
 | F15 | Donor-Requester Feedback System | 3 | ✅ Backend ready | ❌ Need FeedbackForm.jsx | Pending |
@@ -129,20 +129,22 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 
 ### What Anika Should Know
 
-**Sprint 1 — Immediate (Enhance Existing Pages):**
+**Sprint 1 — ✅ COMPLETE:**
 
-1. **F5 — DonationHistoryPage.jsx** (file exists, needs filters):
-   - Add date range filters (`<input type="date">`) for `from` and `to`
-   - Add blood type dropdown filter
-   - Add status dropdown filter (Scheduled/Completed/Cancelled)
-   - Apply `.filter()` on the donations array before rendering
-   - Create `DonationStatsCard.jsx` — show monthly bar chart using Recharts
-   - Backend API already supports query params: `?from=&to=&bloodType=&status=`
+1. **F5 — DonationHistoryPage.jsx** ✅ Done:
+   - ✅ Date range filters (`from` and `to` date inputs)
+   - ✅ Blood type dropdown filter
+   - ✅ Status dropdown filter (Scheduled/Completed/Cancelled)
+   - ✅ Filters wired to backend query params `?from=&to=&bloodType=&status=`
+   - ✅ `DonationStatsCard.jsx` created — total donations, lives helped, monthly Recharts bar chart
+   - Branch: `feature/anika-donation-history` (2 commits)
 
-2. **F12 — RequestHistoryPage.jsx** (file exists, needs expandable rows):
-   - Add expandable row detail showing `statusHistory` timeline
-   - Add `ExportCSVButton.jsx` — hand-written CSV export (similar to DonationHistoryPage)
-   - Backend API already supports query params: `?from=&to=&bloodType=&status=`
+2. **F12 — RequestHistoryPage.jsx** ✅ Done:
+   - ✅ Date range, blood type, and status filters added
+   - ✅ Expandable rows showing full request details + status timeline visualization
+   - ✅ Hand-written CSV export with proper field escaping (no library)
+   - ✅ New shared `HistoryFilters.css` with dark glassmorphism theme
+   - Branch: `feature/anika-request-history` (1 commit)
 
 **Sprint 2 — When Declared:**
 
@@ -374,10 +376,10 @@ blood-donation-platform/
 |---------|-------|--------|
 | F1: Registration & Profile | Salman | ✅ Done |
 | F2: Availability Management | Salman | ✅ Done |
-| F5: Donation History & Stats | Anika | ⚠️ Needs filter enhancement |
+| F5: Donation History & Stats | Anika | ✅ Done |
 | F8: Emergency Request Posting | Athoy | ⚠️ Needs RequestCard.jsx |
 | F9: Matching Algorithm | Athoy | ⚠️ Needs Postman testing |
-| F12: Request History | Anika | ⚠️ Needs expandable rows |
+| F12: Request History | Anika | ✅ Done |
 
 ### Sprint 2 (TBD) — 6 Features
 | Feature | Owner |
@@ -410,7 +412,7 @@ blood-donation-platform/
 
 ---
 
-## ✅ Current Status Summary (March 1, 2026)
+## ✅ Current Status Summary (March 2, 2026)
 
 | Item | Status |
 |------|--------|
@@ -420,6 +422,8 @@ blood-donation-platform/
 | Backend (all 34 API endpoints) | ✅ Built and wired |
 | Frontend (7 pages + shared components) | ✅ Built with dark glassmorphism theme |
 | Git repo with Issues | ✅ 10 issues on GitHub |
-| Deep check of all files | ✅ No critical bugs found |
+| Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
+| Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
+| Sprint tag | ✅ `sprint-1-complete` tagged on main |
 
 **Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
