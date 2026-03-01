@@ -1,3 +1,9 @@
+/**
+ * DonationHistoryPage — View layer for Feature 5 (Donation History & Statistics)
+ * Owner: Miskatul Afrin Anika
+ * Controller: communityController.getDonationHistory(), getDonorStats()
+ * Model: Donation.js
+ */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';

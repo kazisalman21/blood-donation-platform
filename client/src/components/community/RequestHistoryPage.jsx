@@ -1,3 +1,9 @@
+/**
+ * RequestHistoryPage — View layer for Feature 12 (Request History & Records)
+ * Owner: Miskatul Afrin Anika
+ * Controller: communityController.getRequesterHistory()
+ * Model: BloodRequest.js
+ */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
