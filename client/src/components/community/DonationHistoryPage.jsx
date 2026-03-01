@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
+import DonationStatsCard from './DonationStatsCard';
 import '../donor/DonorProfile.css';
 import './HistoryFilters.css';
 
@@ -90,6 +91,9 @@ const DonationHistoryPage = () => {
                         Export CSV ↓
                     </button>
                 </div>
+
+                {/* Stats Card with Monthly Chart */}
+                <DonationStatsCard />
 
                 {/* Filter Controls */}
                 <div className="history-filters">
