@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
+import AvailabilityToggle from './AvailabilityToggle';
 import './DonorProfile.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
@@ -70,6 +71,19 @@ const DonorProfilePage = () => {
                     <div className={`availability-indicator ${profile.isAvailable ? 'available' : 'unavailable'}`}>
                         {profile.isAvailable ? '🟢 Available to Donate' : '🔴 Not Available'}
                     </div>
+                    <AvailabilityToggle
+                        donorId={user._id}
+                        token={token}
+                        isAvailable={profile.isAvailable}
+                        nextEligibleDate={profile.nextEligibleDate}
+                        onUpdate={(newAvail, newDate) => {
+                            setProfile(prev => ({
+                                ...prev,
+                                isAvailable: newAvail,
+                                nextEligibleDate: newDate
+                            }));
+                        }}
+                    />
                 </div>
 
                 {profile.badges && profile.badges.length > 0 && (
