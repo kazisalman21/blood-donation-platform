@@ -87,7 +87,7 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 | F4 | Request Response & Dual-Consent Flow | 2 | ✅ Backend ready | ❌ Need ConsentModal.jsx | Pending |
 | F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
 | F7 | Privacy-Protected Contact Sharing | 2 | ✅ Backend ready | ❌ Need ContactCard.jsx | Pending |
-| F17 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
+| F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
 
 ### Salman's Sprint 2 Tasks (When Declared)
 1. **F3 — Notification Panel**
@@ -110,7 +110,7 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
    - Create `VerificationRequestForm.jsx` — donor uploads ID document
    - Badge appears on profile when admin approves
 
-5. **F17 — Admin User Management**
+5. **F16 — Admin User Management**
    - Create `AdminUsersPage.jsx` — table with search, filter, suspend/unsuspend buttons
    - Uses `GET /api/admin/users`, `PUT /api/admin/users/:id/suspend`, `PUT /api/admin/users/:id/verify`
 
@@ -125,7 +125,7 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 | F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Backend ready | ❌ Need LeaderboardPage.jsx | Pending |
 | F14 | Eligibility Reminder & Health Tips | 2 | ✅ Cron job ready | ❌ Need email templates | Pending |
 | F15 | Donor-Requester Feedback System | 3 | ✅ Backend ready | ❌ Need FeedbackForm.jsx | Pending |
-| F16 | Content & FAQ Management | 3 | ✅ Backend ready | ❌ Need FAQPage.jsx | Pending |
+| F20 | Content & FAQ Management | 3 | ✅ Backend ready | ❌ Need FAQPage.jsx | Pending |
 
 ### What Anika Should Know
 
@@ -166,7 +166,7 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
    - Display public feedback on donor profile
    - API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
 
-6. **F16 — FAQPage.jsx + AdminFAQEditor.jsx**:
+6. **F20 — FAQPage.jsx + AdminFAQEditor.jsx**:
    - Public accordion-style FAQ page with category tabs
    - Blood compatibility reference chart (color-coded grid)
    - Admin CRUD form for managing FAQ entries
@@ -182,9 +182,9 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 | F9 | Blood Compatibility Matching Algorithm | 1 | ✅ Done | N/A (backend only) | Needs Postman Testing |
 | F10 | Location-Based Donor Search (Map) | 2 | ⚠️ Partial | ❌ Need DonorMapPage.jsx | Pending |
 | F11 | Request Status Workflow Tracker | 2 | ✅ Done | ❌ Need StatusTracker.jsx | Pending |
-| F18 | Blood Inventory & Supply Overview | 3 | ✅ Done | ❌ Need InventoryPage.jsx | Pending |
-| F19 | Platform Analytics & Reporting | 3 | ✅ Done | ❌ Need AnalyticsDashboard.jsx | Pending |
-| F20 | Broadcast Emergency Alerts | 3 | ✅ Done | ❌ Need BroadcastPage.jsx | Pending |
+| F17 | Blood Inventory & Supply Overview | 3 | ✅ Done | ❌ Need InventoryPage.jsx | Pending |
+| F18 | Platform Analytics & Reporting | 3 | ✅ Done | ❌ Need AnalyticsDashboard.jsx | Pending |
+| F19 | Broadcast Emergency Alerts | 3 | ✅ Done | ❌ Need BroadcastPage.jsx | Pending |
 
 ### What Athoy Should Know
 
@@ -220,13 +220,13 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 
 **Sprint 3 — When Declared:**
 
-5. **F18 — InventoryPage.jsx**:
+5. **F17 — InventoryPage.jsx**:
    - 8-card grid showing donor count per blood type
    - Red card for "critical shortage" (< 5 donors)
    - City filter dropdown
    - API: `GET /api/admin/inventory?city=Dhaka`
 
-6. **F19 — AnalyticsDashboard.jsx**:
+6. **F18 — AnalyticsDashboard.jsx**:
    - 4-panel layout using Recharts:
      - Line chart: requests per week (last 8 weeks)
      - Bar chart: donations by city
@@ -234,7 +234,7 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
      - Stat card: average response time
    - APIs: `GET /api/admin/analytics/requests`, `/donations`, `/matchrate`, `/responsetime`
 
-7. **F20 — BroadcastPage.jsx**:
+7. **F19 — BroadcastPage.jsx**:
    - Form: select blood type, city, type message (max 200 chars)
    - Preview: "X donors will be notified"
    - History table showing past broadcasts
@@ -397,11 +397,11 @@ blood-donation-platform/
 |---------|-------|
 | F6: Verification Badge | Salman |
 | F15: Feedback System | Anika |
-| F16: FAQ & Content Management | Anika |
-| F17: Admin User Management | Salman |
-| F18: Blood Inventory Overview | Athoy |
-| F19: Analytics Dashboard | Athoy |
-| F20: Broadcast Alerts | Athoy |
+| F16: Admin User Management | Salman |
+| F17: Blood Inventory Overview | Athoy |
+| F18: Analytics Dashboard | Athoy |
+| F19: Broadcast Alerts | Athoy |
+| F20: FAQ & Content Management | Anika |
 
 ### Sprint 4 (TBD) — Polish
 - Bug fixes across all features
