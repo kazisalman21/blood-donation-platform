@@ -14,6 +14,11 @@ const registerDonor = async (req, res) => {
     try {
         const { name, email, password, bloodType, city, area, phone, medicalFlags } = req.body;
 
+        // Validate password length before hashing
+        if (!password || password.length < 6) {
+            return res.status(400).json({ message: 'Password must be at least 6 characters' });
+        }
+
         // Check if donor already exists
         const existingDonor = await Donor.findOne({ email });
         if (existingDonor) {
@@ -107,6 +112,11 @@ const getDonorProfile = async (req, res) => {
 const updateDonorProfile = async (req, res) => {
     try {
         const { name, city, area, phone, medicalFlags } = req.body;
+
+        // Authorization: only allow users to edit their own profile
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized to edit this profile' });
+        }
 
         const donor = await Donor.findById(req.params.id);
         if (!donor) {
