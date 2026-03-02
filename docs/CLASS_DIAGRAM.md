@@ -30,6 +30,8 @@ classDiagram
         +String[] badges
         +String role
         +Object coordinates
+        +String verificationDocument
+        +Boolean isSuspended
         +Date createdAt
     }
 
@@ -256,6 +258,8 @@ erDiagram
         Date nextEligibleDate
         Number donationCount
         String role
+        String verificationDocument
+        Boolean isSuspended
     }
 
     BLOOD_REQUEST {
