@@ -107,7 +107,7 @@
 
 .form-group label {
     display: block;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.8);
     font-size: 0.85rem;
     font-weight: 500;
     margin-bottom: 0.4rem;
@@ -136,7 +136,7 @@
 }
 
 .form-group input::placeholder {
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.35);
 }
 
 /* Blood type grid */

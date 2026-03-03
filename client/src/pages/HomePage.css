@@ -224,7 +224,7 @@
 
 /* ===== SECTIONS (Common) ===== */
 .section {
-    padding: 6rem 0;
+    padding: 5rem 0;
     position: relative;
     opacity: 0;
     transform: translateY(40px);
@@ -251,7 +251,7 @@
 
 .section-desc {
     font-size: 1.05rem;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     max-width: 500px;
     margin: 0 auto;
 }
