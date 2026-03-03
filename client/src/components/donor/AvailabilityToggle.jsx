@@ -45,7 +45,6 @@ const AvailabilityToggle = ({ donorId, token, isAvailable, nextEligibleDate, onU
                     width: '100%',
                     padding: '0.85rem',
                     borderRadius: '10px',
-                    border: 'none',
                     fontWeight: 600,
                     fontSize: '0.95rem',
                     cursor: isLocked ? 'not-allowed' : 'pointer',
