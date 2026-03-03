@@ -8,9 +8,10 @@ A full-stack web platform connecting blood donors with patients in emergency sit
 
 ## 📄 SRS Document
 
-📎 [Software Requirements Specification (SRS)](./docs/SRS.md)
+📎 [Software Requirements Specification (SRS) — Google Docs](https://docs.google.com/document/d/1tLieUNqrSS-HghBV5eOAdE_CtdKRPXOHXDnVw7Eo8YA/edit?usp=sharing)
 
 Additional documentation available in the [`docs/`](./docs/) directory:
+- [SRS (Markdown)](./docs/SRS.md)
 - [Blood_Donation_SRS_Final.docx](./docs/Blood_Donation_SRS_Final.docx)
 - [WeHeal - CSE470 Project SRS.pdf](./docs/WeHeal%20-%20%20CSE470%20Project%20SRS.pdf)
 - [Class Diagram](./docs/CLASS_DIAGRAM.md)
