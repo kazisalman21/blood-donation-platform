@@ -2,46 +2,64 @@
 
 /* ===== Design Tokens ===== */
 :root {
-  /* Colors */
-  --bg-primary: #0a0a12;
-  --bg-secondary: #0f0f1a;
-  --bg-card: rgba(255, 255, 255, 0.03);
-  --bg-card-hover: rgba(255, 255, 255, 0.06);
-  --border-subtle: rgba(255, 255, 255, 0.06);
-  --border-medium: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.75);
-  --text-muted: rgba(255, 255, 255, 0.55);
-  --accent: #dc2626;
-  --accent-light: #ef4444;
+  /* Light Theme Colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #FDF2F2;
+  --bg-dark: #0f0a14;
+  --bg-dark-secondary: #1a1025;
+  --bg-card: #ffffff;
+  --bg-card-hover: #fafafa;
+
+  /* Borders */
+  --border: #E5E7EB;
+  --border-light: #F3F4F6;
+  --border-accent: rgba(220, 38, 38, 0.15);
+
+  /* Text Colors */
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a68;
+  --text-muted: #8a8aaa;
+  --text-on-dark: #ffffff;
+  --text-on-dark-secondary: rgba(255, 255, 255, 0.75);
+  --text-on-dark-muted: rgba(255, 255, 255, 0.55);
+
+  /* Accent Colors */
+  --accent: #DC2626;
+  --accent-dark: #991B1B;
+  --accent-light: #EF4444;
+  --accent-bg: #FEE2E2;
+  --accent-bg-subtle: #FEF2F2;
   --accent-glow: rgba(220, 38, 38, 0.4);
-  --accent-subtle: rgba(220, 38, 38, 0.12);
+  --accent-subtle: rgba(220, 38, 38, 0.08);
+
+  /* Status Colors */
   --green: #22c55e;
-  --green-subtle: rgba(34, 197, 94, 0.12);
+  --green-subtle: rgba(34, 197, 94, 0.08);
   --orange: #f59e0b;
-  --orange-subtle: rgba(245, 158, 11, 0.12);
+  --orange-subtle: rgba(245, 158, 11, 0.08);
   --blue: #3b82f6;
-  --blue-subtle: rgba(59, 130, 246, 0.12);
-  --gold: #eab308;
+  --blue-subtle: rgba(59, 130, 246, 0.08);
+  --purple: #a855f7;
+  --purple-subtle: rgba(168, 85, 247, 0.08);
 
   /* Gradients */
-  --gradient-hero: linear-gradient(135deg, #0a0a12 0%, #111127 40%, #1a0a1a 100%);
-  --gradient-accent: linear-gradient(135deg, #dc2626, #ef4444);
-  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
-
-  /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glass-blur: blur(20px);
+  --gradient-hero: linear-gradient(135deg, #1a0000 0%, #2d0a0a 40%, #0f0f1a 100%);
+  --gradient-accent: linear-gradient(135deg, #DC2626, #EF4444);
+  --gradient-cta: linear-gradient(135deg, #0f0a14 0%, #1a0a1e 50%, #0f0f1a 100%);
 
   /* Shadows */
-  --shadow-accent: 0 4px 30px rgba(220, 38, 38, 0.25);
-  --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.1);
+  --shadow-accent: 0 4px 25px rgba(220, 38, 38, 0.25);
+  --shadow-accent-lg: 0 8px 40px rgba(220, 38, 38, 0.35);
 
   /* Spacing */
   --nav-height: 72px;
   --container-max: 1200px;
+  --section-padding: 7rem 0;
+  --section-padding-mobile: 4.5rem 0;
 
   /* Transitions */
   --transition-fast: 0.15s ease;
@@ -53,6 +71,7 @@
   --radius: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
+  --radius-full: 50px;
 }
 
 /* ===== Reset ===== */
@@ -123,8 +142,8 @@ button {
 
 /* ===== Selection ===== */
 ::selection {
-  background: rgba(220, 38, 38, 0.3);
-  color: #fff;
+  background: rgba(220, 38, 38, 0.15);
+  color: var(--text-primary);
 }
 
 /* ===== Animation Keyframes ===== */
@@ -218,7 +237,7 @@ button {
   }
 
   50% {
-    transform: translateY(-30px) rotate(5deg);
+    transform: translateY(-15px) rotate(3deg);
   }
 }
 
@@ -280,51 +299,11 @@ button {
   }
 }
 
-@keyframes bloodDrop {
-  0% {
-    transform: translateY(-100vh) scale(0.5);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 0.6;
-  }
-
-  90% {
-    opacity: 0.6;
-  }
-
-  100% {
-    transform: translateY(100vh) scale(0.5);
-    opacity: 0;
-  }
-}
-
-@keyframes ripple {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(2.5);
-    opacity: 0;
-  }
-}
-
 /* ===== Utility Classes ===== */
 .container {
   max-width: var(--container-max);
   margin: 0 auto;
   padding: 0 2rem;
-}
-
-.glass-card {
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .gradient-text {
@@ -339,15 +318,22 @@ button {
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 1rem;
-  border-radius: 50px;
-  font-size: 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  background: var(--accent-subtle);
-  color: var(--accent-light);
-  border: 1px solid rgba(220, 38, 38, 0.2);
+  background: var(--accent-bg);
+  color: var(--accent);
+  border: 1px solid rgba(220, 38, 38, 0.15);
   margin-bottom: 1rem;
+}
+
+/* Dark section badge variant */
+.section-dark .section-badge {
+  background: rgba(220, 38, 38, 0.12);
+  color: var(--accent-light);
+  border-color: rgba(220, 38, 38, 0.2);
 }
 
 /* ===== Responsive Breakpoints ===== */
