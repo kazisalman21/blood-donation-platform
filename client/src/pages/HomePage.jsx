@@ -133,6 +133,22 @@ const Icons = {
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" />
         </svg>
     ),
+    quote: (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" opacity="0.15">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+        </svg>
+    ),
+    check: (
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+    ),
+    alert: (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" /><line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+    ),
 };
 
 /* ===== Stat Card ===== */
@@ -151,8 +167,10 @@ const StatCard = ({ icon, target, suffix = '', label }) => {
 const HomePage = () => {
     const [statsRef, statsVisible] = useScrollReveal();
     const [howRef, howVisible] = useScrollReveal();
+    const [emergRef, emergVisible] = useScrollReveal();
     const [whyRef, whyVisible] = useScrollReveal();
     const [compatRef, compatVisible] = useScrollReveal();
+    const [testRef, testVisible] = useScrollReveal();
     const [trustRef, trustVisible] = useScrollReveal();
     const [ctaRef, ctaVisible] = useScrollReveal();
 
@@ -196,6 +214,11 @@ const HomePage = () => {
                                 {Icons.emergency}
                                 <span>Request Blood</span>
                             </Link>
+                        </div>
+                        <div className="hero-trust-line">
+                            <span>{Icons.check} 500+ verified donors</span>
+                            <span>{Icons.check} 24/7 emergency support</span>
+                            <span>{Icons.check} 100% free forever</span>
                         </div>
                     </div>
                     <div className="hero-visual">
@@ -248,6 +271,25 @@ const HomePage = () => {
                                 <div className="step-accent" style={{ background: item.color }} />
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== EMERGENCY CALLOUT ===== */}
+            <section className={`section emergency-section ${emergVisible ? 'visible' : ''}`} ref={emergRef}>
+                <div className="container">
+                    <div className="emergency-strip">
+                        <div className="emergency-left">
+                            <span className="emergency-icon">{Icons.alert}</span>
+                            <div>
+                                <h3>Need blood urgently?</h3>
+                                <p>Post an emergency request and we'll notify matching donors near you instantly</p>
+                            </div>
+                        </div>
+                        <Link to="/request/new" className="btn-hero-primary">
+                            <span>Post Request</span>
+                            {Icons.arrow}
+                        </Link>
                     </div>
                 </div>
             </section>
@@ -307,6 +349,52 @@ const HomePage = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ===== TESTIMONIALS (White) ===== */}
+            <section className={`section testimonials-section ${testVisible ? 'visible' : ''}`} ref={testRef}>
+                <div className="container">
+                    <div className="section-header">
+                        <span className="section-badge">Community</span>
+                        <h2 className="section-title">Stories That Inspire</h2>
+                        <p className="section-desc">Real experiences from our donor and requester community</p>
+                    </div>
+                    <div className="testimonials-grid">
+                        <div className="testimonial-card">
+                            <div className="testimonial-quote">{Icons.quote}</div>
+                            <p>"I donated blood for the first time through BloodConnect. The process was so smooth — I registered, got matched, and helped save a life within 24 hours."</p>
+                            <div className="testimonial-author">
+                                <div className="testimonial-avatar">R</div>
+                                <div>
+                                    <strong>Rahim K.</strong>
+                                    <span>Blood Donor · O+</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="testimonial-card">
+                            <div className="testimonial-quote">{Icons.quote}</div>
+                            <p>"My mother needed AB- blood urgently after surgery. Within an hour of posting, three donors responded. This platform literally saved her life."</p>
+                            <div className="testimonial-author">
+                                <div className="testimonial-avatar">S</div>
+                                <div>
+                                    <strong>Sabrina A.</strong>
+                                    <span>Blood Requester</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="testimonial-card">
+                            <div className="testimonial-quote">{Icons.quote}</div>
+                            <p>"As a regular donor, I love the availability toggle and the 56-day cooldown reminder. It keeps me on track and ready to help whenever I can."</p>
+                            <div className="testimonial-author">
+                                <div className="testimonial-avatar">T</div>
+                                <div>
+                                    <strong>Tanvir H.</strong>
+                                    <span>Blood Donor · B+</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>

@@ -550,6 +550,167 @@
     line-height: 1.7;
 }
 
+/* ===== SECTION BADGE (Common) ===== */
+.section-badge {
+    display: inline-block;
+    padding: 0.35rem 1rem;
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #fff;
+    color: var(--accent);
+    border: 1px solid rgba(220, 38, 38, 0.18);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    margin-bottom: 1rem;
+}
+
+/* ===== HERO TRUST LINE ===== */
+.hero-trust-line {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+    animation: fadeInUp 0.8s ease-out 0.9s both;
+}
+
+.hero-trust-line span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 500;
+}
+
+.hero-trust-line svg {
+    color: var(--accent-light);
+}
+
+/* ===== EMERGENCY CALLOUT ===== */
+.emergency-section {
+    background: var(--bg-primary);
+    padding: 2rem 0;
+}
+
+.emergency-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem 2.5rem;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.04) 0%, rgba(220, 38, 38, 0.08) 100%);
+    border: 1px solid rgba(220, 38, 38, 0.12);
+    border-radius: var(--radius-xl);
+    border-left: 4px solid var(--accent);
+}
+
+.emergency-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.emergency-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius);
+    background: rgba(220, 38, 38, 0.1);
+    color: var(--accent);
+    flex-shrink: 0;
+}
+
+.emergency-strip h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.2rem;
+}
+
+.emergency-strip p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* ===== TESTIMONIALS ===== */
+.testimonials-section {
+    background: var(--bg-primary);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.testimonial-card {
+    padding: 2rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-accent);
+}
+
+.testimonial-quote {
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+}
+
+.testimonial-card p {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.75;
+    font-style: italic;
+    margin-bottom: 1.5rem;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-light);
+}
+
+.testimonial-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gradient-accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.testimonial-author strong {
+    display: block;
+    font-size: 0.88rem;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.testimonial-author span {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
 /* ===== CTA SECTION (Dark) ===== */
 .cta-section {
     padding: 8rem 0;
@@ -630,6 +791,10 @@
         justify-content: center;
     }
 
+    .hero-trust-line {
+        justify-content: center;
+    }
+
     .hero-visual {
         order: 2;
     }
@@ -647,11 +812,13 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .trust-grid {
+    .trust-grid,
+    .testimonials-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .trust-grid .trust-card:last-child {
+    .trust-grid .trust-card:last-child,
+    .testimonials-grid .testimonial-card:last-child {
         grid-column: 1 / -1;
         max-width: 400px;
         margin: 0 auto;
@@ -706,6 +873,25 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 1rem;
     }
+
+    .emergency-strip {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+    }
+
+    .emergency-left {
+        flex-direction: column;
+    }
+
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .testimonials-grid .testimonial-card:last-child {
+        max-width: none;
+        grid-column: auto;
+    }
 }
 
 @media (max-width: 480px) {
@@ -723,6 +909,12 @@
     .btn-hero-secondary {
         width: 100%;
         justify-content: center;
+    }
+
+    .hero-trust-line {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
     }
 
     .steps-grid,
