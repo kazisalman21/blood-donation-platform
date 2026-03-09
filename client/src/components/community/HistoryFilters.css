@@ -1,10 +1,11 @@
-/* ===== History Page Filter Controls ===== */
+/* ===== History Page Filter Controls — Light Theme ===== */
 .history-filters {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
     padding: 1.2rem;
     margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .filter-row {
@@ -16,9 +17,9 @@
 
 .filter-group label {
     display: block;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-muted);
     font-size: 0.75rem;
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: 0.3rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -28,10 +29,10 @@
 .filter-group select {
     width: 100%;
     padding: 0.6rem 0.8rem;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
-    color: #fff;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text-primary);
     font-size: 0.85rem;
     outline: none;
     transition: border-color 0.2s;
@@ -40,17 +41,17 @@
 
 .filter-group input:focus,
 .filter-group select:focus {
-    border-color: #ef5350;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
 }
 
 .filter-group select option {
-    background: #1a1a2e;
-    color: #fff;
+    background: #fff;
+    color: var(--text-primary);
 }
 
-/* Date input calendar icon color fix for dark theme */
+/* Date input styling */
 .filter-group input[type="date"]::-webkit-calendar-picker-indicator {
-    filter: invert(0.7);
     cursor: pointer;
 }
 
@@ -61,7 +62,7 @@
 
 .filter-btn {
     padding: 0.55rem 1.2rem;
-    border-radius: 8px;
+    border-radius: var(--radius);
     font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
@@ -70,28 +71,28 @@
 }
 
 .filter-btn-apply {
-    background: rgba(198, 40, 40, 0.2);
-    color: #ef5350;
-    border: 1px solid rgba(198, 40, 40, 0.3);
+    background: var(--accent-bg);
+    color: var(--accent);
+    border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 .filter-btn-apply:hover {
-    background: rgba(198, 40, 40, 0.3);
+    background: rgba(220, 38, 38, 0.12);
 }
 
 .filter-btn-clear {
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
 }
 
 .filter-btn-clear:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.8);
+    background: var(--border-light);
+    color: var(--text-secondary);
 }
 
 .results-count {
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     font-size: 0.8rem;
     margin-bottom: 0.8rem;
 }
@@ -103,7 +104,7 @@
 }
 
 .expandable-row:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-secondary);
 }
 
 .expand-icon {
@@ -111,7 +112,7 @@
     transition: transform 0.2s;
     margin-right: 0.5rem;
     font-size: 0.7rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
 }
 
 .expand-icon.expanded {
@@ -127,6 +128,7 @@
         opacity: 0;
         transform: translateY(-6px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -159,61 +161,68 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: var(--border-light);
+    border: 2px solid var(--border);
     position: relative;
 }
 
 .timeline-dot.completed {
-    background: #4caf50;
-    border-color: #4caf50;
-    box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+    background: var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
 }
 
 .timeline-dot.current {
-    background: #1e88e5;
-    border-color: #1e88e5;
-    box-shadow: 0 0 12px rgba(30, 136, 229, 0.5);
+    background: var(--blue);
+    border-color: var(--blue);
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 0 8px rgba(30, 136, 229, 0.4); }
-    50% { box-shadow: 0 0 16px rgba(30, 136, 229, 0.7); }
+
+    0%,
+    100% {
+        box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
+    }
 }
 
 .timeline-label {
     font-size: 0.65rem;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-muted);
     margin-top: 0.4rem;
     text-align: center;
     white-space: nowrap;
 }
 
 .timeline-label.completed {
-    color: #4caf50;
+    color: var(--green);
 }
 
 .timeline-label.current {
-    color: #1e88e5;
+    color: var(--blue);
     font-weight: 600;
 }
 
 .timeline-time {
     font-size: 0.6rem;
-    color: rgba(255, 255, 255, 0.3);
+    color: var(--text-muted);
     margin-top: 0.15rem;
 }
 
 .timeline-connector {
     width: 32px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--border);
     flex-shrink: 0;
 }
 
 .timeline-connector.completed {
-    background: #4caf50;
+    background: var(--green);
 }
 
 /* ===== Responsive ===== */
