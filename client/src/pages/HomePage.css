@@ -188,9 +188,9 @@
 
 /* ===== STATS (White) ===== */
 .stats-section {
-    background: var(--bg-primary);
+    background: var(--bg-secondary);
     padding: 4.5rem 0;
-    border-bottom: 1px solid var(--border-light);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .stats-grid {
@@ -205,21 +205,22 @@
     align-items: center;
     gap: 0.4rem;
     padding: 2rem 1rem;
-    background: var(--bg-primary);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-lg);
     transition: var(--transition);
     text-align: center;
 }
 
 .stat-card:hover {
-    border-color: var(--border-accent);
+    border-color: rgba(239, 68, 68, 0.2);
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .stat-icon {
-    color: var(--accent);
+    color: var(--accent-light);
     margin-bottom: 0.3rem;
 }
 
@@ -234,7 +235,7 @@
 
 .stat-label {
     font-size: 0.82rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
     font-weight: 500;
 }
 
@@ -260,7 +261,7 @@
 .section-title {
     font-size: 2.25rem;
     font-weight: 800;
-    color: var(--text-primary);
+    color: #fff;
     letter-spacing: -1px;
     margin-bottom: 0.8rem;
 }
@@ -271,17 +272,17 @@
 
 .section-desc {
     font-size: 1.05rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.5);
     max-width: 520px;
     margin: 0 auto;
     line-height: 1.7;
 }
 
 .section-dark .section-desc {
-    color: var(--text-on-dark-muted);
+    color: rgba(255, 255, 255, 0.45);
 }
 
-/* ===== HOW IT WORKS (Rose bg) ===== */
+/* ===== HOW IT WORKS (Dark) ===== */
 .how-section {
     background: var(--bg-secondary);
 }
@@ -295,13 +296,13 @@
 .step-card {
     position: relative;
     padding: 2rem 1.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-xl);
     text-align: left;
     overflow: hidden;
     transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .section.visible .step-card {
@@ -310,8 +311,9 @@
 
 .step-card:hover {
     transform: translateY(-6px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .step-top {
@@ -339,13 +341,13 @@
 .step-card h3 {
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #fff;
     margin-bottom: 0.6rem;
 }
 
 .step-card p {
     font-size: 0.88rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.45);
     line-height: 1.65;
 }
 
@@ -363,7 +365,7 @@
     opacity: 0.6;
 }
 
-/* ===== WHY DONATE (White) ===== */
+/* ===== WHY DONATE (Dark) ===== */
 .why-section {
     background: var(--bg-primary);
 }
@@ -376,17 +378,18 @@
 
 .impact-card {
     padding: 2.2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-xl);
     transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .impact-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .impact-card-featured {
@@ -394,8 +397,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: linear-gradient(135deg, var(--accent-bg-subtle) 0%, #fff 100%);
-    border-color: rgba(220, 38, 38, 0.12);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.06) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border-color: rgba(239, 68, 68, 0.15);
 }
 
 .impact-number {
@@ -410,24 +413,24 @@
 }
 
 .impact-icon-wrap {
-    color: var(--accent);
+    color: var(--accent-light);
     margin-bottom: 1rem;
 }
 
 .impact-card h3 {
     font-size: 1.25rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #fff;
     margin-bottom: 0.8rem;
 }
 
 .impact-card p {
     font-size: 0.92rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.5);
     line-height: 1.7;
 }
 
-/* ===== BLOOD COMPATIBILITY (Rose bg) ===== */
+/* ===== BLOOD COMPATIBILITY (Dark) ===== */
 .compat-section {
     background: var(--bg-secondary);
 }
@@ -440,11 +443,11 @@
 
 .compat-card {
     padding: 1.5rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-lg);
     transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .section.visible .compat-card {
@@ -453,8 +456,9 @@
 
 .compat-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .compat-type {
@@ -463,7 +467,8 @@
     text-align: center;
     margin-bottom: 1rem;
     padding-bottom: 0.8rem;
-    border-bottom: 2px solid var(--border-light);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.06);
+    color: var(--accent-light);
 }
 
 .compat-info {
@@ -482,23 +487,23 @@
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.35);
     font-weight: 600;
 }
 
 .compat-value {
     font-size: 0.82rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.6);
     line-height: 1.4;
     font-weight: 500;
 }
 
 .compat-divider {
     height: 1px;
-    background: var(--border-light);
+    background: rgba(255, 255, 255, 0.05);
 }
 
-/* ===== TRUST SECTION (White) ===== */
+/* ===== TRUST SECTION (Dark) ===== */
 .trust-section {
     background: var(--bg-primary);
 }
@@ -511,18 +516,19 @@
 
 .trust-card {
     padding: 2.5rem 2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-xl);
     text-align: center;
     transition: var(--transition);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
 }
 
 .trust-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .trust-icon {
@@ -532,21 +538,21 @@
     width: 64px;
     height: 64px;
     border-radius: var(--radius-lg);
-    background: var(--accent-bg);
-    color: var(--accent);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-light);
     margin-bottom: 1.2rem;
 }
 
 .trust-card h3 {
     font-size: 1.15rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #fff;
     margin-bottom: 0.8rem;
 }
 
 .trust-card p {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.5);
     line-height: 1.7;
 }
 
@@ -559,10 +565,10 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    background: #fff;
-    color: var(--accent);
-    border: 1px solid rgba(220, 38, 38, 0.18);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--accent-light);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.08);
     margin-bottom: 1rem;
 }
 
@@ -600,8 +606,8 @@
     justify-content: space-between;
     gap: 2rem;
     padding: 2rem 2.5rem;
-    background: linear-gradient(135deg, rgba(220, 38, 38, 0.04) 0%, rgba(220, 38, 38, 0.08) 100%);
-    border: 1px solid rgba(220, 38, 38, 0.12);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.06) 0%, rgba(239, 68, 68, 0.1) 100%);
+    border: 1px solid rgba(239, 68, 68, 0.15);
     border-radius: var(--radius-xl);
     border-left: 4px solid var(--accent);
 }
@@ -627,13 +633,13 @@
 .emergency-strip h3 {
     font-size: 1.1rem;
     font-weight: 700;
-    color: var(--text-primary);
+    color: #fff;
     margin-bottom: 0.2rem;
 }
 
 .emergency-strip p {
     font-size: 0.88rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.5);
     line-height: 1.5;
 }
 
@@ -650,18 +656,19 @@
 
 .testimonial-card {
     padding: 2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-xl);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
     transition: var(--transition);
     position: relative;
 }
 
 .testimonial-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-accent);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .testimonial-quote {
@@ -671,7 +678,7 @@
 
 .testimonial-card p {
     font-size: 0.92rem;
-    color: var(--text-secondary);
+    color: rgba(255, 255, 255, 0.55);
     line-height: 1.75;
     font-style: italic;
     margin-bottom: 1.5rem;
@@ -682,7 +689,7 @@
     align-items: center;
     gap: 0.75rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .testimonial-avatar {
@@ -702,13 +709,13 @@
 .testimonial-author strong {
     display: block;
     font-size: 0.88rem;
-    color: var(--text-primary);
+    color: #fff;
     font-weight: 700;
 }
 
 .testimonial-author span {
     font-size: 0.78rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 /* ===== CTA SECTION (Dark) ===== */
