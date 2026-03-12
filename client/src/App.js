@@ -18,6 +18,7 @@ import PostRequestPage from './components/patient/PostRequestPage';
 // Pages — Community (Anika)
 import DonationHistoryPage from './components/community/DonationHistoryPage';
 import RequestHistoryPage from './components/community/RequestHistoryPage';
+import LeaderboardPage from './components/community/LeaderboardPage';
 
 // Pages — Public
 import HomePage from './pages/HomePage';
@@ -52,6 +53,7 @@ function App() {
               <Route path="/history/requests" element={
                 <ProtectedRoute><RequestHistoryPage /></ProtectedRoute>
               } />
+              <Route path="/leaderboard" element={<LeaderboardPage />} />
             </Routes>
           </main>
           <Footer />
