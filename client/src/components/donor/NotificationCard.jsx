@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import ConsentModal from '../shared/ConsentModal';
 
 const API = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const NotificationCard = ({ notification, onMarkRead, onRespond }) => {
     const { token } = useAuth();
-    const [responding, setResponding] = useState(false);
+    const [showConsent, setShowConsent] = useState(false);
+    const [declining, setDeclining] = useState(false);
     const [response, setResponse] = useState(notification.response || null);
 
     const timeAgo = (dateStr) => {
@@ -18,9 +20,9 @@ const NotificationCard = ({ notification, onMarkRead, onRespond }) => {
         return `${Math.floor(hrs / 24)}d ago`;
     };
 
-    const handleRespond = async (accept) => {
+    const handleDecline = async () => {
         if (!notification.requestId) return;
-        setResponding(true);
+        setDeclining(true);
         try {
             const res = await fetch(`${API}/api/requests/${notification.requestId}/respond`, {
                 method: 'PUT',
@@ -28,62 +30,84 @@ const NotificationCard = ({ notification, onMarkRead, onRespond }) => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify({ accept })
+                body: JSON.stringify({ accept: false })
             });
             if (res.ok) {
-                setResponse(accept ? 'accepted' : 'declined');
+                setResponse('declined');
                 onMarkRead(notification._id);
-                if (onRespond) onRespond(notification.requestId, accept);
+                if (onRespond) onRespond(notification.requestId, false);
             }
         } catch (err) {
-            console.error('Failed to respond to request:', err);
+            console.error('Failed to decline request:', err);
         } finally {
-            setResponding(false);
+            setDeclining(false);
         }
     };
 
+    const handleConsentConfirmed = (updatedRequest) => {
+        setShowConsent(false);
+        setResponse('accepted');
+        onMarkRead(notification._id);
+        if (onRespond) onRespond(notification.requestId, true);
+    };
+
     return (
-        <div className={`notif-card ${!notification.isRead ? 'unread' : ''}`}>
-            <div className="notif-card-top">
-                <span className={`notif-urgency-dot ${notification.urgency || 'Normal'}`} />
-                <div className="notif-card-content">
-                    <p className="notif-message">{notification.message}</p>
-                    <div className="notif-meta">
-                        {notification.bloodType && (
-                            <span className="notif-blood-badge">{notification.bloodType}</span>
-                        )}
-                        <span className="notif-time">{timeAgo(notification.createdAt)}</span>
+        <>
+            <div className={`notif-card ${!notification.isRead ? 'unread' : ''}`}>
+                <div className="notif-card-top">
+                    <span className={`notif-urgency-dot ${notification.urgency || 'Normal'}`} />
+                    <div className="notif-card-content">
+                        <p className="notif-message">{notification.message}</p>
+                        <div className="notif-meta">
+                            {notification.bloodType && (
+                                <span className="notif-blood-badge">{notification.bloodType}</span>
+                            )}
+                            <span className="notif-time">{timeAgo(notification.createdAt)}</span>
+                        </div>
                     </div>
+                    {!notification.isRead && <span className="notif-unread-dot" />}
                 </div>
-                {!notification.isRead && <span className="notif-unread-dot" />}
+
+                {/* Accept opens ConsentModal; Decline calls API directly */}
+                {notification.requestId && !response && (
+                    <div className="notif-actions">
+                        <button
+                            className="notif-btn-accept"
+                            onClick={() => setShowConsent(true)}
+                        >
+                            ✓ Accept
+                        </button>
+                        <button
+                            className="notif-btn-decline"
+                            onClick={handleDecline}
+                            disabled={declining}
+                        >
+                            {declining ? '...' : '✕ Decline'}
+                        </button>
+                    </div>
+                )}
+
+                {response && (
+                    <span className={`notif-responded ${response}`}>
+                        {response === 'accepted' ? '✓ You accepted this request' : '✕ You declined this request'}
+                    </span>
+                )}
             </div>
 
-            {/* Accept / Decline buttons — only if no response yet */}
-            {notification.requestId && !response && (
-                <div className="notif-actions">
-                    <button
-                        className="notif-btn-accept"
-                        onClick={() => handleRespond(true)}
-                        disabled={responding}
-                    >
-                        {responding ? '...' : '✓ Accept'}
-                    </button>
-                    <button
-                        className="notif-btn-decline"
-                        onClick={() => handleRespond(false)}
-                        disabled={responding}
-                    >
-                        {responding ? '...' : '✕ Decline'}
-                    </button>
-                </div>
+            {/* Consent Modal — shown only when donor clicks Accept */}
+            {showConsent && (
+                <ConsentModal
+                    requestId={notification.requestId}
+                    requestInfo={{
+                        bloodType: notification.bloodType,
+                        hospital: notification.hospital,
+                        urgency: notification.urgency
+                    }}
+                    onConfirm={handleConsentConfirmed}
+                    onCancel={() => setShowConsent(false)}
+                />
             )}
-
-            {response && (
-                <span className={`notif-responded ${response}`}>
-                    {response === 'accepted' ? '✓ You accepted this request' : '✕ You declined this request'}
-                </span>
-            )}
-        </div>
+        </>
     );
 };
 

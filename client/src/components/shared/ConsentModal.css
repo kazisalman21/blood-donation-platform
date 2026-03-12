@@ -1,0 +1,224 @@
+/* ===== Consent Modal ===== */
+.consent-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.consent-modal {
+  background: #fff;
+  border-radius: var(--radius-xl);
+  width: 100%;
+  max-width: 440px;
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+/* Header */
+.consent-modal-header {
+  background: var(--gradient-accent);
+  padding: 1.5rem 1.8rem 1.2rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.consent-modal-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.consent-modal-header h2 {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+}
+
+.consent-modal-header p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+/* Body */
+.consent-modal-body {
+  padding: 1.5rem 1.8rem;
+}
+
+.consent-info-box {
+  background: var(--accent-bg-subtle);
+  border: 1px solid rgba(220, 38, 38, 0.12);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+}
+
+.consent-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+  padding: 0.3rem 0;
+}
+
+.consent-info-row strong {
+  color: var(--text-primary);
+  min-width: 80px;
+  font-weight: 600;
+}
+
+.consent-urgency-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.15rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.consent-urgency-badge.Critical {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+.consent-urgency-badge.Urgent {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+.consent-urgency-badge.Normal {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+.consent-privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: var(--blue-subtle);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  color: var(--blue);
+  line-height: 1.45;
+}
+
+.consent-privacy-note svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Footer */
+.consent-modal-footer {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0 1.8rem 1.5rem;
+}
+
+.consent-btn-confirm {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: var(--gradient-accent);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 15px rgba(220, 38, 38, 0.25);
+}
+
+.consent-btn-confirm:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
+}
+
+.consent-btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.consent-btn-cancel {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.consent-btn-cancel:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Consent Status Badge (for dashboards) */
+.consent-status-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.consent-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
+}
+
+.consent-status-badge.given {
+  background: rgba(34, 197, 94, 0.1);
+  color: var(--green);
+}
+
+.consent-status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--orange);
+}
+
+/* Requester Consent Button */
+.consent-requester-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--gradient-accent);
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: 0 2px 10px rgba(220, 38, 38, 0.2);
+  margin-top: 0.5rem;
+}
+
+.consent-requester-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-accent);
+}
+
+.consent-requester-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
