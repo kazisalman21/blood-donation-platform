@@ -53,12 +53,17 @@
     padding: 0.5rem 0.8rem;
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.05);
+    background: #1a1a2e;
     color: #fff;
     font-size: 0.85rem;
     outline: none;
     cursor: pointer;
     transition: border-color 0.2s;
+}
+
+.leaderboard-city-filter select option {
+    background: #1a1a2e;
+    color: #fff;
 }
 
 .leaderboard-city-filter select:focus {
