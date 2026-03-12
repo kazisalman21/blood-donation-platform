@@ -1,0 +1,299 @@
+/* ============================================
+   Leaderboard Styles — Feature 13
+   Owner: Miskatul Afrin Anika
+   Dark-glassmorphism theme (consistent with HistoryFilters.css)
+   ============================================ */
+
+/* Tab Toggle */
+.leaderboard-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.tab-btn {
+    padding: 0.6rem 1.4rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tab-btn.active {
+    background: rgba(239, 83, 80, 0.15);
+    border-color: rgba(239, 83, 80, 0.4);
+    color: #ef5350;
+}
+
+/* City Filter */
+.leaderboard-city-filter {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.leaderboard-city-filter label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.leaderboard-city-filter select {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.leaderboard-city-filter select:focus {
+    border-color: rgba(239, 83, 80, 0.4);
+}
+
+/* Leaderboard Table */
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table thead th {
+    padding: 0.8rem;
+    text-align: left;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.leaderboard-table tbody tr {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    transition: background 0.2s ease;
+}
+
+.leaderboard-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.leaderboard-table td {
+    padding: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Medal + Rank */
+.rank-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 700;
+}
+
+.rank-medal {
+    font-size: 1.3rem;
+}
+
+.rank-number {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    font-weight: 500;
+    min-width: 1.5rem;
+    text-align: center;
+}
+
+/* Top 3 rows highlight */
+.leaderboard-table tbody tr.rank-1 {
+    background: rgba(255, 215, 0, 0.04);
+}
+
+.leaderboard-table tbody tr.rank-2 {
+    background: rgba(192, 192, 192, 0.03);
+}
+
+.leaderboard-table tbody tr.rank-3 {
+    background: rgba(205, 127, 50, 0.03);
+}
+
+/* Donor Name + Verified */
+.donor-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.verified-badge {
+    color: #4caf50;
+    font-size: 0.75rem;
+}
+
+/* Badge Showcase */
+.badge-showcase {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    padding: 0.3rem 0;
+}
+
+.badge-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    min-width: 72px;
+    transition: transform 0.2s, border-color 0.2s;
+}
+
+.badge-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.badge-item.earned {
+    border-color: rgba(239, 83, 80, 0.25);
+    background: rgba(239, 83, 80, 0.06);
+}
+
+.badge-item.unearned {
+    opacity: 0.35;
+    filter: grayscale(100%);
+}
+
+.badge-icon {
+    font-size: 1.5rem;
+}
+
+.badge-label {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.5);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.badge-item.earned .badge-label {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+/* Milestone Popup */
+.milestone-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease;
+}
+
+.milestone-card {
+    background: rgba(20, 20, 30, 0.97);
+    border: 1px solid rgba(239, 83, 80, 0.3);
+    border-radius: 20px;
+    padding: 2.5rem;
+    text-align: center;
+    max-width: 340px;
+    animation: popIn 0.4s ease;
+}
+
+.milestone-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.milestone-title {
+    color: #ef5350;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.milestone-message {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.milestone-close {
+    padding: 0.5rem 1.5rem;
+    background: rgba(239, 83, 80, 0.2);
+    border: 1px solid rgba(239, 83, 80, 0.3);
+    border-radius: 8px;
+    color: #ef5350;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.2s;
+}
+
+.milestone-close:hover {
+    background: rgba(239, 83, 80, 0.3);
+}
+
+/* Donation count highlight */
+.donation-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    padding: 0.2rem 0.6rem;
+    background: rgba(239, 83, 80, 0.12);
+    border-radius: 6px;
+    color: #ef5350;
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+
+    80% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Empty state */
+.leaderboard-empty {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.95rem;
+}
