@@ -2,12 +2,17 @@ const Donation = require('../models/Donation');
 const BloodRequest = require('../models/BloodRequest');
 const Feedback = require('../models/Feedback');
 const FAQ = require('../models/FAQ');
+const mongoose = require('mongoose');
 
 // @desc    Get donation history for a donor
 // @route   GET /api/community/donors/:id/history
 // @access  Private
 const getDonationHistory = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid donor ID' });
+        }
+
         const { from, to, bloodType, status } = req.query;
         const query = { donorId: req.params.id };
 
@@ -35,6 +40,9 @@ const getDonationHistory = async (req, res) => {
 const getDonorStats = async (req, res) => {
     try {
         const donorId = req.params.id;
+        if (!mongoose.isValidObjectId(donorId)) {
+            return res.status(400).json({ message: 'Invalid donor ID format' });
+        }
 
         const totalDonations = await Donation.countDocuments({
             donorId,
@@ -77,6 +85,10 @@ const getDonorStats = async (req, res) => {
 // @access  Private
 const getRequesterHistory = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid requester ID format' });
+        }
+
         const { from, to, bloodType, status } = req.query;
         const query = { requesterId: req.params.id };
 
