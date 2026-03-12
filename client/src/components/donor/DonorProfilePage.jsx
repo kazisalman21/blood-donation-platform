@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import AvailabilityToggle from './AvailabilityToggle';
+import EligibilityReminderCard from '../community/EligibilityReminderCard';
+import HealthTipsSection from '../community/HealthTipsSection';
 import './DonorProfile.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
@@ -96,6 +98,10 @@ const DonorProfilePage = () => {
                         </div>
                     </div>
                 )}
+
+                {/* Anika — F14: Eligibility Reminder & Health Tips */}
+                <EligibilityReminderCard />
+                <HealthTipsSection />
 
                 <div className="profile-details">
                     <h3>Details</h3>
