@@ -27,14 +27,20 @@ const DonationHistoryPage = () => {
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
     const statuses = ['Scheduled', 'Completed', 'Cancelled'];
 
-    const fetchHistory = async () => {
+    const fetchHistory = async (overrideFilters = null) => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
-            if (fromDate) params.append('from', fromDate);
-            if (toDate) params.append('to', toDate);
-            if (bloodTypeFilter) params.append('bloodType', bloodTypeFilter);
-            if (statusFilter) params.append('status', statusFilter);
+
+            const effectiveFrom = overrideFilters ? overrideFilters.fromDate : fromDate;
+            const effectiveTo = overrideFilters ? overrideFilters.toDate : toDate;
+            const effectiveBlood = overrideFilters ? overrideFilters.bloodTypeFilter : bloodTypeFilter;
+            const effectiveStatus = overrideFilters ? overrideFilters.statusFilter : statusFilter;
+
+            if (effectiveFrom) params.append('from', effectiveFrom);
+            if (effectiveTo) params.append('to', effectiveTo);
+            if (effectiveBlood) params.append('bloodType', effectiveBlood);
+            if (effectiveStatus) params.append('status', effectiveStatus);
 
             const res = await axios.get(
                 `${API_URL}/community/donors/${user._id}/history?${params.toString()}`,
@@ -62,18 +68,27 @@ const DonationHistoryPage = () => {
         setToDate('');
         setBloodTypeFilter('');
         setStatusFilter('');
-        // Fetch without filters after clearing
-        setTimeout(() => fetchHistory(), 0);
+        // Fetch without filters after clearing (fixes setTimeout hack)
+        fetchHistory({ fromDate: '', toDate: '', bloodTypeFilter: '', statusFilter: '' });
     };
 
     // Hand-written CSV export — no library (course requirement)
     const exportCSV = () => {
         const headers = ['Date', 'Blood Type', 'Location', 'Recipient', 'Status'];
+
+        const escapeField = (field) => {
+            const str = String(field || '');
+            if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+                return '"' + str.replace(/"/g, '""') + '"';
+            }
+            return str;
+        };
+
         const rows = donations.map(d => [
             new Date(d.donationDate).toLocaleDateString(),
             d.bloodType,
-            d.location || '',
-            d.recipientAnonymized || '',
+            escapeField(d.location),
+            escapeField(d.recipientAnonymized),
             d.status
         ]);
         const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');

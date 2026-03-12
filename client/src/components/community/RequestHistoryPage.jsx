@@ -29,14 +29,20 @@ const RequestHistoryPage = () => {
     // Expandable row state
     const [expandedRow, setExpandedRow] = useState(null);
 
-    const fetchHistory = async () => {
+    const fetchHistory = async (overrideFilters = null) => {
         setLoading(true);
         try {
             const params = new URLSearchParams();
-            if (fromDate) params.append('from', fromDate);
-            if (toDate) params.append('to', toDate);
-            if (bloodTypeFilter) params.append('bloodType', bloodTypeFilter);
-            if (statusFilter) params.append('status', statusFilter);
+
+            const effectiveFrom = overrideFilters ? overrideFilters.fromDate : fromDate;
+            const effectiveTo = overrideFilters ? overrideFilters.toDate : toDate;
+            const effectiveBlood = overrideFilters ? overrideFilters.bloodTypeFilter : bloodTypeFilter;
+            const effectiveStatus = overrideFilters ? overrideFilters.statusFilter : statusFilter;
+
+            if (effectiveFrom) params.append('from', effectiveFrom);
+            if (effectiveTo) params.append('to', effectiveTo);
+            if (effectiveBlood) params.append('bloodType', effectiveBlood);
+            if (effectiveStatus) params.append('status', effectiveStatus);
 
             const res = await axios.get(
                 `${API_URL}/community/requesters/${user._id}/history?${params.toString()}`,
@@ -64,7 +70,7 @@ const RequestHistoryPage = () => {
         setToDate('');
         setBloodTypeFilter('');
         setStatusFilter('');
-        setTimeout(() => fetchHistory(), 0);
+        fetchHistory({ fromDate: '', toDate: '', bloodTypeFilter: '', statusFilter: '' });
     };
 
     const toggleRow = (index) => {

@@ -1,5 +1,7 @@
 const BloodRequest = require('../models/BloodRequest');
 const Notification = require('../models/Notification');
+const Donation = require('../models/Donation');
+const Donor = require('../models/Donor');
 const { findEligibleDonors } = require('../utils/bloodCompatibility');
 
 // @desc    Create a new blood request
@@ -180,6 +182,25 @@ const updateStatus = async (req, res) => {
         request.status = newStatus;
         request.statusHistory.push({ stage: newStatus, timestamp: new Date() });
         await request.save();
+
+        // 🟢 FIX: If the request is completed, generate a permanent Donation record 
+        // This is required for Anika's F5 (History) and F13 (Leaderboard) to work
+        if (newStatus === 'Completed' && request.matchedDonorId) {
+            await Donation.create({
+                donorId: request.matchedDonorId,
+                requestId: request._id,
+                bloodType: request.bloodType,
+                donationDate: new Date(),
+                location: request.hospital + (request.location ? `, ${request.location}` : ''),
+                recipientAnonymized: `Patient at ${request.hospital}`,
+                status: 'Completed'
+            });
+
+            // Update donor stats
+            await Donor.findByIdAndUpdate(request.matchedDonorId, {
+                $inc: { donationCount: 1 }
+            });
+        }
 
         res.json({ message: 'Status updated', request });
     } catch (error) {

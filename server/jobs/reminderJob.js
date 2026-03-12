@@ -82,12 +82,17 @@ const startReminderJob = () => {
         try {
             console.log('⏰ Running daily eligibility reminder check...');
 
-            const twoDaysFromNow = new Date();
-            twoDaysFromNow.setDate(twoDaysFromNow.getDate() + 2);
+            const startOfTwoDays = new Date();
+            startOfTwoDays.setDate(startOfTwoDays.getDate() + 2);
+            startOfTwoDays.setHours(0, 0, 0, 0);
 
-            // Find donors approaching eligibility (SRS FR-14.2)
+            const endOfTwoDays = new Date();
+            endOfTwoDays.setDate(endOfTwoDays.getDate() + 2);
+            endOfTwoDays.setHours(23, 59, 59, 999);
+
+            // Find donors approaching eligibility exactly 2 days from now (SRS FR-14.2)
             const donors = await Donor.find({
-                nextEligibleDate: { $lte: twoDaysFromNow, $gte: new Date() },
+                nextEligibleDate: { $gte: startOfTwoDays, $lte: endOfTwoDays },
                 isAvailable: false,
                 isSuspended: false
             });
