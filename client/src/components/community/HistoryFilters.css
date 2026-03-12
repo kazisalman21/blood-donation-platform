@@ -1,11 +1,12 @@
-/* ===== History Page Filter Controls — Light Theme ===== */
+/* ===== History Page Filter Controls — Dark Glassmorphism ===== */
 .history-filters {
-    background: #fff;
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: var(--radius-lg);
     padding: 1.2rem;
     margin-bottom: 1.5rem;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .filter-row {
@@ -17,7 +18,7 @@
 
 .filter-group label {
     display: block;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 0.75rem;
     font-weight: 600;
     margin-bottom: 0.3rem;
@@ -29,10 +30,10 @@
 .filter-group select {
     width: 100%;
     padding: 0.6rem 0.8rem;
-    background: #fff;
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius);
-    color: var(--text-primary);
+    color: #fff;
     font-size: 0.85rem;
     outline: none;
     transition: border-color 0.2s;
@@ -41,18 +42,23 @@
 
 .filter-group input:focus,
 .filter-group select:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
+    border-color: rgba(239, 68, 68, 0.4);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
 }
 
 .filter-group select option {
-    background: #fff;
-    color: var(--text-primary);
+    background: #1a1a2e;
+    color: #fff;
 }
 
 /* Date input styling */
+.filter-group input[type="date"] {
+    color-scheme: dark;
+}
+
 .filter-group input[type="date"]::-webkit-calendar-picker-indicator {
     cursor: pointer;
+    filter: invert(1);
 }
 
 .filter-actions {
@@ -71,28 +77,28 @@
 }
 
 .filter-btn-apply {
-    background: var(--accent-bg);
-    color: var(--accent);
-    border: 1px solid rgba(220, 38, 38, 0.2);
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--accent-light);
+    border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 .filter-btn-apply:hover {
-    background: rgba(220, 38, 38, 0.12);
+    background: rgba(239, 68, 68, 0.2);
 }
 
 .filter-btn-clear {
-    background: var(--bg-secondary);
-    color: var(--text-muted);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .filter-btn-clear:hover {
-    background: var(--border-light);
-    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .results-count {
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
     font-size: 0.8rem;
     margin-bottom: 0.8rem;
 }
@@ -104,7 +110,7 @@
 }
 
 .expandable-row:hover {
-    background: var(--bg-secondary);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .expand-icon {
@@ -112,7 +118,7 @@
     transition: transform 0.2s;
     margin-right: 0.5rem;
     font-size: 0.7rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
 }
 
 .expand-icon.expanded {
@@ -161,39 +167,32 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: var(--border-light);
-    border: 2px solid var(--border);
+    background: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(255, 255, 255, 0.12);
     position: relative;
 }
 
 .timeline-dot.completed {
     background: var(--green);
     border-color: var(--green);
-    box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.3);
 }
 
 .timeline-dot.current {
     background: var(--blue);
     border-color: var(--blue);
-    box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.4);
     animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
-    }
-
-    50% {
-        box-shadow: 0 0 16px rgba(59, 130, 246, 0.6);
-    }
+    0%, 100% { box-shadow: 0 0 8px rgba(96, 165, 250, 0.3); }
+    50% { box-shadow: 0 0 16px rgba(96, 165, 250, 0.6); }
 }
 
 .timeline-label {
     font-size: 0.65rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.4);
     margin-top: 0.4rem;
     text-align: center;
     white-space: nowrap;
@@ -210,14 +209,14 @@
 
 .timeline-time {
     font-size: 0.6rem;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.35);
     margin-top: 0.15rem;
 }
 
 .timeline-connector {
     width: 32px;
     height: 2px;
-    background: var(--border);
+    background: rgba(255, 255, 255, 0.08);
     flex-shrink: 0;
 }
 
