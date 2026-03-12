@@ -8,6 +8,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import DonationStatsCard from './DonationStatsCard';
+import MilestonePopup from './MilestonePopup';
+import { ALL_BADGES } from './BadgeShowcase';
 import '../donor/DonorProfile.css';
 import './HistoryFilters.css';
 
@@ -23,6 +25,9 @@ const DonationHistoryPage = () => {
     const [toDate, setToDate] = useState('');
     const [bloodTypeFilter, setBloodTypeFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
+
+    // Milestone popup state
+    const [milestonePopup, setMilestonePopup] = useState(null);
 
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
     const statuses = ['Scheduled', 'Completed', 'Cancelled'];
@@ -47,6 +52,18 @@ const DonationHistoryPage = () => {
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setDonations(res.data);
+
+            // Check for new badges
+            const completedCount = res.data.filter(d => d.status === 'Completed').length;
+            const newBadge = ALL_BADGES.find(b => b.threshold === completedCount);
+
+            if (newBadge) {
+                const seenKey = `seen_badge_${user._id}_${newBadge.id}`;
+                if (!localStorage.getItem(seenKey)) {
+                    setMilestonePopup(newBadge);
+                    localStorage.setItem(seenKey, 'true');
+                }
+            }
         } catch (err) {
             console.error('Failed to load history:', err);
         } finally {
@@ -204,6 +221,14 @@ const DonationHistoryPage = () => {
                     </div>
                 )}
             </div>
+
+            {/* Milestone Popup (FR-13.6) */}
+            {milestonePopup && (
+                <MilestonePopup
+                    badge={milestonePopup}
+                    onClose={() => setMilestonePopup(null)}
+                />
+            )}
         </div>
     );
 };

@@ -16,7 +16,6 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import BadgeShowcase from './BadgeShowcase';
-import MilestonePopup from './MilestonePopup';
 import '../donor/DonorProfile.css';
 import './Leaderboard.css';
 
@@ -38,9 +37,6 @@ const LeaderboardPage = () => {
 
     // City filter state (SRS FR-13.2)
     const [city, setCity] = useState('');
-
-    // Milestone popup state (SRS FR-13.6)
-    const [milestonePopup, setMilestonePopup] = useState(null);
 
     // Expanded row for badge showcase
     const [expandedRow, setExpandedRow] = useState(null);
@@ -220,14 +216,6 @@ const LeaderboardPage = () => {
                     </div>
                 )}
             </div>
-
-            {/* Milestone Popup (FR-13.6) */}
-            {milestonePopup && (
-                <MilestonePopup
-                    badge={milestonePopup}
-                    onClose={() => setMilestonePopup(null)}
-                />
-            )}
         </div>
     );
 };
