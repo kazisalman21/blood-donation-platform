@@ -39,9 +39,15 @@
   z-index: 1001;
 }
 
-.logo-icon {
-  font-size: 1.5rem;
-  animation: pulse 3s ease-in-out infinite;
+.navbar-logo-img {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.navbar-logo:hover .navbar-logo-img {
+  transform: scale(1.05);
 }
 
 .logo-text {

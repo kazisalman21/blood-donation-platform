@@ -26,7 +26,7 @@ const Navbar = () => {
         <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
             <div className="navbar-container">
                 <Link to="/" className="navbar-logo">
-                    <span className="logo-icon">🩸</span>
+                    <img src="/logo.png" alt="BloodConnect Logo" className="navbar-logo-img" />
                     <span className="logo-text">Blood<span className="logo-accent">Connect</span></span>
                 </Link>
 
