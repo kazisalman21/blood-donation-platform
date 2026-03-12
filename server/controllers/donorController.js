@@ -223,6 +223,56 @@ const searchDonors = async (req, res) => {
     }
 };
 
+// @desc    Get notifications for a donor
+// @route   GET /api/donors/:id/notifications
+// @access  Private
+const getNotifications = async (req, res) => {
+    try {
+        const Notification = require('../models/Notification');
+
+        // Authorization: donors can only fetch their own notifications
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized to view these notifications' });
+        }
+
+        const notifications = await Notification.find({ donorId: req.params.id })
+            .sort({ createdAt: -1 })
+            .limit(50);
+
+        const unreadCount = await Notification.countDocuments({ donorId: req.params.id, isRead: false });
+
+        res.json({ notifications, unreadCount });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// @desc    Mark a notification as read
+// @route   PUT /api/notifications/:id/read
+// @access  Private
+const markAsRead = async (req, res) => {
+    try {
+        const Notification = require('../models/Notification');
+
+        const notification = await Notification.findById(req.params.notifId);
+        if (!notification) {
+            return res.status(404).json({ message: 'Notification not found' });
+        }
+
+        // Authorization: only the recipient donor can mark it as read
+        if (notification.donorId.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+
+        notification.isRead = true;
+        await notification.save();
+
+        res.json({ message: 'Notification marked as read', notification });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
 module.exports = {
     registerDonor,
     loginDonor,
@@ -230,5 +280,7 @@ module.exports = {
     updateDonorProfile,
     toggleAvailability,
     applyForVerification,
-    searchDonors
+    searchDonors,
+    getNotifications,
+    markAsRead
 };

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import NotificationBell from '../donor/NotificationBell';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -46,6 +47,8 @@ const Navbar = () => {
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                                 History
                             </Link>
+                            <div className="nav-divider" />
+                            <NotificationBell />
                             <div className="nav-divider" />
                             <div className="nav-user">
                                 <div className="user-avatar">

@@ -8,7 +8,9 @@ const {
     updateDonorProfile,
     toggleAvailability,
     applyForVerification,
-    searchDonors
+    searchDonors,
+    getNotifications,
+    markAsRead
 } = require('../controllers/donorController');
 
 // Public routes
@@ -17,6 +19,8 @@ router.post('/login', loginDonor);
 
 // Protected routes
 router.get('/search', protect, searchDonors);
+router.get('/:id/notifications', protect, getNotifications);
+router.put('/notifications/:notifId/read', protect, markAsRead);
 router.get('/:id', protect, getDonorProfile);
 router.put('/:id', protect, updateDonorProfile);
 router.put('/:id/availability', protect, toggleAvailability);
