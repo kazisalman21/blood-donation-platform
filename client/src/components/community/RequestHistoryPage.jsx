@@ -12,7 +12,7 @@ import './HistoryFilters.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
-const STATUSES = ['Open', 'Donors Notified', 'Donor Matched', 'Contact Shared', 'Scheduled', 'Completed', 'Cancelled'];
+const STATUSES = ['Open', 'Donors Notified', 'Donor Matched', 'Contact Shared', 'Scheduled', 'Completed'];
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
 const RequestHistoryPage = () => {
@@ -114,7 +114,7 @@ const RequestHistoryPage = () => {
         // Build a map of stage → timestamp from statusHistory
         const stageMap = {};
         history.forEach(h => {
-            stageMap[h.status] = h.timestamp || h.changedAt;
+            stageMap[h.stage] = h.timestamp || h.changedAt;
         });
 
         const currentIndex = allStages.indexOf(request.status);
@@ -271,7 +271,7 @@ const RequestHistoryPage = () => {
                                                             <div>
                                                                 <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', textTransform: 'uppercase' }}>Matched Donor</span>
                                                                 <p style={{ color: '#fff', margin: '0.2rem 0 0', fontSize: '0.9rem' }}>
-                                                                    {r.matchedDonorId ? `Donor #${String(r.matchedDonorId).slice(-6)}` : 'Not yet matched'}
+                                                                    {r.matchedDonorId ? `Donor #${String(r.matchedDonorId._id || r.matchedDonorId).slice(-6)}` : 'Not yet matched'}
                                                                 </p>
                                                             </div>
                                                             <div>
