@@ -100,7 +100,10 @@ const DonorProfilePage = () => {
                 )}
 
                 {/* Anika — F14: Eligibility Reminder & Health Tips */}
-                <EligibilityReminderCard />
+                <EligibilityReminderCard
+                    nextEligibleDate={profile.nextEligibleDate}
+                    lastDonationDate={profile.lastDonationDate}
+                />
                 <HealthTipsSection />
 
                 <div className="profile-details">

@@ -11,17 +11,18 @@
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-const EligibilityReminderCard = () => {
+const EligibilityReminderCard = ({ nextEligibleDate: propDate, lastDonationDate }) => {
     const { user } = useAuth();
+    const effectiveDate = propDate || user?.nextEligibleDate;
 
     // Calculate days remaining until eligible
     const calculateEligibility = () => {
-        if (!user?.nextEligibleDate) {
+        if (!effectiveDate) {
             return { eligible: true, daysLeft: 0, progress: 100 };
         }
 
         const now = new Date();
-        const eligibleDate = new Date(user.nextEligibleDate);
+        const eligibleDate = new Date(effectiveDate);
         const diffMs = eligibleDate - now;
         const daysLeft = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
@@ -116,7 +117,7 @@ const EligibilityReminderCard = () => {
                         margin: 0,
                         textAlign: 'right'
                     }}>
-                        Eligible on {formatDate(user?.nextEligibleDate)}
+                        Eligible on {formatDate(effectiveDate)}
                     </p>
                 </>
             )}
