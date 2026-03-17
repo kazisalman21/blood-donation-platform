@@ -196,10 +196,33 @@ const updateStatus = async (req, res) => {
                 status: 'Completed'
             });
 
-            // Update donor stats
+            // Update donor stats + cooldown dates + availability
             await Donor.findByIdAndUpdate(request.matchedDonorId, {
-                $inc: { donationCount: 1 }
+                $inc: { donationCount: 1 },
+                $set: {
+                    lastDonationDate: new Date(),
+                    nextEligibleDate: new Date(Date.now() + 56 * 24 * 60 * 60 * 1000),
+                    isAvailable: false
+                }
             });
+
+            // Auto-assign badges based on new donation count
+            const updatedDonor = await Donor.findById(request.matchedDonorId);
+            const badgeThresholds = [
+                { id: 'first_donation', threshold: 1 },
+                { id: '5_donations', threshold: 5 },
+                { id: '10_donations', threshold: 10 },
+                { id: '25_donations', threshold: 25 },
+                { id: '50_donations', threshold: 50 },
+                { id: '100_donations', threshold: 100 }
+            ];
+            const earnedBadges = badgeThresholds
+                .filter(b => updatedDonor.donationCount >= b.threshold)
+                .map(b => b.id);
+            if (earnedBadges.length > (updatedDonor.badges?.length || 0)) {
+                updatedDonor.badges = earnedBadges;
+                await updatedDonor.save();
+            }
         }
 
         res.json({ message: 'Status updated', request });
