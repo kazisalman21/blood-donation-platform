@@ -83,6 +83,13 @@ const loginDonor = async (req, res) => {
             name: donor.name,
             email: donor.email,
             bloodType: donor.bloodType,
+            city: donor.city,
+            donationCount: donor.donationCount,
+            isAvailable: donor.isAvailable,
+            nextEligibleDate: donor.nextEligibleDate,
+            lastDonationDate: donor.lastDonationDate,
+            isVerified: donor.isVerified,
+            badges: donor.badges,
             role: donor.role,
             token: generateToken(donor._id)
         });
