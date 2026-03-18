@@ -19,6 +19,11 @@ import PostRequestPage from './components/patient/PostRequestPage';
 import DonationHistoryPage from './components/community/DonationHistoryPage';
 import RequestHistoryPage from './components/community/RequestHistoryPage';
 import LeaderboardPage from './components/community/LeaderboardPage';
+import FAQPage from './components/community/FAQPage';
+import BloodCompatibilityChartPage from './components/community/BloodCompatibilityChartPage';
+
+// Pages — Admin (Anika)
+import AdminContentEditor from './components/admin/AdminContentEditor';
 
 // Pages — Public
 import HomePage from './pages/HomePage';
@@ -54,6 +59,13 @@ function App() {
                 <ProtectedRoute><RequestHistoryPage /></ProtectedRoute>
               } />
               <Route path="/leaderboard" element={<LeaderboardPage />} />
+              <Route path="/faq" element={<FAQPage />} />
+              <Route path="/blood-compatibility" element={<BloodCompatibilityChartPage />} />
+
+              {/* Admin Routes — Content Management */}
+              <Route path="/admin/content" element={
+                <ProtectedRoute><AdminContentEditor /></ProtectedRoute>
+              } />
             </Routes>
           </main>
           <Footer />
