@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import '../donor/DonorProfile.css';
 import './HistoryFilters.css';
+import FeedbackForm from './FeedbackForm';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -28,6 +29,7 @@ const RequestHistoryPage = () => {
 
     // Expandable row state
     const [expandedRow, setExpandedRow] = useState(null);
+    const [feedbackOpen, setFeedbackOpen] = useState(null);
 
     const fetchHistory = async (overrideFilters = null) => {
         setLoading(true);
@@ -293,6 +295,24 @@ const RequestHistoryPage = () => {
                                                             <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', textTransform: 'uppercase' }}>Status Timeline</span>
                                                             {renderTimeline(r)}
                                                         </div>
+
+                                                        {/* Anika — F15: Leave Feedback (only for Completed requests) */}
+                                                        {r.status === 'Completed' && r.matchedDonorId && (
+                                                            feedbackOpen === i ? (
+                                                                <FeedbackForm
+                                                                    requestId={r._id}
+                                                                    donorId={r.matchedDonorId._id || r.matchedDonorId}
+                                                                    onSubmitted={() => setFeedbackOpen(null)}
+                                                                />
+                                                            ) : (
+                                                                <button
+                                                                    className="feedback-leave-btn"
+                                                                    onClick={(e) => { e.stopPropagation(); setFeedbackOpen(i); }}
+                                                                >
+                                                                    ⭐ Leave Feedback
+                                                                </button>
+                                                            )
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>
