@@ -53,16 +53,22 @@ const DonationHistoryPage = () => {
             );
             setDonations(res.data);
 
-            // Check for new badges
-            const completedCount = res.data.filter(d => d.status === 'Completed').length;
-            const newBadge = ALL_BADGES.find(b => b.threshold === completedCount);
+            // Check for new badges using unfiltered count (fixes filtered-data bug)
+            const allRes = await axios.get(
+                `${API_URL}/community/donors/${user._id}/history`,
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            const completedCount = allRes.data.filter(d => d.status === 'Completed').length;
+
+            // Find highest earned badge not yet seen (fixes exact-threshold bug)
+            const newBadge = ALL_BADGES
+                .filter(b => completedCount >= b.threshold)
+                .reverse()
+                .find(b => !localStorage.getItem(`seen_badge_${user._id}_${b.id}`));
 
             if (newBadge) {
-                const seenKey = `seen_badge_${user._id}_${newBadge.id}`;
-                if (!localStorage.getItem(seenKey)) {
-                    setMilestonePopup(newBadge);
-                    localStorage.setItem(seenKey, 'true');
-                }
+                setMilestonePopup(newBadge);
+                localStorage.setItem(`seen_badge_${user._id}_${newBadge.id}`, 'true');
             }
         } catch (err) {
             console.error('Failed to load history:', err);
