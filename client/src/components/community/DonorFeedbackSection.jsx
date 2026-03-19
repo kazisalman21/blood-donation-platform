@@ -32,7 +32,14 @@ const DonorFeedbackSection = ({ donorId }) => {
     }, [donorId]);
 
     if (loading) return null;
-    if (feedbacks.length === 0) return null;
+    if (feedbacks.length === 0) {
+        return (
+            <div className="feedback-section">
+                <h3 className="feedback-section-title">Community Feedback</h3>
+                <p className="feedback-empty-text">No public feedback yet.</p>
+            </div>
+        );
+    }
 
     // Render stars for a given rating
     const renderStars = (rating) => {
