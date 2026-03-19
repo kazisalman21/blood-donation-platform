@@ -9,6 +9,7 @@
  *          (Eligibility, Blood Types, Preparation, After Donation)
  */
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './FAQ.css';
 
@@ -92,6 +93,13 @@ const FAQPage = () => {
                             </div>
                         ))
                     )}
+                </div>
+
+                {/* Cross-link to Blood Compatibility Chart */}
+                <div className="faq-crosslink">
+                    <Link to="/blood-compatibility" className="faq-crosslink-btn">
+                        🩸 View Blood Compatibility Chart →
+                    </Link>
                 </div>
             </div>
         </div>
