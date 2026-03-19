@@ -10,6 +10,7 @@
  */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../community/FAQ.css';
 
@@ -19,7 +20,8 @@ const CATEGORIES = ['Eligibility', 'Blood Types', 'Preparation', 'After Donation
 const emptyForm = { question: '', answer: '', category: 'Eligibility', order: 0, isActive: true };
 
 const AdminContentEditor = () => {
-    const { token } = useAuth();
+    const { user, token } = useAuth();
+    const navigate = useNavigate();
     const [faqs, setFaqs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form, setForm] = useState(emptyForm);
@@ -27,6 +29,14 @@ const AdminContentEditor = () => {
     const [showForm, setShowForm] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [confirmDelete, setConfirmDelete] = useState(null);
+
+    // Admin role check — redirect non-admins
+    useEffect(() => {
+        if (user && user.role !== 'admin') {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
 
     const headers = { Authorization: `Bearer ${token}` };
 
@@ -57,9 +67,11 @@ const AdminContentEditor = () => {
             if (editingId) {
                 await axios.put(`${API_URL}/admin/faqs/${editingId}`, form, { headers });
                 setSuccess('FAQ updated successfully');
+                setTimeout(() => setSuccess(''), 3000);
             } else {
                 await axios.post(`${API_URL}/admin/faqs`, form, { headers });
                 setSuccess('FAQ created successfully');
+                setTimeout(() => setSuccess(''), 3000);
             }
             setForm(emptyForm);
             setEditingId(null);
@@ -85,13 +97,15 @@ const AdminContentEditor = () => {
     };
 
     const handleDelete = async (id) => {
-        if (!window.confirm('Delete this FAQ?')) return;
         try {
             await axios.delete(`${API_URL}/admin/faqs/${id}`, { headers });
             setSuccess('FAQ deleted');
+            setTimeout(() => setSuccess(''), 3000);
+            setConfirmDelete(null);
             fetchFAQs();
         } catch (err) {
             setError('Failed to delete FAQ');
+            setConfirmDelete(null);
         }
     };
 
@@ -220,12 +234,27 @@ const AdminContentEditor = () => {
                                 </div>
                                 <div className="admin-faq-actions">
                                     <button className="admin-edit-btn" onClick={() => handleEdit(faq)}>✏️</button>
-                                    <button className="admin-delete-btn" onClick={() => handleDelete(faq._id)}>🗑️</button>
+                                    <button className="admin-delete-btn" onClick={() => setConfirmDelete(faq._id)}>🗑️</button>
                                 </div>
                             </div>
                         ))
                     )}
                 </div>
+
+                {/* Custom Delete Confirmation Modal */}
+                {confirmDelete && (
+                    <div className="confirm-overlay" onClick={() => setConfirmDelete(null)}>
+                        <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+                            <span className="confirm-icon">🗑️</span>
+                            <h3 className="confirm-title">Delete FAQ?</h3>
+                            <p className="confirm-text">This action cannot be undone.</p>
+                            <div className="confirm-actions">
+                                <button className="confirm-btn confirm-btn-cancel" onClick={() => setConfirmDelete(null)}>Cancel</button>
+                                <button className="confirm-btn confirm-btn-delete" onClick={() => handleDelete(confirmDelete)}>Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
