@@ -1,9 +1,18 @@
+/**
+ * DonationStatsCard — View layer for Feature 5 (Donation Statistics)
+ * Owner: Miskatul Afrin Anika
+ * Controller: communityController.getDonorStats()
+ * Model: Donation.js
+ *
+ * Refactored: inline styles → CSS classes (DonationStatsCard.css)
+ */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
+import './DonationStatsCard.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -66,71 +75,25 @@ const DonationStatsCard = () => {
     };
 
     return (
-        <div style={{
-            background: 'rgba(255, 255, 255, 0.03)',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            borderRadius: '14px',
-            padding: '1.5rem',
-            marginBottom: '1.5rem'
-        }}>
-            <h3 style={{
-                color: 'rgba(255, 255, 255, 0.7)',
-                fontSize: '0.9rem',
-                fontWeight: 600,
-                marginBottom: '1rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-            }}>
-                Donation Statistics
-            </h3>
+        <div className="stats-card">
+            <h3 className="stats-card-title">Donation Statistics</h3>
 
             {/* Stats Cards */}
-            <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-                gap: '0.8rem',
-                marginBottom: '1.5rem'
-            }}>
-                <div style={{
-                    background: 'rgba(239, 83, 80, 0.1)',
-                    border: '1px solid rgba(239, 83, 80, 0.2)',
-                    borderRadius: '10px',
-                    padding: '1rem',
-                    textAlign: 'center'
-                }}>
-                    <span style={{ display: 'block', fontSize: '2rem', fontWeight: 800, color: '#ef5350' }}>
-                        {stats.totalDonations}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>
-                        Total Donations
-                    </span>
+            <div className="stats-grid">
+                <div className="stat-box donations">
+                    <span className="stat-number donations">{stats.totalDonations}</span>
+                    <span className="stat-label">Total Donations</span>
                 </div>
-                <div style={{
-                    background: 'rgba(76, 175, 80, 0.1)',
-                    border: '1px solid rgba(76, 175, 80, 0.2)',
-                    borderRadius: '10px',
-                    padding: '1rem',
-                    textAlign: 'center'
-                }}>
-                    <span style={{ display: 'block', fontSize: '2rem', fontWeight: 800, color: '#4caf50' }}>
-                        {stats.livesHelped}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)' }}>
-                        Lives Helped
-                    </span>
+                <div className="stat-box lives">
+                    <span className="stat-number lives">{stats.livesHelped}</span>
+                    <span className="stat-label">Lives Helped</span>
                 </div>
             </div>
 
             {/* Monthly Bar Chart */}
             {chartData.length > 0 ? (
                 <div>
-                    <p style={{
-                        color: 'rgba(255,255,255,0.5)',
-                        fontSize: '0.8rem',
-                        marginBottom: '0.8rem'
-                    }}>
-                        Monthly Breakdown (Last 12 Months)
-                    </p>
+                    <p className="stats-chart-label">Monthly Breakdown (Last 12 Months)</p>
                     <ResponsiveContainer width="100%" height={220}>
                         <BarChart data={chartData} margin={{ top: 5, right: 10, left: -15, bottom: 5 }}>
                             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
@@ -155,7 +118,7 @@ const DonationStatsCard = () => {
                     </ResponsiveContainer>
                 </div>
             ) : (
-                <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.85rem', textAlign: 'center', padding: '1rem' }}>
+                <p className="stats-chart-empty">
                     No monthly data yet — complete donations to see your chart!
                 </p>
             )}

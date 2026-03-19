@@ -5,8 +5,11 @@
  * SRS Requirements:
  * FR-14.4: Display rotating health tips (stored as static array, rotated by day index)
  * No external library — hand-coded rotation algorithm (course requirement)
+ *
+ * Refactored: inline styles → CSS classes (HealthTipsSection.css)
  */
 import React from 'react';
+import './HealthTipsSection.css';
 
 // Static health tips array — rotated daily by day-of-year index
 const HEALTH_TIPS = [
@@ -80,51 +83,19 @@ const HealthTipsSection = () => {
     const todayTip = HEALTH_TIPS[dayOfYear % HEALTH_TIPS.length];
 
     return (
-        <div style={{
-            background: 'linear-gradient(135deg, rgba(33, 150, 243, 0.08), rgba(33, 150, 243, 0.02))',
-            border: '1px solid rgba(33, 150, 243, 0.15)',
-            borderRadius: '14px',
-            padding: '1.3rem',
-            marginBottom: '1rem'
-        }}>
+        <div className="health-tip-card">
             {/* Header */}
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                marginBottom: '0.8rem'
-            }}>
-                <span style={{ fontSize: '1.3rem' }}>💡</span>
-                <h3 style={{
-                    color: '#64b5f6',
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    margin: 0
-                }}>
-                    Daily Health Tip
-                </h3>
+            <div className="health-tip-header">
+                <span className="health-tip-header-icon">💡</span>
+                <h3 className="health-tip-heading">Daily Health Tip</h3>
             </div>
 
             {/* Tip Content */}
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.8rem' }}>
-                <span style={{ fontSize: '2rem', lineHeight: 1 }}>{todayTip.icon}</span>
+            <div className="health-tip-content">
+                <span className="health-tip-emoji">{todayTip.icon}</span>
                 <div>
-                    <h4 style={{
-                        color: 'rgba(255, 255, 255, 0.85)',
-                        fontSize: '0.95rem',
-                        fontWeight: 600,
-                        margin: '0 0 0.3rem 0'
-                    }}>
-                        {todayTip.title}
-                    </h4>
-                    <p style={{
-                        color: 'rgba(255, 255, 255, 0.55)',
-                        fontSize: '0.85rem',
-                        lineHeight: 1.6,
-                        margin: 0
-                    }}>
-                        {todayTip.text}
-                    </p>
+                    <h4 className="health-tip-title">{todayTip.title}</h4>
+                    <p className="health-tip-text">{todayTip.text}</p>
                 </div>
             </div>
         </div>

@@ -1,0 +1,80 @@
+/**
+ * DonationStatsCard.css — Styles for Feature 5 (Donation Statistics Card)
+ * Owner: Miskatul Afrin Anika
+ * Extracted from inline styles to CSS classes
+ */
+
+/* ===== Stats Card Container ===== */
+.stats-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stats-card-title {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== Stats Grid ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-box {
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.stat-box.donations {
+    background: rgba(239, 83, 80, 0.1);
+    border: 1px solid rgba(239, 83, 80, 0.2);
+}
+
+.stat-box.lives {
+    background: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.stat-number.donations {
+    color: #ef5350;
+}
+
+.stat-number.lives {
+    color: #4caf50;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ===== Chart Section ===== */
+.stats-chart-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.stats-chart-empty {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.85rem;
+    text-align: center;
+    padding: 1rem;
+}

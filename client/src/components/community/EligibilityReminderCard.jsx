@@ -7,9 +7,12 @@
  * FR-14.3: Display eligibility countdown on donor dashboard
  * Shows "You can donate in X days" or "You're eligible!" based on nextEligibleDate
  * Includes a progress bar showing 56-day cooldown progress
+ *
+ * Refactored: inline styles → CSS classes (EligibilityReminderCard.css)
  */
 import React from 'react';
 import { useAuth } from '../../context/AuthContext';
+import './EligibilityReminderCard.css';
 
 const EligibilityReminderCard = ({ nextEligibleDate: propDate, lastDonationDate }) => {
     const { user } = useAuth();
@@ -51,41 +54,19 @@ const EligibilityReminderCard = ({ nextEligibleDate: propDate, lastDonationDate 
     };
 
     return (
-        <div style={{
-            background: eligible
-                ? 'linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(76, 175, 80, 0.04))'
-                : 'linear-gradient(135deg, rgba(239, 83, 80, 0.12), rgba(239, 83, 80, 0.04))',
-            border: `1px solid ${eligible ? 'rgba(76, 175, 80, 0.25)' : 'rgba(239, 83, 80, 0.2)'}`,
-            borderRadius: '14px',
-            padding: '1.3rem',
-            marginBottom: '1rem'
-        }}>
+        <div className={`eligibility-card ${eligible ? 'eligible' : 'not-eligible'}`}>
             {/* Header */}
-            <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.6rem',
-                marginBottom: '0.8rem'
-            }}>
-                <span style={{ fontSize: '1.3rem' }}>
+            <div className="eligibility-header">
+                <span className="eligibility-icon">
                     {eligible ? '✅' : '⏳'}
                 </span>
-                <h3 style={{
-                    color: eligible ? '#4caf50' : '#ef5350',
-                    fontSize: '1rem',
-                    fontWeight: 600,
-                    margin: 0
-                }}>
+                <h3 className={`eligibility-title ${eligible ? 'eligible' : 'not-eligible'}`}>
                     Donation Eligibility
                 </h3>
             </div>
 
             {/* Status Message */}
-            <p style={{
-                color: 'rgba(255, 255, 255, 0.8)',
-                fontSize: '0.95rem',
-                margin: '0 0 1rem 0'
-            }}>
+            <p className="eligibility-message">
                 {eligible
                     ? "You're eligible to donate blood! Find a request and save a life."
                     : `You can donate again in ${daysLeft} day${daysLeft !== 1 ? 's' : ''}.`
@@ -95,28 +76,13 @@ const EligibilityReminderCard = ({ nextEligibleDate: propDate, lastDonationDate 
             {/* Progress Bar (only show if not yet eligible) */}
             {!eligible && (
                 <>
-                    <div style={{
-                        width: '100%',
-                        height: '6px',
-                        background: 'rgba(255, 255, 255, 0.08)',
-                        borderRadius: '3px',
-                        overflow: 'hidden',
-                        marginBottom: '0.5rem'
-                    }}>
-                        <div style={{
-                            width: `${progress}%`,
-                            height: '100%',
-                            background: 'linear-gradient(90deg, #ef5350, #ff8a65)',
-                            borderRadius: '3px',
-                            transition: 'width 0.5s ease'
-                        }} />
+                    <div className="eligibility-progress-track">
+                        <div
+                            className="eligibility-progress-fill"
+                            style={{ width: `${progress}%` }}
+                        />
                     </div>
-                    <p style={{
-                        color: 'rgba(255, 255, 255, 0.4)',
-                        fontSize: '0.75rem',
-                        margin: 0,
-                        textAlign: 'right'
-                    }}>
+                    <p className="eligibility-date">
                         Eligible on {formatDate(effectiveDate)}
                     </p>
                 </>

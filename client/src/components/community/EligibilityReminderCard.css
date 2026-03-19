@@ -1,0 +1,85 @@
+/**
+ * EligibilityReminderCard.css — Styles for Feature 14 (Eligibility Reminders)
+ * Owner: Miskatul Afrin Anika
+ * Extracted from inline styles to CSS classes
+ */
+
+/* ===== Card Container ===== */
+.eligibility-card {
+    border-radius: 14px;
+    padding: 1.3rem;
+    margin-bottom: 1rem;
+    border: 1px solid;
+}
+
+.eligibility-card.eligible {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.12), rgba(76, 175, 80, 0.04));
+    border-color: rgba(76, 175, 80, 0.25);
+}
+
+.eligibility-card.not-eligible {
+    background: linear-gradient(135deg, rgba(239, 83, 80, 0.12), rgba(239, 83, 80, 0.04));
+    border-color: rgba(239, 83, 80, 0.2);
+}
+
+/* ===== Header ===== */
+.eligibility-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.eligibility-icon {
+    font-size: 1.3rem;
+}
+
+.eligibility-title {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.eligibility-title.eligible {
+    color: #4caf50;
+}
+
+.eligibility-title.not-eligible {
+    color: #ef5350;
+}
+
+/* ===== Status Message ===== */
+.eligibility-message {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.95rem;
+    margin: 0 0 1rem 0;
+}
+
+/* ===== Progress Bar ===== */
+.eligibility-progress-track {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.eligibility-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ef5350, #ff8a65);
+    border-radius: 3px;
+    transition: width 0.5s ease;
+    animation: progressGrow 0.8s ease-out;
+}
+
+@keyframes progressGrow {
+    from { width: 0%; }
+}
+
+.eligibility-date {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+    margin: 0;
+    text-align: right;
+}
