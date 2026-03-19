@@ -1,0 +1,59 @@
+/**
+ * HealthTipsSection.css — Styles for Feature 14 (Health Tips)
+ * Owner: Miskatul Afrin Anika
+ * Extracted from inline styles to CSS classes
+ */
+
+/* ===== Card Container ===== */
+.health-tip-card {
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.08), rgba(33, 150, 243, 0.02));
+    border: 1px solid rgba(33, 150, 243, 0.15);
+    border-radius: 14px;
+    padding: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+/* ===== Header ===== */
+.health-tip-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.health-tip-header-icon {
+    font-size: 1.3rem;
+}
+
+.health-tip-heading {
+    color: #64b5f6;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* ===== Tip Content ===== */
+.health-tip-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+}
+
+.health-tip-emoji {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.health-tip-title {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0 0 0.3rem 0;
+}
+
+.health-tip-text {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}

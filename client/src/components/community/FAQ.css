@@ -1,0 +1,601 @@
+/**
+ * FAQ.css — Styles for Feature 20 (FAQ & Content Management)
+ * Owner: Miskatul Afrin Anika
+ * Dark glassmorphism theme matching existing design system
+ */
+
+/* ===== FAQ Page Layout ===== */
+.faq-page {
+    min-height: calc(100vh - 140px);
+    padding: 2rem 1.5rem;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.faq-title {
+    color: #fff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.4rem 0;
+}
+
+.faq-subtitle {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* ===== Category Tabs ===== */
+.faq-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.faq-tab {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0.5rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.faq-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.faq-tab.active {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.08));
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+    font-weight: 600;
+}
+
+/* ===== Accordion ===== */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.faq-empty {
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    padding: 2rem;
+    font-size: 0.9rem;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+}
+
+.faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.faq-item.expanded {
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.faq-question {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+}
+
+.faq-arrow {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.3);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: 1rem;
+}
+
+.faq-arrow.open {
+    transform: rotate(180deg);
+    color: #ef4444;
+}
+
+.faq-answer {
+    padding: 0 1.2rem 1rem;
+    animation: fadeIn 0.2s ease;
+}
+
+.faq-answer p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Cross-link ===== */
+.faq-crosslink {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.faq-crosslink-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.04));
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    padding: 0.7rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.faq-crosslink-btn:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.08));
+    transform: translateY(-1px);
+}
+
+/* ===== Blood Compatibility Chart ===== */
+.compat-legend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.compat-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+}
+
+.compat-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.compat-dot.compatible {
+    background: rgba(76, 175, 80, 0.6);
+}
+
+.compat-dot.incompatible {
+    background: rgba(239, 68, 68, 0.2);
+}
+
+.compat-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 2rem;
+}
+
+.compat-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.compat-corner {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: 500;
+}
+
+.compat-header {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.7rem 0.5rem;
+    text-align: center;
+}
+
+.compat-row-header {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.7rem 0.8rem;
+    text-align: center;
+}
+
+.compat-cell {
+    text-align: center;
+    padding: 0.6rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+    cursor: default;
+}
+
+.compat-cell.yes {
+    background: rgba(76, 175, 80, 0.12);
+    color: #4caf50;
+}
+
+.compat-cell.no {
+    background: rgba(239, 68, 68, 0.05);
+    color: rgba(255, 255, 255, 0.15);
+}
+
+.compat-cell.hovered {
+    transform: scale(1.1);
+    z-index: 1;
+}
+
+.compat-cell.yes.hovered {
+    background: rgba(76, 175, 80, 0.25);
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+/* Quick Facts */
+.compat-facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.compat-fact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-align: center;
+    transition: border-color 0.2s ease;
+}
+
+.compat-fact-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.compat-fact-icon {
+    font-size: 1.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.compat-fact-card h3 {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 0 0 0.3rem;
+}
+
+.compat-fact-card p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* ===== Admin Content Editor ===== */
+.admin-add-btn {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: #ef4444;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.admin-add-btn:hover {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(239, 68, 68, 0.1));
+}
+
+.admin-faq-form {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-title {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 1rem;
+}
+
+.admin-field {
+    margin-bottom: 0.8rem;
+}
+
+.admin-field label {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+}
+
+.admin-input,
+.admin-textarea,
+.admin-select {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    color: #fff;
+    font-size: 0.9rem;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.admin-input:focus,
+.admin-textarea:focus,
+.admin-select:focus {
+    outline: none;
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.admin-select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.admin-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.admin-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.8rem;
+    align-items: end;
+}
+
+.admin-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    height: 36px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 0.8rem;
+    margin-top: 1rem;
+}
+
+.admin-cancel-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    padding: 0.6rem 1.5rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.admin-cancel-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Admin FAQ List */
+.admin-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.admin-faq-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.admin-faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.admin-faq-item.inactive {
+    opacity: 0.5;
+}
+
+.admin-faq-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-faq-meta {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.admin-faq-category {
+    background: rgba(239, 68, 68, 0.12);
+    color: #ef4444;
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.admin-faq-inactive {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.7rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+}
+
+.admin-faq-question {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0 0 0.3rem;
+}
+
+.admin-faq-answer {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.82rem;
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.admin-faq-actions {
+    display: flex;
+    gap: 0.3rem;
+    flex-shrink: 0;
+    margin-left: 0.8rem;
+}
+
+.admin-edit-btn,
+.admin-delete-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 0.4rem 0.5rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+}
+
+.admin-edit-btn:hover {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.admin-delete-btn:hover {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ===== Custom Delete Confirmation Modal ===== */
+.confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+.confirm-modal {
+    background: linear-gradient(135deg, rgba(30, 30, 50, 0.98), rgba(20, 20, 35, 0.98));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 340px;
+    width: 90%;
+    animation: fadeIn 0.2s ease;
+}
+
+.confirm-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.confirm-title {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0 0 0.4rem;
+}
+
+.confirm-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    margin: 0 0 1.5rem;
+}
+
+.confirm-actions {
+    display: flex;
+    gap: 0.8rem;
+    justify-content: center;
+}
+
+.confirm-btn {
+    padding: 0.55rem 1.3rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.confirm-btn-cancel {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.confirm-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.confirm-btn-delete {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    border: none;
+    color: #fff;
+}
+
+.confirm-btn-delete:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
