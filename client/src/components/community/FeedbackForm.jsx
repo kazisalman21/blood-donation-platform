@@ -18,7 +18,7 @@ import './Feedback.css';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 const MAX_MESSAGE_LENGTH = 300;
 
-const FeedbackForm = ({ requestId, donorId, onSubmitted }) => {
+const FeedbackForm = ({ requestId, donorId, onSubmitted, onCancel }) => {
     const { token } = useAuth();
     const [rating, setRating] = useState(0);
     const [hoveredStar, setHoveredStar] = useState(0);
@@ -81,6 +81,15 @@ const FeedbackForm = ({ requestId, donorId, onSubmitted }) => {
                         onClick={() => setRating(star)}
                         onMouseEnter={() => setHoveredStar(star)}
                         onMouseLeave={() => setHoveredStar(0)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'ArrowRight' && star < 5) {
+                                setRating(star + 1);
+                                e.target.nextSibling?.focus();
+                            } else if (e.key === 'ArrowLeft' && star > 1) {
+                                setRating(star - 1);
+                                e.target.previousSibling?.focus();
+                            }
+                        }}
                         aria-label={`Rate ${star} star${star > 1 ? 's' : ''}`}
                     >
                         ★
@@ -129,6 +138,11 @@ const FeedbackForm = ({ requestId, donorId, onSubmitted }) => {
             >
                 {submitting ? 'Submitting...' : 'Submit Feedback'}
             </button>
+            {onCancel && (
+                <button type="button" className="feedback-cancel-btn" onClick={onCancel}>
+                    Cancel
+                </button>
+            )}
         </form>
     );
 };

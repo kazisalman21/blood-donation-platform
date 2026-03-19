@@ -303,6 +303,7 @@ const RequestHistoryPage = () => {
                                                                     requestId={r._id}
                                                                     donorId={r.matchedDonorId._id || r.matchedDonorId}
                                                                     onSubmitted={() => setFeedbackOpen(null)}
+                                                                    onCancel={() => setFeedbackOpen(null)}
                                                                 />
                                                             ) : (
                                                                 <button
