@@ -424,10 +424,10 @@ blood-donation-platform/
 | Git repo with Issues | ✅ 10 issues on GitHub |
 | Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
 | Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
-| Anika: F13 Leaderboard & Badges | ✅ Complete — Code is written locally |
-| Anika: F14 Eligibility Reminders & Tips | ✅ Complete — Code is written locally |
-| Anika: F15 Feedback System | ✅ Complete — Code is written locally |
-| Anika: F20 FAQ & Content Management | ✅ Complete — Code is written locally |
+| Anika: F13 Leaderboard & Badges | ✅ Complete — 100% coded and committed |
+| Anika: F14 Eligibility Reminders & Tips | ✅ Complete — 100% coded and committed |
+| Anika: F15 Feedback System | ✅ Complete — 100% coded and committed |
+| Anika: F20 FAQ & Content Management | ✅ Complete — 100% coded and committed |
 | Sprint tag | ✅ `sprint-1-complete` tagged on main |
 
-**Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
+**Next immediate action:** All Anika's assignments for Sprints 1, 2, and 3 are successfully executed. Currently preparing for Polish/Manual Testing (Sprint 4) and assisting teammates if needed.
