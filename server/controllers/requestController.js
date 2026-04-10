@@ -110,6 +110,17 @@ const respondToRequest = async (req, res) => {
             request.donorConsent = true;
             request.status = 'Donor Matched';
             request.statusHistory.push({ stage: 'Donor Matched', timestamp: new Date() });
+
+            // F4: Notify the requester that a donor accepted their request
+            const donor = await Donor.findById(req.user._id).select('name bloodType');
+            await Notification.create({
+                donorId: request.requesterId,  // Notification goes to the requester
+                requestId: request._id,
+                message: `${donor.name} (${donor.bloodType}) accepted your blood request for ${request.bloodType}`,
+                bloodType: request.bloodType,
+                hospital: request.hospital,
+                urgency: request.urgency
+            });
         }
 
         await request.save();
