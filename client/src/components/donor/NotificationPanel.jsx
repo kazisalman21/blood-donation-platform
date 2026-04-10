@@ -1,21 +1,26 @@
 /**
- * NotificationPanel — View layer for Feature 3 (Notifications)
+ * NotificationPanel — View layer for Feature 3 (Notifications) + Feature 4 (Consent Flow)
  * Owner: Kazi Salman Salim (23101209)
  * Controller: notificationController.getNotifications(), markAsRead(), markAllAsRead()
- * Model: Notification.js
+ *             requestController.respondToRequest()
+ * Model: Notification.js, BloodRequest.js
  *
  * SRS Requirements:
  * FR-3.3: Donor can view all notifications
  * FR-3.4: Notification shows read/unread state
  * FR-3.5: Donor can mark notifications as read
+ * FR-4.1: Donor sees Accept/Decline on matched request notifications
+ * FR-4.2: Confirmation dialog before submitting response
  *
  * Slide-out panel from the right side showing all donor notifications.
  * Supports mark-as-read (individual and bulk) with urgency-colored tags.
+ * Includes Accept/Decline buttons with ConsentModal confirmation for blood requests.
  */
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
+import ConsentModal from './ConsentModal';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -53,6 +58,13 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    // F4: Consent flow state
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalAction, setModalAction] = useState('accept');
+    const [respondingNotif, setRespondingNotif] = useState(null);
+    const [respondLoading, setRespondLoading] = useState(false);
+    const [respondedRequests, setRespondedRequests] = useState({});
 
     // Fetch all notifications when panel opens
     useEffect(() => {
@@ -109,6 +121,52 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
         } catch (err) {
             console.error('Failed to mark all as read:', err);
         }
+    };
+
+    // F4: Open consent modal for accept/decline
+    const handleOpenModal = (notif, action) => {
+        setRespondingNotif(notif);
+        setModalAction(action);
+        setModalOpen(true);
+    };
+
+    // F4: Confirm accept/decline via API
+    const handleConfirmResponse = async () => {
+        if (!respondingNotif) return;
+        setRespondLoading(true);
+        try {
+            const accept = modalAction === 'accept';
+            await axios.put(`${API_URL}/requests/${respondingNotif.requestId?._id || respondingNotif.requestId}/respond`, 
+                { accept },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            // Track response locally
+            const reqId = respondingNotif.requestId?._id || respondingNotif.requestId;
+            setRespondedRequests(prev => ({ ...prev, [reqId]: accept ? 'accepted' : 'declined' }));
+            // Auto-mark notification as read
+            await handleMarkAsRead(respondingNotif._id);
+            setModalOpen(false);
+            setRespondingNotif(null);
+        } catch (err) {
+            console.error('Failed to respond to request:', err);
+            setError(err.response?.data?.message || 'Failed to respond');
+        } finally {
+            setRespondLoading(false);
+        }
+    };
+
+    // Check if a notification's request has been responded to
+    const getResponseStatus = (notif) => {
+        const reqId = notif.requestId?._id || notif.requestId;
+        if (respondedRequests[reqId]) return respondedRequests[reqId];
+        // If request already has a matched donor, it was already accepted
+        if (notif.requestId?.status === 'Donor Matched' || 
+            notif.requestId?.status === 'Contact Shared' ||
+            notif.requestId?.status === 'Scheduled' ||
+            notif.requestId?.status === 'Completed') {
+            return 'accepted';
+        }
+        return null;
     };
 
     const unreadExists = notifications.some(n => !n.isRead);
@@ -199,6 +257,33 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
                                     {getRelativeTime(notif.createdAt)}
                                 </span>
                             </div>
+                            {/* F4: Accept/Decline buttons or response status */}
+                            {(() => {
+                                const status = getResponseStatus(notif);
+                                if (status === 'accepted') {
+                                    return <p className="notif-responded notif-responded-accepted">✓ You accepted this request</p>;
+                                } else if (status === 'declined') {
+                                    return <p className="notif-responded notif-responded-declined">✕ You declined this request</p>;
+                                } else if (notif.requestId?.status === 'Donors Notified' || notif.requestId?.status === 'Open') {
+                                    return (
+                                        <div className="notif-action-buttons">
+                                            <button
+                                                className="notif-accept-btn"
+                                                onClick={(e) => { e.stopPropagation(); handleOpenModal(notif, 'accept'); }}
+                                            >
+                                                ✓ Accept
+                                            </button>
+                                            <button
+                                                className="notif-decline-btn"
+                                                onClick={(e) => { e.stopPropagation(); handleOpenModal(notif, 'decline'); }}
+                                            >
+                                                ✕ Decline
+                                            </button>
+                                        </div>
+                                    );
+                                }
+                                return null;
+                            })()}
                         </div>
                         {!notif.isRead && (
                             <button
@@ -214,6 +299,20 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
                     </div>
                 ))}
             </div>
+
+            {/* F4: Consent confirmation modal */}
+            <ConsentModal
+                isOpen={modalOpen}
+                action={modalAction}
+                requestInfo={{
+                    bloodType: respondingNotif?.bloodType,
+                    hospital: respondingNotif?.hospital,
+                    urgency: respondingNotif?.urgency
+                }}
+                onConfirm={handleConfirmResponse}
+                onCancel={() => { setModalOpen(false); setRespondingNotif(null); }}
+                loading={respondLoading}
+            />
         </div>
     );
 };
