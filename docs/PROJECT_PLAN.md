@@ -83,18 +83,18 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F1 | Donor Registration & Profile Management | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F2 | Donor Availability Management (56-day rule) | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F3 | Incoming Request Notifications | 2 | ✅ Backend ready | ❌ Need NotificationPanel.jsx | Pending |
+| F3 | Incoming Request Notifications | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F4 | Request Response & Dual-Consent Flow | 2 | ✅ Backend ready | ❌ Need ConsentModal.jsx | Pending |
 | F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
 | F7 | Privacy-Protected Contact Sharing | 2 | ✅ Backend ready | ❌ Need ContactCard.jsx | Pending |
 | F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
 
 ### Salman's Sprint 2 Tasks (When Declared)
-1. **F3 — Notification Panel**
-   - Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
-   - Create `NotificationPanel.jsx` — slide-out panel listing notifications
-   - API: `GET /api/donors/:id/notifications` (needs new route), `PUT /api/notifications/:id/read`
-   - Email sending via Nodemailer for Critical/Urgent requests
+1. **F3 — Notification Panel** ✅ Done:
+   - ✅ Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
+   - ✅ Create `NotificationPanel.jsx` — slide-out panel listing notifications
+   - ✅ API: `GET /api/donors/:id/notifications`, `PUT /api/notifications/:id/read`
+   - ✅ Email sending via Nodemailer for Critical/Urgent requests
 
 2. **F4 — Consent Flow**
    - Create `ConsentModal.jsx` — confirmation dialog when donor accepts a request
@@ -384,7 +384,7 @@ blood-donation-platform/
 ### Sprint 2 (TBD) — 6 Features
 | Feature | Owner | Status |
 |---------|-------|--------|
-| F3: Notifications | Salman | |
+| F3: Notifications | Salman | ✅ Code Done |
 | F4: Consent Flow | Salman | |
 | F7: Privacy Contact Sharing | Salman | |
 | F10: Location Map Search | Athoy | |
