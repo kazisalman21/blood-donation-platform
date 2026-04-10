@@ -235,7 +235,7 @@ const RequestHistoryPage = () => {
                             </thead>
                             <tbody>
                                 {requests.map((r, i) => (
-                                    <React.Fragment key={i}>
+                                    <React.Fragment key={r._id}>
                                         {/* Main Row — Clickable */}
                                         <tr
                                             className="expandable-row"

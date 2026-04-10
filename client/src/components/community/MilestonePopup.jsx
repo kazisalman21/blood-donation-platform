@@ -2,7 +2,7 @@
  * MilestonePopup — Animated popup for Feature 13 (Donor Leaderboard)
  * Owner: Miskatul Afrin Anika
  * Shows animated congratulations when a new badge is earned (SRS FR-13.6)
- * Auto-dismisses after 3 seconds or on click
+ * Auto-dismisses after 5 seconds or on click
  */
 import React, { useEffect } from 'react';
 

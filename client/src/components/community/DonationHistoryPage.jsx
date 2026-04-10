@@ -53,14 +53,22 @@ const DonationHistoryPage = () => {
             );
             setDonations(res.data);
 
-            // Check for new badges using unfiltered count (fixes filtered-data bug)
+
+        } catch (err) {
+            console.error('Failed to load history:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const checkBadges = async () => {
+        try {
             const allRes = await axios.get(
                 `${API_URL}/community/donors/${user._id}/history`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             const completedCount = allRes.data.filter(d => d.status === 'Completed').length;
 
-            // Find highest earned badge not yet seen (fixes exact-threshold bug)
             const newBadge = ALL_BADGES
                 .filter(b => completedCount >= b.threshold)
                 .reverse()
@@ -71,14 +79,15 @@ const DonationHistoryPage = () => {
                 localStorage.setItem(`seen_badge_${user._id}_${newBadge.id}`, 'true');
             }
         } catch (err) {
-            console.error('Failed to load history:', err);
-        } finally {
-            setLoading(false);
+            console.error('Failed to check badges:', err);
         }
     };
 
     useEffect(() => {
-        if (user) fetchHistory();
+        if (user) {
+            fetchHistory();
+            checkBadges();
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, token]);
 
