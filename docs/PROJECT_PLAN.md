@@ -382,26 +382,26 @@ blood-donation-platform/
 | F12: Request History | Anika | ✅ Done |
 
 ### Sprint 2 (TBD) — 6 Features
-| Feature | Owner |
-|---------|-------|
-| F3: Notifications | Salman |
-| F4: Consent Flow | Salman |
-| F7: Privacy Contact Sharing | Salman |
-| F10: Location Map Search | Athoy |
-| F11: Status Workflow Tracker | Athoy |
-| F13: Leaderboard & Badges | Anika |
-| F14: Eligibility Reminders | Anika |
+| Feature | Owner | Status |
+|---------|-------|--------|
+| F3: Notifications | Salman | |
+| F4: Consent Flow | Salman | |
+| F7: Privacy Contact Sharing | Salman | |
+| F10: Location Map Search | Athoy | |
+| F11: Status Workflow Tracker | Athoy | |
+| F13: Leaderboard & Badges | Anika | ✅ Code Done |
+| F14: Eligibility Reminders | Anika | ✅ Code Done |
 
 ### Sprint 3 (TBD) — 8 Features
-| Feature | Owner |
-|---------|-------|
-| F6: Verification Badge | Salman |
-| F15: Feedback System | Anika |
-| F16: Admin User Management | Salman |
-| F17: Blood Inventory Overview | Athoy |
-| F18: Analytics Dashboard | Athoy |
-| F19: Broadcast Alerts | Athoy |
-| F20: FAQ & Content Management | Anika |
+| Feature | Owner | Status |
+|---------|-------|--------|
+| F6: Verification Badge | Salman | |
+| F15: Feedback System | Anika | ✅ Code Done |
+| F16: Admin User Management | Salman | |
+| F17: Blood Inventory Overview | Athoy | |
+| F18: Analytics Dashboard | Athoy | |
+| F19: Broadcast Alerts | Athoy | |
+| F20: FAQ & Content Management | Anika | ✅ Code Done |
 
 ### Sprint 4 (TBD) — Polish
 - Bug fixes across all features
@@ -424,6 +424,10 @@ blood-donation-platform/
 | Git repo with Issues | ✅ 10 issues on GitHub |
 | Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
 | Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
+| Anika: F13 Leaderboard & Badges | ✅ Complete — Code is written locally |
+| Anika: F14 Eligibility Reminders & Tips | ✅ Complete — Code is written locally |
+| Anika: F15 Feedback System | ✅ Complete — Code is written locally |
+| Anika: F20 FAQ & Content Management | ✅ Complete — Code is written locally |
 | Sprint tag | ✅ `sprint-1-complete` tagged on main |
 
 **Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
