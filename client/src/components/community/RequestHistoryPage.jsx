@@ -1,8 +1,15 @@
 /**
  * RequestHistoryPage — View layer for Feature 12 (Request History & Records)
- * Owner: Miskatul Afrin Anika
- * Controller: communityController.getRequesterHistory()
+ *                      + Feature 4 (Requester Consent) + Feature 7 (Contact Sharing)
+ * Owner: Miskatul Afrin Anika (F12), Kazi Salman Salim (F4/F7 integration)
+ * Controller: communityController.getRequesterHistory(), requestController.requesterConsent()
  * Model: BloodRequest.js
+ *
+ * SRS Requirements:
+ * FR-4.3: Requester sees match and can consent to share contact
+ * FR-7.1: Contact info masked until dual consent
+ * FR-7.2: After dual consent, full contact revealed
+ * FR-7.3: Contact card on request detail view
  */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
@@ -10,6 +17,7 @@ import axios from 'axios';
 import '../donor/DonorProfile.css';
 import './HistoryFilters.css';
 import FeedbackForm from './FeedbackForm';
+import ContactCard from '../shared/ContactCard';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
@@ -30,6 +38,9 @@ const RequestHistoryPage = () => {
     // Expandable row state
     const [expandedRow, setExpandedRow] = useState(null);
     const [feedbackOpen, setFeedbackOpen] = useState(null);
+
+    // F4/F7: Consent flow state
+    const [consentLoading, setConsentLoading] = useState(null);
 
     const fetchHistory = async (overrideFilters = null) => {
         setLoading(true);
@@ -77,6 +88,22 @@ const RequestHistoryPage = () => {
 
     const toggleRow = (index) => {
         setExpandedRow(expandedRow === index ? null : index);
+    };
+
+    // F4: Requester gives consent to share contact info
+    const handleShareContact = async (requestId) => {
+        setConsentLoading(requestId);
+        try {
+            await axios.put(`${API_URL}/requests/${requestId}/consent`, {}, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            // Refresh history to show updated consent status
+            await fetchHistory();
+        } catch (err) {
+            console.error('Failed to give consent:', err);
+        } finally {
+            setConsentLoading(null);
+        }
     };
 
     // Hand-written CSV export — no external library (course requirement)
@@ -289,6 +316,44 @@ const RequestHistoryPage = () => {
                                                                 </p>
                                                             </div>
                                                         </div>
+
+                                                        {/* F4/F7: Share Contact button or ContactCard */}
+                                                        {r.matchedDonorId && r.donorConsent && !r.requesterConsent && (
+                                                            <div style={{ margin: '1rem 0' }}>
+                                                                <button
+                                                                    className="btn btn-primary"
+                                                                    onClick={(e) => { e.stopPropagation(); handleShareContact(r._id); }}
+                                                                    disabled={consentLoading === r._id}
+                                                                    style={{
+                                                                        background: 'rgba(76, 175, 80, 0.15)',
+                                                                        border: '1px solid rgba(76, 175, 80, 0.3)',
+                                                                        color: '#4caf50',
+                                                                        padding: '0.6rem 1.2rem',
+                                                                        borderRadius: '8px',
+                                                                        cursor: 'pointer',
+                                                                        fontSize: '0.88rem',
+                                                                        fontWeight: 600,
+                                                                        display: 'flex',
+                                                                        alignItems: 'center',
+                                                                        gap: '0.5rem'
+                                                                    }}
+                                                                >
+                                                                    {consentLoading === r._id ? (
+                                                                        'Sharing...'
+                                                                    ) : (
+                                                                        <>🔓 Share My Contact Info</>
+                                                                    )}
+                                                                </button>
+                                                                <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', margin: '0.5rem 0 0' }}>
+                                                                    A donor has accepted your request. Share your contact to proceed.
+                                                                </p>
+                                                            </div>
+                                                        )}
+
+                                                        {/* F7: Show ContactCard when both consents are given */}
+                                                        {r.donorConsent && r.requesterConsent && (
+                                                            <ContactCard requestId={r._id} />
+                                                        )}
 
                                                         {/* Status Timeline */}
                                                         <div>

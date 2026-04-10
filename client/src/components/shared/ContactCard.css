@@ -1,0 +1,172 @@
+/**
+ * ContactCard.css — Styles for Feature 7 (Privacy-Protected Contact Sharing)
+ * Owner: Kazi Salman Salim (23101209)
+ * Component: ContactCard.jsx
+ *
+ * Theme: Dark glassmorphism matching project design system
+ */
+
+/* ===== CONTACT CARD ===== */
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    margin: 1rem 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.contact-card.unlocked {
+    border: 1px solid rgba(76, 175, 80, 0.25);
+}
+
+.contact-card.locked {
+    border: 1px solid rgba(255, 152, 0, 0.2);
+}
+
+.contact-card.loading {
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 0.6rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.8rem;
+}
+
+.contact-card-spinner {
+    width: 22px;
+    height: 22px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-top-color: #ef5350;
+    border-radius: 50%;
+    animation: contactSpin 0.8s linear infinite;
+}
+
+@keyframes contactSpin {
+    to { transform: rotate(360deg); }
+}
+
+.contact-card.error {
+    border: 1px solid rgba(239, 83, 80, 0.2);
+    padding: 1rem;
+    text-align: center;
+    color: #ef5350;
+    font-size: 0.82rem;
+}
+
+/* Header */
+.contact-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.contact-card.unlocked .contact-card-header {
+    background: rgba(76, 175, 80, 0.05);
+}
+
+.contact-card.locked .contact-card-header {
+    background: rgba(255, 152, 0, 0.05);
+}
+
+.contact-card-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.contact-card.unlocked .contact-card-icon {
+    background: rgba(76, 175, 80, 0.15);
+    color: #4caf50;
+}
+
+.contact-card.locked .contact-card-icon {
+    background: rgba(255, 152, 0, 0.15);
+    color: #ff9800;
+}
+
+.contact-card-title {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.contact-card-subtitle {
+    margin: 0.2rem 0 0;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+/* Contact Grid */
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+}
+
+.contact-person {
+    padding: 0.9rem 1.2rem;
+}
+
+.contact-person:first-child {
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.contact-role {
+    margin: 0 0 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.contact-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-field {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.contact-field svg {
+    color: rgba(255, 255, 255, 0.35);
+    flex-shrink: 0;
+}
+
+.contact-field.masked {
+    opacity: 0.5;
+}
+
+.contact-field.masked span {
+    letter-spacing: 0.5px;
+}
+
+/* ===== MOBILE ===== */
+
+@media (max-width: 768px) {
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-person:first-child {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+}
