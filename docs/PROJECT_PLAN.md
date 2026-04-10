@@ -122,10 +122,10 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F5 | Donation History & Statistics | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F12 | Request History & Records | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Backend ready | ❌ Need LeaderboardPage.jsx | Pending |
-| F14 | Eligibility Reminder & Health Tips | 2 | ✅ Cron job ready | ❌ Need email templates | Pending |
-| F15 | Donor-Requester Feedback System | 3 | ✅ Backend ready | ❌ Need FeedbackForm.jsx | Pending |
-| F20 | Content & FAQ Management | 3 | ✅ Backend ready | ❌ Need FAQPage.jsx | Pending |
+| F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F14 | Eligibility Reminder & Health Tips | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F15 | Donor-Requester Feedback System | 3 | ✅ Done | ✅ Done | ✅ Complete |
+| F20 | Content & FAQ Management | 3 | ✅ Done | ✅ Done | ✅ Complete |
 
 ### What Anika Should Know
 
@@ -146,31 +146,31 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
    - ✅ New shared `HistoryFilters.css` with dark glassmorphism theme
    - Branch: `feature/anika-request-history` (1 commit)
 
-**Sprint 2 — When Declared:**
+**Sprint 2 — ✅ COMPLETE:**
 
-3. **F13 — LeaderboardPage.jsx**:
-   - Create a leaderboard table with "All Time" and "Monthly" tabs
-   - Add city filter dropdown
-   - Display donor name, blood type, donation count, badges
-   - API: `GET /api/community/leaderboard?type=monthly&city=Dhaka`
+3. **F13 — LeaderboardPage.jsx** ✅ Done:
+   - ✅ Create a leaderboard table with "All Time" and "Monthly" tabs
+   - ✅ Add city filter dropdown
+   - ✅ Display donor name, blood type, donation count, badges
+   - ✅ API: `GET /api/community/leaderboard?type=monthly&city=Dhaka`
 
-4. **F14 — Email Reminders**:
-   - Configure Nodemailer transport in `reminderJob.js`
-   - Design HTML email template for eligibility reminders
-   - Add health tips content
+4. **F14 — Email Reminders** ✅ Done:
+   - ✅ Configure Nodemailer transport in `reminderJob.js`
+   - ✅ Design HTML email template for eligibility reminders
+   - ✅ Add health tips content
 
-**Sprint 3 — When Declared:**
+**Sprint 3 — ✅ COMPLETE:**
 
-5. **F15 — FeedbackForm.jsx + FeedbackCard.jsx**:
-   - Star rating (1-5), gratitude message input, "Make Public" checkbox
-   - Display public feedback on donor profile
-   - API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
+5. **F15 — FeedbackForm.jsx + DonorFeedbackSection.jsx** ✅ Done:
+   - ✅ Star rating (1-5), gratitude message input, "Make Public" checkbox
+   - ✅ Display public feedback on donor profile
+   - ✅ API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
 
-6. **F20 — FAQPage.jsx + AdminFAQEditor.jsx**:
-   - Public accordion-style FAQ page with category tabs
-   - Blood compatibility reference chart (color-coded grid)
-   - Admin CRUD form for managing FAQ entries
-   - API: `GET /api/community/faqs`, `POST/PUT/DELETE /api/admin/faqs`
+6. **F20 — FAQPage.jsx + AdminContentEditor.jsx** ✅ Done:
+   - ✅ Public accordion-style FAQ page with category tabs
+   - ✅ Blood compatibility reference chart (color-coded grid)
+   - ✅ Admin CRUD form for managing FAQ entries
+   - ✅ API: `GET /api/community/faqs`, `POST/PUT/DELETE /api/admin/faqs`
 
 ---
 
