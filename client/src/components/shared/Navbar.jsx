@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import NotificationBell from '../donor/NotificationBell';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -50,6 +51,8 @@ const Navbar = () => {
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 21h8m-4-4v4M6 3h12l-1.5 6h-9L6 3Zm1.5 6 1 4h7l1-4" /></svg>
                                 Leaderboard
                             </Link>
+                            {/* Notification Bell — F3 */}
+                            <NotificationBell />
                             <div className="nav-divider" />
                             <div className="nav-user">
                                 <div className="user-avatar">
