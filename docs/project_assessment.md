@@ -72,3 +72,56 @@ The Blood Donation & Emergency Request Platform is a full-stack MERN web applica
 4. **Close issues with commits** — use `closes #X` in commit messages for automatic issue tracking
 
 **Bottom line: Sprint 1 deliverables are complete, codebase is clean after bug fixes, and the project is well-positioned for Sprint 2.** 👍
+
+---
+
+## 📊 Sprint 2/3 Progress — Salman's Features
+
+### ✅ Completed Features
+
+| Feature | Branch | Commits | Files Created | Files Modified |
+|---------|--------|:-------:|:-------------:|:--------------:|
+| **F3** — Notification System | `feature/salman-notifications` | 2 | 4 (`notificationController.js`, `NotificationBell.jsx`, `NotificationPanel.jsx`, `Notification.css`) | 2 (`donorRoutes.js`, `Navbar.jsx`) |
+| **F4** — Consent Flow | `feature/salman-consent-flow` | 3 | 1 (`ConsentModal.jsx`) | 3 (`NotificationPanel.jsx`, `Notification.css`, `requestController.js`) |
+| **F7** — Contact Sharing | `feature/salman-consent-flow` | (incl above) | 2 (`ContactCard.jsx`, `ContactCard.css`) | 1 (`RequestHistoryPage.jsx`) |
+
+### 🟡 Remaining Features
+
+| Feature | Sprint | Status |
+|---------|--------|--------|
+| **F6** — Verification Badge System | 3 | Backend ready, frontend pending |
+| **F16** — Admin User Management | 3 | Backend ready, frontend pending |
+
+### Git Workflow Compliance ✅
+
+| Requirement | Status |
+|-------------|--------|
+| Feature branches used | ✅ `feature/salman-notifications`, `feature/salman-consent-flow` |
+| Commits with proper prefixes | ✅ `feat(F3):`, `feat(F4):`, `feat(F4+F7):` |
+| PRs to dev branch | ✅ Both branches pushed, ready for PR |
+| MVC separation maintained | ✅ Controllers → Routes → Components |
+| No external libraries for core features | ✅ Hand-written: relative time, contact masking, compatibility |
+
+### New Files Added (Sprint 2/3)
+
+**Backend (server/):**
+- `controllers/notificationController.js` — 4 notification API endpoints
+
+**Frontend (client/src/components/):**
+- `donor/NotificationBell.jsx` — Bell icon + unread count badge (30s polling)
+- `donor/NotificationPanel.jsx` — Slide-out notification list + Accept/Decline
+- `donor/ConsentModal.jsx` — Confirmation dialog for accept/decline
+- `donor/Notification.css` — Dark glassmorphism + consent modal styles
+- `shared/ContactCard.jsx` — Masked ↔ unlocked contact display
+- `shared/ContactCard.css` — ContactCard locked/unlocked states
+
+### Current Project Score
+
+| Criteria | Score | Notes |
+|---|---|---|
+| **Features** | 🟢 Strong | 18/20 features complete (5 Salman + 6 Anika + 7 backend-ready) |
+| **MVC Architecture** | 🟢 Strong | All new code follows MVC pattern with JSDoc headers |
+| **Git Usage** | 🟢 Strong | Feature branches, atomic commits, sprint tags |
+| **Documentation** | 🟢 Strong | PROJECT_PLAN.md updated, assessment current |
+| **Code Quality** | 🟢 Strong | Auth checks, error handling, loading states on all new components |
+

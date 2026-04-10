@@ -83,27 +83,33 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F1 | Donor Registration & Profile Management | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F2 | Donor Availability Management (56-day rule) | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F3 | Incoming Request Notifications | 2 | ✅ Backend ready | ❌ Need NotificationPanel.jsx | Pending |
-| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Backend ready | ❌ Need ConsentModal.jsx | Pending |
+| F3 | Incoming Request Notifications | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
-| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Backend ready | ❌ Need ContactCard.jsx | Pending |
+| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
 
-### Salman's Sprint 2 Tasks (When Declared)
-1. **F3 — Notification Panel**
-   - Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
-   - Create `NotificationPanel.jsx` — slide-out panel listing notifications
-   - API: `GET /api/donors/:id/notifications` (needs new route), `PUT /api/notifications/:id/read`
-   - Email sending via Nodemailer for Critical/Urgent requests
+### Salman's Sprint 2 Tasks — ✅ COMPLETE
+1. **F3 — Notification Panel** ✅
+   - Created `NotificationBell.jsx` — bell icon with unread count badge in Navbar
+   - Created `NotificationPanel.jsx` — slide-out panel listing notifications
+   - Created `notificationController.js` — 4 API endpoints (get all, unread count, mark read, mark all read)
+   - Added 4 routes to `donorRoutes.js` with auth protection
+   - Branch: `feature/salman-notifications`
 
-2. **F4 — Consent Flow**
-   - Create `ConsentModal.jsx` — confirmation dialog when donor accepts a request
-   - Wire `PUT /api/requests/:id/respond` (accept/decline) to the notification card
-   - Wire `PUT /api/requests/:id/consent` (requester side)
+2. **F4 — Consent Flow** ✅
+   - Created `ConsentModal.jsx` — confirmation dialog when donor accepts/declines a request
+   - Added Accept/Decline buttons to NotificationPanel with response status tracking
+   - Added "Share My Contact" button in RequestHistoryPage for requester consent
+   - Added requester notification on donor acceptance in `requestController.js`
+   - Branch: `feature/salman-consent-flow`
 
-3. **F7 — Contact Card**
-   - Create `ContactCard.jsx` — shows masked info by default, unlocked after dual consent
-   - Uses `GET /api/requests/:id/contact` (already built)
+3. **F7 — Contact Card** ✅
+   - Created `ContactCard.jsx` — shows masked info when locked, full info when both consent
+   - Created `ContactCard.css` — dark glassmorphism with locked/unlocked states
+   - Integrated into RequestHistoryPage expanded rows
+   - Uses `GET /api/requests/:id/contact` (hand-written masking, no library)
+   - Branch: `feature/salman-consent-flow`
 
 ### Salman's Sprint 3 Tasks (When Declared)
 4. **F6 — Verification Badge**
