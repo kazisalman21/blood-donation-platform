@@ -147,6 +147,7 @@
     border: 1px solid rgba(255, 255, 255, 0.15);
     transition: var(--transition);
     cursor: pointer;
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -834,13 +835,13 @@
 
 @media (max-width: 768px) {
     .hero {
-        min-height: auto;
+        min-height: 0;
     }
 
     .hero-inner {
         padding-top: calc(var(--nav-height) + 2rem);
         padding-bottom: 3rem;
-        min-height: auto;
+        min-height: 0;
     }
 
     .hero-title {

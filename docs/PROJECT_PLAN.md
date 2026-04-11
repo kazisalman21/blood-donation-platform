@@ -83,25 +83,25 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F1 | Donor Registration & Profile Management | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F2 | Donor Availability Management (56-day rule) | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F3 | Incoming Request Notifications | 2 | ✅ Backend ready | ❌ Need NotificationPanel.jsx | Pending |
-| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Backend ready | ❌ Need ConsentModal.jsx | Pending |
+| F3 | Incoming Request Notifications | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
-| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Backend ready | ❌ Need ContactCard.jsx | Pending |
+| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
 
-### Salman's Sprint 2 Tasks (When Declared)
-1. **F3 — Notification Panel**
+### Salman's Sprint 2 Tasks ✅ COMPLETE
+1. **F3 — Notification Panel** ✅ Done
    - Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
    - Create `NotificationPanel.jsx` — slide-out panel listing notifications
    - API: `GET /api/donors/:id/notifications` (needs new route), `PUT /api/notifications/:id/read`
    - Email sending via Nodemailer for Critical/Urgent requests
 
-2. **F4 — Consent Flow**
+2. **F4 — Consent Flow** ✅ Done
    - Create `ConsentModal.jsx` — confirmation dialog when donor accepts a request
    - Wire `PUT /api/requests/:id/respond` (accept/decline) to the notification card
    - Wire `PUT /api/requests/:id/consent` (requester side)
 
-3. **F7 — Contact Card**
+3. **F7 — Contact Card** ✅ Done
    - Create `ContactCard.jsx` — shows masked info by default, unlocked after dual consent
    - Uses `GET /api/requests/:id/contact` (already built)
 
@@ -122,10 +122,10 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F5 | Donation History & Statistics | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F12 | Request History & Records | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Backend ready | ❌ Need LeaderboardPage.jsx | Pending |
-| F14 | Eligibility Reminder & Health Tips | 2 | ✅ Cron job ready | ❌ Need email templates | Pending |
-| F15 | Donor-Requester Feedback System | 3 | ✅ Backend ready | ❌ Need FeedbackForm.jsx | Pending |
-| F20 | Content & FAQ Management | 3 | ✅ Backend ready | ❌ Need FAQPage.jsx | Pending |
+| F13 | Donor Leaderboard & Milestone Badges | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F14 | Eligibility Reminder & Health Tips | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F15 | Donor-Requester Feedback System | 3 | ✅ Done | ✅ Done | ✅ Complete |
+| F20 | Content & FAQ Management | 3 | ✅ Done | ✅ Done | ✅ Complete |
 
 ### What Anika Should Know
 
@@ -146,27 +146,27 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
    - ✅ New shared `HistoryFilters.css` with dark glassmorphism theme
    - Branch: `feature/anika-request-history` (1 commit)
 
-**Sprint 2 — When Declared:**
+**Sprint 2 — ✅ COMPLETE:**
 
-3. **F13 — LeaderboardPage.jsx**:
+3. **F13 — LeaderboardPage.jsx** ✅ Done:
    - Create a leaderboard table with "All Time" and "Monthly" tabs
    - Add city filter dropdown
    - Display donor name, blood type, donation count, badges
    - API: `GET /api/community/leaderboard?type=monthly&city=Dhaka`
 
-4. **F14 — Email Reminders**:
+4. **F14 — Email Reminders** ✅ Done:
    - Configure Nodemailer transport in `reminderJob.js`
    - Design HTML email template for eligibility reminders
    - Add health tips content
 
-**Sprint 3 — When Declared:**
+**Sprint 3 — ✅ COMPLETE:**
 
-5. **F15 — FeedbackForm.jsx + FeedbackCard.jsx**:
+5. **F15 — FeedbackForm.jsx + FeedbackCard.jsx** ✅ Done:
    - Star rating (1-5), gratitude message input, "Make Public" checkbox
    - Display public feedback on donor profile
    - API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
 
-6. **F20 — FAQPage.jsx + AdminFAQEditor.jsx**:
+6. **F20 — FAQPage.jsx + AdminFAQEditor.jsx** ✅ Done:
    - Public accordion-style FAQ page with category tabs
    - Blood compatibility reference chart (color-coded grid)
    - Admin CRUD form for managing FAQ entries
@@ -382,26 +382,26 @@ blood-donation-platform/
 | F12: Request History | Anika | ✅ Done |
 
 ### Sprint 2 (TBD) — 6 Features
-| Feature | Owner |
-|---------|-------|
-| F3: Notifications | Salman |
-| F4: Consent Flow | Salman |
-| F7: Privacy Contact Sharing | Salman |
-| F10: Location Map Search | Athoy |
-| F11: Status Workflow Tracker | Athoy |
-| F13: Leaderboard & Badges | Anika |
-| F14: Eligibility Reminders | Anika |
+| Feature | Owner | Status |
+|---------|-------|--------|
+| F3: Notifications | Salman | ✅ Done |
+| F4: Consent Flow | Salman | ✅ Done |
+| F7: Privacy Contact Sharing | Salman | ✅ Done |
+| F10: Location Map Search | Athoy | Pending |
+| F11: Status Workflow Tracker | Athoy | Pending |
+| F13: Leaderboard & Badges | Anika | ✅ Done |
+| F14: Eligibility Reminders | Anika | ✅ Done |
 
 ### Sprint 3 (TBD) — 8 Features
-| Feature | Owner |
-|---------|-------|
-| F6: Verification Badge | Salman |
-| F15: Feedback System | Anika |
-| F16: Admin User Management | Salman |
-| F17: Blood Inventory Overview | Athoy |
-| F18: Analytics Dashboard | Athoy |
-| F19: Broadcast Alerts | Athoy |
-| F20: FAQ & Content Management | Anika |
+| Feature | Owner | Status |
+|---------|-------|--------|
+| F6: Verification Badge | Salman | Pending |
+| F15: Feedback System | Anika | ✅ Done |
+| F16: Admin User Management | Salman | Pending |
+| F17: Blood Inventory Overview | Athoy | Pending |
+| F18: Analytics Dashboard | Athoy | Pending |
+| F19: Broadcast Alerts | Athoy | Pending |
+| F20: FAQ & Content Management | Anika | ✅ Done |
 
 ### Sprint 4 (TBD) — Polish
 - Bug fixes across all features
