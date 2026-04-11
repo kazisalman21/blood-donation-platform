@@ -84,24 +84,24 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 | F1 | Donor Registration & Profile Management | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F2 | Donor Availability Management (56-day rule) | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F3 | Incoming Request Notifications | 2 | ✅ Done | ✅ Done | ✅ Complete |
-| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Backend ready | ❌ Need ConsentModal.jsx | Pending |
+| F4 | Request Response & Dual-Consent Flow | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
-| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Backend ready | ❌ Need ContactCard.jsx | Pending |
+| F7 | Privacy-Protected Contact Sharing | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
 
-### Salman's Sprint 2 Tasks (When Declared)
-1. **F3 — Notification Panel** ✅ Done:
-   - ✅ Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
-   - ✅ Create `NotificationPanel.jsx` — slide-out panel listing notifications
-   - ✅ API: `GET /api/donors/:id/notifications`, `PUT /api/notifications/:id/read`
-   - ✅ Email sending via Nodemailer for Critical/Urgent requests
+### Salman's Sprint 2 Tasks ✅ COMPLETE
+1. **F3 — Notification Panel** ✅ Done
+   - Create `NotificationBell.jsx` — bell icon with unread count badge in Navbar
+   - Create `NotificationPanel.jsx` — slide-out panel listing notifications
+   - API: `GET /api/donors/:id/notifications` (needs new route), `PUT /api/notifications/:id/read`
+   - Email sending via Nodemailer for Critical/Urgent requests
 
-2. **F4 — Consent Flow**
+2. **F4 — Consent Flow** ✅ Done
    - Create `ConsentModal.jsx` — confirmation dialog when donor accepts a request
    - Wire `PUT /api/requests/:id/respond` (accept/decline) to the notification card
    - Wire `PUT /api/requests/:id/consent` (requester side)
 
-3. **F7 — Contact Card**
+3. **F7 — Contact Card** ✅ Done
    - Create `ContactCard.jsx` — shows masked info by default, unlocked after dual consent
    - Uses `GET /api/requests/:id/contact` (already built)
 
@@ -149,28 +149,28 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 **Sprint 2 — ✅ COMPLETE:**
 
 3. **F13 — LeaderboardPage.jsx** ✅ Done:
-   - ✅ Create a leaderboard table with "All Time" and "Monthly" tabs
-   - ✅ Add city filter dropdown
-   - ✅ Display donor name, blood type, donation count, badges
-   - ✅ API: `GET /api/community/leaderboard?type=monthly&city=Dhaka`
+   - Create a leaderboard table with "All Time" and "Monthly" tabs
+   - Add city filter dropdown
+   - Display donor name, blood type, donation count, badges
+   - API: `GET /api/community/leaderboard?type=monthly&city=Dhaka`
 
 4. **F14 — Email Reminders** ✅ Done:
-   - ✅ Configure Nodemailer transport in `reminderJob.js`
-   - ✅ Design HTML email template for eligibility reminders
-   - ✅ Add health tips content
+   - Configure Nodemailer transport in `reminderJob.js`
+   - Design HTML email template for eligibility reminders
+   - Add health tips content
 
 **Sprint 3 — ✅ COMPLETE:**
 
-5. **F15 — FeedbackForm.jsx + DonorFeedbackSection.jsx** ✅ Done:
-   - ✅ Star rating (1-5), gratitude message input, "Make Public" checkbox
-   - ✅ Display public feedback on donor profile
-   - ✅ API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
+5. **F15 — FeedbackForm.jsx + FeedbackCard.jsx** ✅ Done:
+   - Star rating (1-5), gratitude message input, "Make Public" checkbox
+   - Display public feedback on donor profile
+   - API: `POST /api/community/feedback`, `GET /api/community/feedback/donor/:id`
 
-6. **F20 — FAQPage.jsx + AdminContentEditor.jsx** ✅ Done:
-   - ✅ Public accordion-style FAQ page with category tabs
-   - ✅ Blood compatibility reference chart (color-coded grid)
-   - ✅ Admin CRUD form for managing FAQ entries
-   - ✅ API: `GET /api/community/faqs`, `POST/PUT/DELETE /api/admin/faqs`
+6. **F20 — FAQPage.jsx + AdminFAQEditor.jsx** ✅ Done:
+   - Public accordion-style FAQ page with category tabs
+   - Blood compatibility reference chart (color-coded grid)
+   - Admin CRUD form for managing FAQ entries
+   - API: `GET /api/community/faqs`, `POST/PUT/DELETE /api/admin/faqs`
 
 ---
 
@@ -384,24 +384,24 @@ blood-donation-platform/
 ### Sprint 2 (TBD) — 6 Features
 | Feature | Owner | Status |
 |---------|-------|--------|
-| F3: Notifications | Salman | ✅ Code Done |
-| F4: Consent Flow | Salman | |
-| F7: Privacy Contact Sharing | Salman | |
-| F10: Location Map Search | Athoy | |
-| F11: Status Workflow Tracker | Athoy | |
-| F13: Leaderboard & Badges | Anika | ✅ Code Done |
-| F14: Eligibility Reminders | Anika | ✅ Code Done |
+| F3: Notifications | Salman | ✅ Done |
+| F4: Consent Flow | Salman | ✅ Done |
+| F7: Privacy Contact Sharing | Salman | ✅ Done |
+| F10: Location Map Search | Athoy | Pending |
+| F11: Status Workflow Tracker | Athoy | Pending |
+| F13: Leaderboard & Badges | Anika | ✅ Done |
+| F14: Eligibility Reminders | Anika | ✅ Done |
 
 ### Sprint 3 (TBD) — 8 Features
 | Feature | Owner | Status |
 |---------|-------|--------|
-| F6: Verification Badge | Salman | |
-| F15: Feedback System | Anika | ✅ Code Done |
-| F16: Admin User Management | Salman | |
-| F17: Blood Inventory Overview | Athoy | |
-| F18: Analytics Dashboard | Athoy | |
-| F19: Broadcast Alerts | Athoy | |
-| F20: FAQ & Content Management | Anika | ✅ Code Done |
+| F6: Verification Badge | Salman | Pending |
+| F15: Feedback System | Anika | ✅ Done |
+| F16: Admin User Management | Salman | Pending |
+| F17: Blood Inventory Overview | Athoy | Pending |
+| F18: Analytics Dashboard | Athoy | Pending |
+| F19: Broadcast Alerts | Athoy | Pending |
+| F20: FAQ & Content Management | Anika | ✅ Done |
 
 ### Sprint 4 (TBD) — Polish
 - Bug fixes across all features
@@ -424,10 +424,6 @@ blood-donation-platform/
 | Git repo with Issues | ✅ 10 issues on GitHub |
 | Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
 | Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
-| Anika: F13 Leaderboard & Badges | ✅ Complete — 100% coded and committed |
-| Anika: F14 Eligibility Reminders & Tips | ✅ Complete — 100% coded and committed |
-| Anika: F15 Feedback System | ✅ Complete — 100% coded and committed |
-| Anika: F20 FAQ & Content Management | ✅ Complete — 100% coded and committed |
 | Sprint tag | ✅ `sprint-1-complete` tagged on main |
 
-**Next immediate action:** All Anika's assignments for Sprints 1, 2, and 3 are successfully executed. Currently preparing for Polish/Manual Testing (Sprint 4) and assisting teammates if needed.
+**Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
