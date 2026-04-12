@@ -178,8 +178,8 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 
 | # | Feature | Sprint | Backend | Frontend | Status |
 |---|---------|--------|---------|----------|--------|
-| F8 | Emergency Blood Request Posting | 1 | ✅ Done | ✅ Basic form exists | Needs Enhancement |
-| F9 | Blood Compatibility Matching Algorithm | 1 | ✅ Done | N/A (backend only) | Needs Postman Testing |
+| F8 | Emergency Blood Request Posting | 1 | ✅ Done | ✅ Done | ✅ Complete |
+| F9 | Blood Compatibility Matching Algorithm | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F10 | Location-Based Donor Search (Map) | 2 | ⚠️ Partial | ❌ Need DonorMapPage.jsx | Pending |
 | F11 | Request Status Workflow Tracker | 2 | ✅ Done | ❌ Need StatusTracker.jsx | Pending |
 | F17 | Blood Inventory & Supply Overview | 3 | ✅ Done | ❌ Need InventoryPage.jsx | Pending |
@@ -190,17 +190,16 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 
 **Sprint 1 — Immediate:**
 
-1. **F8 — PostRequestPage.jsx** (file exists, needs enhancement):
-   - Add address autocomplete or at least a city dropdown
-   - Create `RequestCard.jsx` — reusable card with urgency color badges
-   - The page already posts to `POST /api/requests` and shows eligible donor count
+1. **F8 — PostRequestPage.jsx** ✅ Done:
+   - ✅ Built enhanced form fields with city selection and validation
+   - ✅ Developed `RequestCard.jsx` with glassmorphism UI and urgency badges
+   - ✅ Added success modal showing compatible donor breakdown
+   - ✅ Created `MyRequestsPage.jsx` dashboard
 
-2. **F9 — Matching Algorithm** (backend complete, needs testing):
-   - Test all 8 blood types with Postman
-   - Verify that O- donors are matched for ALL request types (universal donor)
-   - Verify that AB+ requests match ALL 8 donor types (universal recipient)
-   - Test edge cases: no donors in city, all donors in cooldown, suspended donors excluded
-   - File: `server/utils/bloodCompatibility.js`
+2. **F9 — Matching Algorithm + UI** ✅ Done:
+   - ✅ Upgraded backend with numeric scoring (3=Exact, 2=Rh, 1=Cross-group)
+   - ✅ Built `CompatibilityResults.jsx` frontend to visualize matches
+   - ✅ Implemented `RequestDetailPage.jsx` featuring a complex 6-stage status timeline tracker
 
 **Sprint 2 — When Declared:**
 
@@ -377,8 +376,8 @@ blood-donation-platform/
 | F1: Registration & Profile | Salman | ✅ Done |
 | F2: Availability Management | Salman | ✅ Done |
 | F5: Donation History & Stats | Anika | ✅ Done |
-| F8: Emergency Request Posting | Athoy | ⚠️ Needs RequestCard.jsx |
-| F9: Matching Algorithm | Athoy | ⚠️ Needs Postman testing |
+| F8: Emergency Request Posting | Athoy | ✅ Done |
+| F9: Matching Algorithm | Athoy | ✅ Done |
 | F12: Request History | Anika | ✅ Done |
 
 ### Sprint 2 (TBD) — 6 Features
@@ -424,6 +423,8 @@ blood-donation-platform/
 | Git repo with Issues | ✅ 10 issues on GitHub |
 | Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
 | Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
+| Athoy: F8 Emergency Request Posting | ✅ Complete — 4 commits on `feature/athoy-blood-request` |
+| Athoy: F9 Matching Algorithm Display | ✅ Complete — 3 commits on `feature/athoy-matching-algorithm` |
 | Sprint tag | ✅ `sprint-1-complete` tagged on main |
 
 **Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
