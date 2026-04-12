@@ -6,6 +6,16 @@ const bloodRequestSchema = new mongoose.Schema({
         ref: 'Donor',
         required: true
     },
+    patientName: {
+        type: String,
+        required: [true, 'Patient name is required'],
+        trim: true
+    },
+    contactNumber: {
+        type: String,
+        required: [true, 'Contact number is required'],
+        trim: true
+    },
     bloodType: {
         type: String,
         required: [true, 'Blood type is required'],
@@ -31,6 +41,15 @@ const bloodRequestSchema = new mongoose.Schema({
         type: String,
         enum: ['Critical', 'Urgent', 'Normal'],
         default: 'Normal'
+    },
+    additionalNotes: {
+        type: String,
+        trim: true,
+        maxlength: 500
+    },
+    compatibleDonorsCount: {
+        type: Number,
+        default: 0
     },
     status: {
         type: String,

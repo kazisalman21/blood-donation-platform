@@ -2,14 +2,14 @@ const BloodRequest = require('../models/BloodRequest');
 const Notification = require('../models/Notification');
 const Donation = require('../models/Donation');
 const Donor = require('../models/Donor');
-const { findEligibleDonors } = require('../utils/bloodCompatibility');
+const { findEligibleDonors, getCompatibleDonorTypes, getMatchDetails } = require('../utils/bloodCompatibility');
 
 // @desc    Create a new blood request
 // @route   POST /api/requests
 // @access  Private
 const createRequest = async (req, res) => {
     try {
-        const { bloodType, unitsNeeded, hospital, location, urgency } = req.body;
+        const { bloodType, unitsNeeded, hospital, location, urgency, patientName, contactNumber, additionalNotes } = req.body;
 
         const request = await BloodRequest.create({
             requesterId: req.user._id,
@@ -17,11 +17,17 @@ const createRequest = async (req, res) => {
             unitsNeeded,
             hospital,
             location,
-            urgency
+            urgency,
+            patientName,
+            contactNumber,
+            additionalNotes
         });
 
         // Run matching algorithm — find eligible donors
         const eligibleDonors = await findEligibleDonors(bloodType, location);
+
+        // Store compatible donors count on the request
+        request.compatibleDonorsCount = eligibleDonors.length;
 
         // Create notifications for eligible donors
         if (eligibleDonors.length > 0) {
@@ -39,12 +45,26 @@ const createRequest = async (req, res) => {
             // Update request status
             request.status = 'Donors Notified';
             request.statusHistory.push({ stage: 'Donors Notified', timestamp: new Date() });
-            await request.save();
         }
+
+        await request.save();
+
+        // Group donors by compatibility score for the response
+        const donorsByScore = {
+            exactMatch: eligibleDonors.filter(d => d.compatibilityScore === 3),
+            rhCompatible: eligibleDonors.filter(d => d.compatibilityScore === 2),
+            crossCompatible: eligibleDonors.filter(d => d.compatibilityScore === 1)
+        };
 
         res.status(201).json({
             request,
-            eligibleDonorsCount: eligibleDonors.length
+            eligibleDonorsCount: eligibleDonors.length,
+            donorsByCompatibility: {
+                exactMatch: donorsByScore.exactMatch.length,
+                rhCompatible: donorsByScore.rhCompatible.length,
+                crossCompatible: donorsByScore.crossCompatible.length
+            },
+            compatibleBloodTypes: getCompatibleDonorTypes(bloodType)
         });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
@@ -88,6 +108,62 @@ const getRequests = async (req, res) => {
             .sort({ createdAt: -1 });
 
         res.json(requests);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// @desc    Get current user's requests
+// @route   GET /api/requests/my
+// @access  Private
+const getMyRequests = async (req, res) => {
+    try {
+        const { status, urgency } = req.query;
+        const query = { requesterId: req.user._id };
+
+        if (status) query.status = status;
+        if (urgency) query.urgency = urgency;
+
+        const requests = await BloodRequest.find(query)
+            .populate('matchedDonorId', 'name bloodType city isVerified')
+            .sort({ createdAt: -1 });
+
+        res.json(requests);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
+};
+
+// @desc    Get compatible donors for a request
+// @route   GET /api/requests/:id/compatible-donors
+// @access  Private
+const getCompatibleDonors = async (req, res) => {
+    try {
+        const request = await BloodRequest.findById(req.params.id);
+
+        if (!request) {
+            return res.status(404).json({ message: 'Request not found' });
+        }
+
+        const eligibleDonors = await findEligibleDonors(request.bloodType, request.location);
+        const compatibleTypes = getCompatibleDonorTypes(request.bloodType);
+
+        // Group by compatibility score
+        const grouped = {
+            exactMatch: eligibleDonors.filter(d => d.compatibilityScore === 3),
+            rhCompatible: eligibleDonors.filter(d => d.compatibilityScore === 2),
+            crossCompatible: eligibleDonors.filter(d => d.compatibilityScore === 1)
+        };
+
+        res.json({
+            requestId: request._id,
+            neededBloodType: request.bloodType,
+            location: request.location,
+            compatibleBloodTypes: compatibleTypes,
+            totalDonors: eligibleDonors.length,
+            donors: grouped,
+            allDonors: eligibleDonors
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
@@ -300,6 +376,8 @@ module.exports = {
     createRequest,
     getRequest,
     getRequests,
+    getMyRequests,
+    getCompatibleDonors,
     respondToRequest,
     requesterConsent,
     updateStatus,
