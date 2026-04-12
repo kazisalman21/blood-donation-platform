@@ -1,0 +1,233 @@
+/* ===== Request Card — Glassmorphism with Urgency Theme ===== */
+
+.request-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.request-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    transition: height 0.3s ease;
+}
+
+.request-card.urgency-Critical::before {
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+}
+
+.request-card.urgency-Urgent::before {
+    background: linear-gradient(90deg, #f59e0b, #fbbf24);
+}
+
+.request-card.urgency-Normal::before {
+    background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.request-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.request-card:hover::before {
+    height: 4px;
+}
+
+.request-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.request-card-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Blood type badge */
+.blood-badge {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 800;
+    background: rgba(239, 68, 68, 0.12);
+    color: var(--accent-light);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    flex-shrink: 0;
+}
+
+.request-info h3 {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.request-info p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+}
+
+/* Status & urgency badges */
+.request-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.badge-urgency-Critical {
+    background: rgba(239, 68, 68, 0.12);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.badge-urgency-Critical .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ef4444;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.badge-urgency-Urgent {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.badge-urgency-Urgent .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fbbf24;
+}
+
+.badge-urgency-Normal {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.25);
+}
+
+.badge-urgency-Normal .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #34d399;
+}
+
+.badge-status {
+    background: rgba(96, 165, 250, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+.badge-status.status-Completed {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+    border-color: rgba(52, 211, 153, 0.25);
+}
+
+.badge-status.status-Open {
+    background: rgba(192, 132, 252, 0.1);
+    color: #c084fc;
+    border-color: rgba(192, 132, 252, 0.2);
+}
+
+/* Card details row */
+.request-card-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-bottom: 0.8rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.82rem;
+}
+
+.detail-icon {
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* Card footer */
+.request-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.time-ago {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.78rem;
+}
+
+.donors-matched {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--green);
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.donors-matched.no-donors {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+    .request-card {
+        padding: 1.2rem;
+    }
+
+    .blood-badge {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
+
+    .request-card-details {
+        gap: 0.8rem;
+    }
+}
