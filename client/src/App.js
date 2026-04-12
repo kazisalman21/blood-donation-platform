@@ -14,6 +14,8 @@ import DonorProfilePage from './components/donor/DonorProfilePage';
 
 // Pages — Patient (Athoy)
 import PostRequestPage from './components/patient/PostRequestPage';
+import MyRequestsPage from './components/patient/MyRequestsPage';
+import RequestDetailPage from './components/patient/RequestDetailPage';
 
 // Pages — Community (Anika)
 import DonationHistoryPage from './components/community/DonationHistoryPage';
@@ -46,9 +48,15 @@ function App() {
                 <ProtectedRoute><DonorProfilePage /></ProtectedRoute>
               } />
 
-              {/* Protected Routes — Patient */}
+              {/* Protected Routes — Patient (Athoy: F8, F9) */}
               <Route path="/request/new" element={
                 <ProtectedRoute><PostRequestPage /></ProtectedRoute>
+              } />
+              <Route path="/requests/my" element={
+                <ProtectedRoute><MyRequestsPage /></ProtectedRoute>
+              } />
+              <Route path="/requests/:id" element={
+                <ProtectedRoute><RequestDetailPage /></ProtectedRoute>
               } />
 
               {/* Protected Routes — Community */}
