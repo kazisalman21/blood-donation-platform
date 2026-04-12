@@ -1,0 +1,318 @@
+/* ===== Compatibility Results Component ===== */
+
+.compatibility-section {
+    margin-top: 2rem;
+}
+
+.compatibility-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.compatibility-header h2 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.total-donors-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 1rem;
+    background: rgba(52, 211, 153, 0.1);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    border-radius: var(--radius-full);
+    color: #34d399;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+/* Compatible blood types display */
+.compatible-types-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    flex-wrap: wrap;
+}
+
+.compatible-types-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.82rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.compatible-type-chip {
+    padding: 0.3rem 0.7rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 20px;
+    color: var(--accent-light);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.compatible-type-chip.exact {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.25);
+    color: #34d399;
+}
+
+/* Compatibility groups */
+.compatibility-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.compatibility-group {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.group-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.group-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.group-icon.exact {
+    background: rgba(52, 211, 153, 0.12);
+}
+
+.group-icon.rh {
+    background: rgba(96, 165, 250, 0.12);
+}
+
+.group-icon.cross {
+    background: rgba(192, 132, 252, 0.12);
+}
+
+.group-title h3 {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.group-title p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.78rem;
+}
+
+.group-count {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.group-count.exact {
+    background: rgba(52, 211, 153, 0.1);
+    color: #34d399;
+}
+
+.group-count.rh {
+    background: rgba(96, 165, 250, 0.1);
+    color: #60a5fa;
+}
+
+.group-count.cross {
+    background: rgba(192, 132, 252, 0.1);
+    color: #c084fc;
+}
+
+/* Donor list */
+.donor-list {
+    padding: 0.5rem;
+}
+
+.donor-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.8rem;
+    border-radius: var(--radius-sm);
+    transition: background 0.2s ease;
+}
+
+.donor-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.donor-item + .donor-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.donor-info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.donor-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.donor-details h4 {
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.verified-badge {
+    color: #60a5fa;
+    font-size: 0.85rem;
+}
+
+.donor-details p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.78rem;
+}
+
+.donor-blood-badge {
+    padding: 0.2rem 0.6rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    color: var(--accent-light);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+/* Score bar */
+.score-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.score-fill {
+    width: 60px;
+    height: 4px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+
+.score-fill-inner {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s ease;
+}
+
+.score-fill-inner.score-3 {
+    width: 100%;
+    background: #34d399;
+}
+
+.score-fill-inner.score-2 {
+    width: 66%;
+    background: #60a5fa;
+}
+
+.score-fill-inner.score-1 {
+    width: 33%;
+    background: #c084fc;
+}
+
+.score-text {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Empty state */
+.compatibility-empty {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+}
+
+.compatibility-empty .empty-icon {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    opacity: 0.4;
+}
+
+.compatibility-empty h3 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.compatibility-empty p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    max-width: 350px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.compatibility-loading {
+    text-align: center;
+    padding: 2rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+    .compatible-types-bar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .donor-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .score-bar {
+        margin-left: 3.2rem;
+    }
+}
