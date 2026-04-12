@@ -2,113 +2,263 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
-import '../donor/AuthPages.css';
+import './PostRequestPage.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
+const CITIES = [
+    'Dhaka', 'Chittagong', 'Sylhet', 'Rajshahi', 'Khulna',
+    'Barisal', 'Rangpur', 'Mymensingh', 'Comilla', 'Gazipur',
+    'Narayanganj', 'Bogra', 'Cox\'s Bazar', 'Jessore', 'Dinajpur'
+];
+
+const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
 const PostRequestPage = () => {
     const [formData, setFormData] = useState({
-        bloodType: '', unitsNeeded: 1, hospital: '', location: '', urgency: 'Normal'
+        patientName: '',
+        contactNumber: '',
+        bloodType: '',
+        unitsNeeded: 1,
+        hospital: '',
+        location: '',
+        urgency: 'Normal',
+        additionalNotes: ''
     });
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+
+    const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState('');
     const [loading, setLoading] = useState(false);
+    const [successData, setSuccessData] = useState(null);
     const { token } = useAuth();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+        const { name, value } = e.target;
+        setFormData(prev => ({ ...prev, [name]: value }));
+        // Clear field error on change
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: '' }));
+        }
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!formData.patientName.trim()) newErrors.patientName = 'Patient name is required';
+        if (!formData.contactNumber.trim()) newErrors.contactNumber = 'Contact number is required';
+        if (!formData.bloodType) newErrors.bloodType = 'Please select a blood type';
+        if (!formData.hospital.trim()) newErrors.hospital = 'Hospital name is required';
+        if (!formData.location) newErrors.location = 'Please select a city';
+        if (formData.unitsNeeded < 1 || formData.unitsNeeded > 10) newErrors.unitsNeeded = 'Units must be between 1 and 10';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
+
         setLoading(true);
-        setError('');
-        setSuccess('');
+        setServerError('');
 
         try {
             const res = await axios.post(`${API_URL}/requests`, formData, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setSuccess(`Request posted! ${res.data.eligibleDonorsCount} donors notified.`);
-            setTimeout(() => navigate('/history/requests'), 2000);
+            setSuccessData(res.data);
         } catch (err) {
-            setError(err.response?.data?.message || 'Failed to post request');
+            setServerError(err.response?.data?.message || 'Failed to post request. Please try again.');
         } finally {
             setLoading(false);
         }
     };
 
-    const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+    // Success modal
+    if (successData) {
+        const { eligibleDonorsCount, donorsByCompatibility } = successData;
+        return (
+            <div className="success-overlay" id="success-modal">
+                <div className="success-modal">
+                    <span className="success-icon">✅</span>
+                    <h2>Request Posted Successfully!</h2>
+                    <p>
+                        Your emergency blood request has been submitted.
+                        {eligibleDonorsCount > 0
+                            ? ` ${eligibleDonorsCount} compatible donor(s) have been notified.`
+                            : ' No compatible donors found in your area yet. Your request is posted and visible.'}
+                    </p>
+
+                    {eligibleDonorsCount > 0 && (
+                        <div className="success-stats">
+                            <div className="stat-box">
+                                <span className="stat-number exact">{donorsByCompatibility.exactMatch}</span>
+                                <span className="stat-label">Exact Match</span>
+                            </div>
+                            <div className="stat-box">
+                                <span className="stat-number rh">{donorsByCompatibility.rhCompatible}</span>
+                                <span className="stat-label">Rh-Compatible</span>
+                            </div>
+                            <div className="stat-box">
+                                <span className="stat-number cross">{donorsByCompatibility.crossCompatible}</span>
+                                <span className="stat-label">Cross-Group</span>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="success-actions">
+                        <button className="btn btn-secondary" onClick={() => navigate('/requests/my')} id="view-requests-btn">
+                            View My Requests
+                        </button>
+                        <button className="btn btn-primary" onClick={() => navigate(`/requests/${successData.request._id}`)} id="view-details-btn">
+                            View Details
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
-        <div className="auth-page">
-            <div className="auth-card" style={{ maxWidth: '550px' }}>
-                <h1 className="auth-title">🚨 Emergency Blood Request</h1>
-                <p className="auth-subtitle">Post a request to find matching donors</p>
+        <div className="post-request-page">
+            <div className="post-request-card">
+                <div className="post-request-header">
+                    <span className="emergency-icon">🚨</span>
+                    <h1 className="post-request-title">Emergency Blood Request</h1>
+                    <p className="post-request-subtitle">Post a request to find matching donors in your area</p>
+                </div>
 
-                {error && <div className="error-msg">{error}</div>}
-                {success && <div className="error-msg" style={{ background: 'rgba(76,175,80,0.15)', borderColor: 'rgba(76,175,80,0.3)', color: '#4caf50' }}>{success}</div>}
+                {serverError && <div className="post-error-msg" id="server-error">{serverError}</div>}
 
-                <form onSubmit={handleSubmit}>
-                    <div className="form-group">
-                        <label>Blood Type Needed *</label>
-                        <div className="blood-type-grid">
-                            {bloodTypes.map(bt => (
-                                <button
-                                    type="button" key={bt}
-                                    className={`blood-type-btn ${formData.bloodType === bt ? 'selected' : ''}`}
-                                    onClick={() => setFormData(prev => ({ ...prev, bloodType: bt }))}
-                                >
-                                    {bt}
-                                </button>
-                            ))}
+                <form onSubmit={handleSubmit} id="post-request-form">
+                    {/* Patient Information */}
+                    <div className="form-section">
+                        <h3 className="form-section-title">👤 Patient Information</h3>
+                        <div className="form-row">
+                            <div className="post-form-group">
+                                <label htmlFor="patientName">Patient Name *</label>
+                                <input
+                                    type="text" id="patientName" name="patientName"
+                                    value={formData.patientName} onChange={handleChange}
+                                    placeholder="Full name of the patient"
+                                />
+                                {errors.patientName && <div className="field-error">{errors.patientName}</div>}
+                            </div>
+                            <div className="post-form-group">
+                                <label htmlFor="contactNumber">Contact Number *</label>
+                                <input
+                                    type="tel" id="contactNumber" name="contactNumber"
+                                    value={formData.contactNumber} onChange={handleChange}
+                                    placeholder="e.g. 01712345678"
+                                />
+                                {errors.contactNumber && <div className="field-error">{errors.contactNumber}</div>}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="form-group">
-                        <label>Units Needed (1-10) *</label>
-                        <input type="number" name="unitsNeeded" value={formData.unitsNeeded}
-                            onChange={handleChange} min="1" max="10" required />
-                    </div>
+                    {/* Blood Requirements */}
+                    <div className="form-section">
+                        <h3 className="form-section-title">🩸 Blood Requirements</h3>
 
-                    <div className="form-group">
-                        <label>Hospital Name *</label>
-                        <input type="text" name="hospital" value={formData.hospital}
-                            onChange={handleChange} placeholder="e.g. Dhaka Medical College" required />
-                    </div>
+                        <div className="post-form-group">
+                            <label>Blood Type Needed *</label>
+                            <div className="blood-type-selector">
+                                {BLOOD_TYPES.map(bt => (
+                                    <button
+                                        type="button" key={bt}
+                                        className={`blood-type-option ${formData.bloodType === bt ? 'selected' : ''}`}
+                                        onClick={() => {
+                                            setFormData(prev => ({ ...prev, bloodType: bt }));
+                                            if (errors.bloodType) setErrors(prev => ({ ...prev, bloodType: '' }));
+                                        }}
+                                        id={`blood-type-${bt.replace('+', 'pos').replace('-', 'neg')}`}
+                                    >
+                                        {bt}
+                                    </button>
+                                ))}
+                            </div>
+                            {errors.bloodType && <div className="field-error">{errors.bloodType}</div>}
+                        </div>
 
-                    <div className="form-group">
-                        <label>Location / City *</label>
-                        <input type="text" name="location" value={formData.location}
-                            onChange={handleChange} placeholder="e.g. Dhaka" required />
-                    </div>
-
-                    <div className="form-group">
-                        <label>Urgency Level</label>
-                        <div style={{ display: 'flex', gap: '0.6rem' }}>
-                            {['Critical', 'Urgent', 'Normal'].map(u => (
-                                <button
-                                    type="button" key={u}
-                                    className={`blood-type-btn ${formData.urgency === u ? 'selected' : ''}`}
-                                    style={{
-                                        borderColor: formData.urgency === u
-                                            ? (u === 'Critical' ? '#ef5350' : u === 'Urgent' ? '#ff9800' : '#4caf50')
-                                            : undefined,
-                                        color: formData.urgency === u
-                                            ? (u === 'Critical' ? '#ef5350' : u === 'Urgent' ? '#ff9800' : '#4caf50')
-                                            : undefined
-                                    }}
-                                    onClick={() => setFormData(prev => ({ ...prev, urgency: u }))}
-                                >
-                                    {u}
-                                </button>
-                            ))}
+                        <div className="post-form-group">
+                            <label htmlFor="unitsNeeded">Units Needed (1–10) *</label>
+                            <input
+                                type="number" id="unitsNeeded" name="unitsNeeded"
+                                value={formData.unitsNeeded} onChange={handleChange}
+                                min="1" max="10"
+                            />
+                            {errors.unitsNeeded && <div className="field-error">{errors.unitsNeeded}</div>}
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-primary full-width" disabled={loading}>
-                        {loading ? 'Posting...' : 'Post Emergency Request 🚨'}
+                    {/* Location Details */}
+                    <div className="form-section">
+                        <h3 className="form-section-title">📍 Location Details</h3>
+                        <div className="post-form-group">
+                            <label htmlFor="hospital">Hospital Name *</label>
+                            <input
+                                type="text" id="hospital" name="hospital"
+                                value={formData.hospital} onChange={handleChange}
+                                placeholder="e.g. Dhaka Medical College Hospital"
+                            />
+                            {errors.hospital && <div className="field-error">{errors.hospital}</div>}
+                        </div>
+
+                        <div className="post-form-group">
+                            <label htmlFor="location">City *</label>
+                            <select
+                                id="location" name="location"
+                                value={formData.location} onChange={handleChange}
+                            >
+                                <option value="">Select a city</option>
+                                {CITIES.map(city => (
+                                    <option key={city} value={city}>{city}</option>
+                                ))}
+                            </select>
+                            {errors.location && <div className="field-error">{errors.location}</div>}
+                        </div>
+                    </div>
+
+                    {/* Urgency & Notes */}
+                    <div className="form-section">
+                        <h3 className="form-section-title">⚡ Urgency & Additional Info</h3>
+
+                        <div className="post-form-group">
+                            <label>Urgency Level</label>
+                            <div className="urgency-selector">
+                                {['Critical', 'Urgent', 'Normal'].map(u => (
+                                    <button
+                                        type="button" key={u}
+                                        className={`urgency-option ${formData.urgency === u ? `selected-${u}` : ''}`}
+                                        onClick={() => setFormData(prev => ({ ...prev, urgency: u }))}
+                                        id={`urgency-${u.toLowerCase()}`}
+                                    >
+                                        <span className={`urgency-dot dot-${u}`}></span>
+                                        {u}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="post-form-group">
+                            <label htmlFor="additionalNotes">Additional Notes (Optional)</label>
+                            <textarea
+                                id="additionalNotes" name="additionalNotes"
+                                value={formData.additionalNotes} onChange={handleChange}
+                                placeholder="Any medical context, special requirements, or instructions..."
+                                maxLength={500}
+                            />
+                            <div className="char-count">{formData.additionalNotes.length}/500</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" className="submit-btn" disabled={loading} id="submit-request-btn">
+                        {loading ? (
+                            <><span className="btn-spinner"></span>Posting Request...</>
+                        ) : (
+                            'Post Emergency Request 🚨'
+                        )}
                     </button>
                 </form>
             </div>
