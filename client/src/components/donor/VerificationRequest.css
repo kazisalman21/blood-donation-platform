@@ -1,0 +1,292 @@
+/* ===== Verification Request — Dark Glassmorphism ===== */
+
+.verification-page {
+    min-height: calc(100vh - var(--nav-height));
+    background: var(--bg-primary);
+    padding: 2rem;
+    padding-top: calc(var(--nav-height) + 2rem);
+    display: flex;
+    justify-content: center;
+}
+
+.verification-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 600px;
+    animation: fadeInUp 0.6s ease-out;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+}
+
+.verification-card h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.verification-card .subtitle {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+}
+
+/* ===== STATUS BANNER ===== */
+.verification-status-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1.2rem;
+    border-radius: var(--radius-lg);
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.5s ease-out 0.1s both;
+}
+
+.verification-status-banner.status-verified {
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    color: var(--green);
+}
+
+.verification-status-banner.status-pending {
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    color: var(--orange);
+}
+
+.verification-status-banner.status-rejected {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: var(--accent-light);
+}
+
+.status-icon {
+    font-size: 1.8rem;
+    flex-shrink: 0;
+}
+
+.status-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.status-info p {
+    font-size: 0.82rem;
+    opacity: 0.8;
+}
+
+/* ===== BENEFITS GRID ===== */
+.benefits-section {
+    margin-bottom: 2rem;
+}
+
+.benefits-section h3 {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.8rem;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    transition: var(--transition);
+    animation: fadeInUp 0.5s ease-out both;
+}
+
+.benefit-item:nth-child(1) { animation-delay: 0.1s; }
+.benefit-item:nth-child(2) { animation-delay: 0.15s; }
+.benefit-item:nth-child(3) { animation-delay: 0.2s; }
+.benefit-item:nth-child(4) { animation-delay: 0.25s; }
+
+.benefit-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(96, 165, 250, 0.2);
+    transform: translateY(-2px);
+}
+
+.benefit-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.benefit-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+/* ===== FORM ===== */
+.verification-form {
+    margin-top: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    margin-bottom: 0.5rem;
+}
+
+.file-upload-area {
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.file-upload-area:hover {
+    border-color: rgba(96, 165, 250, 0.3);
+    background: rgba(96, 165, 250, 0.03);
+}
+
+.file-upload-area.has-file {
+    border-color: rgba(52, 211, 153, 0.3);
+    background: rgba(52, 211, 153, 0.03);
+}
+
+.upload-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.file-upload-area p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+}
+
+.file-upload-area .file-hint {
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 0.75rem;
+}
+
+.file-upload-area .selected-file {
+    color: var(--green);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.file-upload-area input[type="file"] {
+    display: none;
+}
+
+.document-type-select {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    color: #fff;
+    font-size: 0.9rem;
+    appearance: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.document-type-select:focus {
+    outline: none;
+    border-color: rgba(96, 165, 250, 0.4);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+}
+
+.document-type-select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+/* Submit button */
+.btn-submit-verification {
+    width: 100%;
+    padding: 1rem;
+    background: var(--gradient-accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-submit-verification:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.35);
+}
+
+.btn-submit-verification:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Messages */
+.verification-error {
+    padding: 0.8rem;
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--radius);
+    color: var(--accent-light);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.verification-success {
+    padding: 0.8rem;
+    background: rgba(52, 211, 153, 0.08);
+    border: 1px solid rgba(52, 211, 153, 0.2);
+    border-radius: var(--radius);
+    color: var(--green);
+    font-size: 0.85rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .verification-card {
+        padding: 1.5rem;
+    }
+
+    .benefits-grid {
+        grid-template-columns: 1fr;
+    }
+}

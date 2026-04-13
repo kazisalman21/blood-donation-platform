@@ -154,6 +154,11 @@ const toggleAvailability = async (req, res) => {
             return res.status(404).json({ message: 'Donor not found' });
         }
 
+        // Authorization: only allow donors to toggle their own availability
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized' });
+        }
+
         const today = new Date();
 
         // If trying to enable availability, check 56-day rule
@@ -187,6 +192,11 @@ const applyForVerification = async (req, res) => {
         const donor = await Donor.findById(req.params.id);
         if (!donor) {
             return res.status(404).json({ message: 'Donor not found' });
+        }
+
+        // Authorization: only allow donors to apply for their own verification
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized' });
         }
 
         if (donor.verificationStatus === 'pending') {
