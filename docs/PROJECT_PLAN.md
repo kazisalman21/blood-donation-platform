@@ -85,9 +85,9 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 | F2 | Donor Availability Management (56-day rule) | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F3 | Incoming Request Notifications | 2 | ✅ Done | ✅ Done | ✅ Complete |
 | F4 | Request Response & Dual-Consent Flow | 2 | ✅ Done | ✅ Done | ✅ Complete |
-| F6 | Verification Badge System | 3 | ✅ Backend ready | ❌ Need VerificationForm.jsx | Pending |
+| F6 | Verification Badge System | 3 | ✅ Done | ✅ Done | ✅ Complete |
 | F7 | Privacy-Protected Contact Sharing | 2 | ✅ Done | ✅ Done | ✅ Complete |
-| F16 | Admin User Management Dashboard | 3 | ✅ Backend ready | ❌ Need AdminUsersPage.jsx | Pending |
+| F16 | Admin User Management Dashboard | 3 | ✅ Done | ✅ Done | ✅ Complete |
 
 ### Salman's Sprint 2 Tasks ✅ COMPLETE
 1. **F3 — Notification Panel** ✅ Done
@@ -105,14 +105,25 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
    - Create `ContactCard.jsx` — shows masked info by default, unlocked after dual consent
    - Uses `GET /api/requests/:id/contact` (already built)
 
-### Salman's Sprint 3 Tasks (When Declared)
-4. **F6 — Verification Badge**
-   - Create `VerificationRequestForm.jsx` — donor uploads ID document
+### Salman's Sprint 3 Tasks ✅ COMPLETE
+4. **F6 — Verification Badge** ✅ Done
+   - Created `VerificationRequestForm.jsx` — donor uploads ID document with file validation
    - Badge appears on profile when admin approves
+   - Link on profile page: "Get Verified →" for unverified donors
+   - Branch: `feature/salman-verification`
 
-5. **F16 — Admin User Management**
-   - Create `AdminUsersPage.jsx` — table with search, filter, suspend/unsuspend buttons
-   - Uses `GET /api/admin/users`, `PUT /api/admin/users/:id/suspend`, `PUT /api/admin/users/:id/verify`
+5. **F16 — Admin User Management** ✅ Done
+   - Created `AdminUsersPage.jsx` — table with search, filter, suspend/unsuspend, verify/reject controls
+   - Stats bar showing total, verified, pending, suspended counts
+   - Created `AdminRoute.jsx` — frontend guard blocking non-admin access
+   - Admin nav links (gold-accented) visible only to admin users
+   - Branch: `feature/salman-admin-dashboard`
+
+### Security Fixes Applied
+   - Added authorization checks to `toggleAvailability` and `applyForVerification`
+   - Prevented duplicate donor matches in `respondToRequest`
+   - Added requester notification on donor acceptance
+   - Profile edit mode with inline inputs (name, city, area, phone)
 
 ---
 
@@ -394,9 +405,9 @@ blood-donation-platform/
 ### Sprint 3 (TBD) — 8 Features
 | Feature | Owner | Status |
 |---------|-------|--------|
-| F6: Verification Badge | Salman | Pending |
+| F6: Verification Badge | Salman | ✅ Done |
 | F15: Feedback System | Anika | ✅ Done |
-| F16: Admin User Management | Salman | Pending |
+| F16: Admin User Management | Salman | ✅ Done |
 | F17: Blood Inventory Overview | Athoy | Pending |
 | F18: Analytics Dashboard | Athoy | Pending |
 | F19: Broadcast Alerts | Athoy | Pending |
@@ -411,20 +422,23 @@ blood-donation-platform/
 
 ---
 
-## ✅ Current Status Summary (March 2, 2026)
+## ✅ Current Status Summary (April 14, 2026)
 
 | Item | Status |
 |------|--------|
-| Assignment 1 / Sprint 1 deliverables | ✅ All complete |
+| Sprint 1 deliverables | ✅ All complete (6 features) |
+| Sprint 2 deliverables | ✅ All complete (7 features) |
+| Sprint 3 deliverables | 🟡 5 of 8 complete (Athoy's 3 pending) |
 | SRS Document | ✅ 793 lines, 20 features documented |
 | Class Diagram | ✅ 3 Mermaid diagrams, verified against code |
-| Backend (all 34 API endpoints) | ✅ Built and wired |
-| Frontend (7 pages + shared components) | ✅ Built with dark glassmorphism theme |
-| Git repo with Issues | ✅ 10 issues on GitHub |
-| Anika: F5 Donation History (filters + stats) | ✅ Complete — 2 commits on `feature/anika-donation-history` |
-| Anika: F12 Request History (filters + expand + CSV) | ✅ Complete — 1 commit on `feature/anika-request-history` |
-| Athoy: F8 Emergency Request Posting | ✅ Complete — 4 commits on `feature/athoy-blood-request` |
-| Athoy: F9 Matching Algorithm Display | ✅ Complete — 3 commits on `feature/athoy-matching-algorithm` |
-| Sprint tag | ✅ `sprint-1-complete` tagged on main |
+| Backend (all 34 API endpoints) | ✅ Built, secured, and wired |
+| Frontend (15+ pages + shared components) | ✅ Built with dark glassmorphism theme |
+| Vercel Deployment | ✅ Live on `main` branch |
+| **Salman: 7/7 features** | ✅ F1, F2, F3, F4, F6, F7, F16 — ALL COMPLETE |
+| **Anika: 6/6 features** | ✅ F5, F12, F13, F14, F15, F20 — ALL COMPLETE |
+| **Athoy: 2/7 features** | 🟡 F8, F9 done — F10, F11, F17, F18, F19 pending |
+| Security audit | ✅ 4 bugs fixed (auth checks, duplicate match prevention) |
+| AdminRoute guard | ✅ Frontend blocks non-admin users from admin pages |
+| Profile edit mode | ✅ Inline edit for name, city, area, phone |
 
-**Next immediate action:** Sprint 2 features when the deadline is announced by faculty.
+**Next immediate action:** Athoy must complete F10, F11, F17, F18, F19 frontend components.

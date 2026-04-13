@@ -75,30 +75,41 @@ The Blood Donation & Emergency Request Platform is a full-stack MERN web applica
 
 ---
 
-## 📈 Sprint 2 & 3 Progress Report (Active Development)
+## 📈 Sprint 2 & 3 Progress Report (Updated April 14, 2026)
 
-Based on a detailed check of the component files (`client/src/components`) and `git log`:
+Based on a detailed audit of all component files and `git log`:
 
-### ✅ Anika (100% Complete)
-**Commit Count**: 49 commits
-Anika has completed **all 6 of her assigned features** (Sprints 1, 2, and 3). The code for F5, F12, F13, F14, F15, and F20 is fully written, pushed, and merged to the `dev` branch.
+### ✅ Salman (100% Complete — 7/7 Features)
+**Features:** F1, F2, F3, F4, F6, F7, F16 — ALL DONE
+**Branches:** `feature/salman-verification`, `feature/salman-admin-dashboard`
 
-### 🟡 Salman (Pending UI Components)
-**Commit Count**: 38 commits
-Salman has bootstrapped the App and completed F1, F2, and recently F3 (Notification Panel). However, several major UI components for Sprints 2 & 3 are **missing**:
-- ❌ `ConsentModal.jsx` (for F4: Consent Flow)
-- ❌ `VerificationRequestForm.jsx` (for F6: Verification Badge)
-- ❌ `ContactCard.jsx` (for F7: Privacy Contact Sharing)
-- ❌ `AdminUsersPage.jsx` (for F16: Admin User Management)
+| Sprint | Feature | Files Created |
+|--------|---------|--------------|
+| 1 | F1: Registration & Profile | `RegisterPage.jsx`, `LoginPage.jsx`, `DonorProfilePage.jsx` |
+| 1 | F2: Availability Management | `AvailabilityToggle.jsx` |
+| 2 | F3: Notifications | `NotificationBell.jsx`, `NotificationPanel.jsx` |
+| 2 | F4: Consent Flow | `respondToRequest`, `requesterConsent` in controllers |
+| 2 | F7: Privacy Contact Sharing | `getContactInfo` with hand-written masking |
+| 3 | F6: Verification Badge | `VerificationRequestForm.jsx`, `VerificationRequest.css` |
+| 3 | F16: Admin User Management | `AdminUsersPage.jsx`, `AdminUsers.css`, `AdminRoute.jsx` |
 
-### 🔴 Athoy (0 Commits / Not Started Frontend)
-**Commit Count**: 0 commits
-Athoy currently has **no commits** in the repository. While Salman stubbed out basic elements for F8 and F9 early on, Athoy has not delivered any of the frontend components required for their assigned Sprint 2 and 3 features. The following are entirely **missing**:
-- ❌ `RequestCard.jsx` (Enhancement for F8)
-- ❌ `DonorMapPage.jsx` (for F10: Location Map)
-- ❌ `StatusTracker.jsx` (for F11: Workflow Tracker)
-- ❌ `InventoryPage.jsx` (for F17: Inventory Overview)
-- ❌ `AnalyticsDashboard.jsx` (for F18: Analytics)
-- ❌ `BroadcastPage.jsx` (for F19: Broadcast Alerts)
+**Security Fixes Applied:**
+- ✅ Authorization checks on `toggleAvailability` and `applyForVerification`
+- ✅ Prevented duplicate donor matches in `respondToRequest`
+- ✅ Requester notification created on donor acceptance
+- ✅ Profile edit mode with inline inputs (name, city, area, phone)
+- ✅ `AdminRoute.jsx` frontend guard — non-admin users redirected away from admin pages
+- ✅ Admin-only Navbar links (gold accent, conditionally rendered)
+- ✅ FAQ link added to Navbar
+- ✅ ESLint CI build warnings fixed for Vercel deployment
 
-> **Team Action Required:** Athoy must urgently push their local work to feature branches, and Salman needs to finalize the Frontend components for F4, F6, F7, F16 to catch up with the timeline.
+### ✅ Anika (100% Complete — 6/6 Features)
+**Features:** F5, F12, F13, F14, F15, F20 — ALL DONE
+All code is fully written, pushed, and merged to `dev`.
+
+### 🔴 Athoy (2/7 Features Complete)
+**Features Complete:** F8, F9
+**Features Pending:** F10 (Map), F11 (Status Tracker), F17 (Inventory), F18 (Analytics), F19 (Broadcast)
+
+> **Team Action Required:** Athoy must urgently deliver F10, F11, F17, F18, F19 frontend components.
+
