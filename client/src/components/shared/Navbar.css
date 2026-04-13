@@ -353,3 +353,22 @@
     padding: 0.75rem;
   }
 }
+
+/* ===== ADMIN NAV LINKS ===== */
+.nav-admin {
+    color: rgba(251, 191, 36, 0.7) !important;
+}
+
+.nav-admin:hover,
+.nav-admin.active {
+    color: #fbbf24 !important;
+}
+
+.nav-admin svg {
+    stroke: rgba(251, 191, 36, 0.7);
+}
+
+.nav-admin:hover svg,
+.nav-admin.active svg {
+    stroke: #fbbf24;
+}

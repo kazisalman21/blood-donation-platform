@@ -6,6 +6,7 @@ import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/shared/Navbar';
 import Footer from './components/shared/Footer';
 import ProtectedRoute from './components/shared/ProtectedRoute';
+import AdminRoute from './components/shared/AdminRoute';
 
 // Pages — Donor (Salman)
 import RegisterPage from './components/donor/RegisterPage';
@@ -81,12 +82,12 @@ function App() {
 
               {/* Admin Routes — Content Management */}
               <Route path="/admin/content" element={
-                <ProtectedRoute><AdminContentEditor /></ProtectedRoute>
+                <AdminRoute><AdminContentEditor /></AdminRoute>
               } />
 
               {/* Admin Routes — User Management (Salman: F16) */}
               <Route path="/admin/users" element={
-                <ProtectedRoute><AdminUsersPage /></ProtectedRoute>
+                <AdminRoute><AdminUsersPage /></AdminRoute>
               } />
             </Routes>
           </main>

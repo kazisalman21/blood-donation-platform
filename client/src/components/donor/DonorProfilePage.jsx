@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import AvailabilityToggle from './AvailabilityToggle';
@@ -13,6 +14,10 @@ const DonorProfilePage = () => {
     const { user, token } = useAuth();
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [editing, setEditing] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [editForm, setEditForm] = useState({ name: '', city: '', area: '', phone: '' });
+    const [editError, setEditError] = useState('');
 
     useEffect(() => {
         const fetchProfile = async () => {
@@ -21,6 +26,12 @@ const DonorProfilePage = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setProfile(res.data);
+                setEditForm({
+                    name: res.data.name || '',
+                    city: res.data.city || '',
+                    area: res.data.area || '',
+                    phone: res.data.phone || ''
+                });
             } catch (err) {
                 console.error('Failed to load profile:', err);
             } finally {
@@ -29,6 +40,39 @@ const DonorProfilePage = () => {
         };
         if (user) fetchProfile();
     }, [user, token]);
+
+    const handleEditSave = async () => {
+        if (editing) {
+            // Save mode
+            setSaving(true);
+            setEditError('');
+            try {
+                const res = await axios.put(`${API_URL}/donors/${user._id}`, editForm, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setProfile(res.data);
+                setEditing(false);
+            } catch (err) {
+                setEditError(err.response?.data?.message || 'Failed to update profile');
+            } finally {
+                setSaving(false);
+            }
+        } else {
+            // Enter edit mode
+            setEditing(true);
+        }
+    };
+
+    const handleCancel = () => {
+        setEditing(false);
+        setEditError('');
+        setEditForm({
+            name: profile.name || '',
+            city: profile.city || '',
+            area: profile.area || '',
+            phone: profile.phone || ''
+        });
+    };
 
     if (loading) return <div className="loading-screen">Loading profile...</div>;
     if (!profile) return <div className="error-screen">Failed to load profile</div>;
@@ -108,20 +152,85 @@ const DonorProfilePage = () => {
                 <HealthTipsSection />
 
                 <div className="profile-details">
-                    <h3>Details</h3>
+                    <div className="profile-details-header">
+                        <h3>Details</h3>
+                        <div className="profile-edit-buttons">
+                            {editing && (
+                                <button className="btn-cancel-edit" onClick={handleCancel}>Cancel</button>
+                            )}
+                            <button
+                                className={`btn-edit-profile ${editing ? 'btn-save' : ''}`}
+                                onClick={handleEditSave}
+                                disabled={saving}
+                            >
+                                {saving ? 'Saving...' : editing ? '✓ Save' : '✎ Edit Profile'}
+                            </button>
+                        </div>
+                    </div>
+                    {editError && <div className="edit-error">{editError}</div>}
+
                     <div className="detail-row">
-                        <span>City:</span> <span>{profile.city || 'Not set'}</span>
+                        <span>Name:</span>
+                        {editing ? (
+                            <input
+                                type="text"
+                                className="edit-input"
+                                value={editForm.name}
+                                onChange={(e) => setEditForm(prev => ({ ...prev, name: e.target.value }))}
+                            />
+                        ) : (
+                            <span>{profile.name || 'Not set'}</span>
+                        )}
                     </div>
                     <div className="detail-row">
-                        <span>Area:</span> <span>{profile.area || 'Not set'}</span>
+                        <span>City:</span>
+                        {editing ? (
+                            <input
+                                type="text"
+                                className="edit-input"
+                                value={editForm.city}
+                                onChange={(e) => setEditForm(prev => ({ ...prev, city: e.target.value }))}
+                            />
+                        ) : (
+                            <span>{profile.city || 'Not set'}</span>
+                        )}
                     </div>
                     <div className="detail-row">
-                        <span>Phone:</span> <span>{profile.phone || 'Not set'}</span>
+                        <span>Area:</span>
+                        {editing ? (
+                            <input
+                                type="text"
+                                className="edit-input"
+                                value={editForm.area}
+                                onChange={(e) => setEditForm(prev => ({ ...prev, area: e.target.value }))}
+                            />
+                        ) : (
+                            <span>{profile.area || 'Not set'}</span>
+                        )}
+                    </div>
+                    <div className="detail-row">
+                        <span>Phone:</span>
+                        {editing ? (
+                            <input
+                                type="text"
+                                className="edit-input"
+                                value={editForm.phone}
+                                onChange={(e) => setEditForm(prev => ({ ...prev, phone: e.target.value }))}
+                            />
+                        ) : (
+                            <span>{profile.phone || 'Not set'}</span>
+                        )}
                     </div>
                     <div className="detail-row">
                         <span>Verification:</span>
                         <span className={`status-${profile.verificationStatus}`}>
                             {profile.verificationStatus?.charAt(0).toUpperCase() + profile.verificationStatus?.slice(1)}
+                            {profile.verificationStatus === 'none' && (
+                                <Link to="/verification" className="verify-link"> — Get Verified →</Link>
+                            )}
+                            {profile.verificationStatus === 'rejected' && (
+                                <Link to="/verification" className="verify-link"> — Try Again →</Link>
+                            )}
                         </span>
                     </div>
                 </div>
@@ -134,3 +243,4 @@ const DonorProfilePage = () => {
 };
 
 export default DonorProfilePage;
+
