@@ -11,6 +11,7 @@ import ProtectedRoute from './components/shared/ProtectedRoute';
 import RegisterPage from './components/donor/RegisterPage';
 import LoginPage from './components/donor/LoginPage';
 import DonorProfilePage from './components/donor/DonorProfilePage';
+import VerificationRequestForm from './components/donor/VerificationRequestForm';
 
 // Pages — Patient (Athoy)
 import PostRequestPage from './components/patient/PostRequestPage';
@@ -26,6 +27,9 @@ import BloodCompatibilityChartPage from './components/community/BloodCompatibili
 
 // Pages — Admin (Anika)
 import AdminContentEditor from './components/admin/AdminContentEditor';
+
+// Pages — Admin (Salman)
+import AdminUsersPage from './components/admin/AdminUsersPage';
 
 // Pages — Public
 import HomePage from './pages/HomePage';
@@ -70,9 +74,19 @@ function App() {
               <Route path="/faq" element={<FAQPage />} />
               <Route path="/blood-compatibility" element={<BloodCompatibilityChartPage />} />
 
+              {/* Protected Routes — Donor Verification (Salman: F6) */}
+              <Route path="/verification" element={
+                <ProtectedRoute><VerificationRequestForm /></ProtectedRoute>
+              } />
+
               {/* Admin Routes — Content Management */}
               <Route path="/admin/content" element={
                 <ProtectedRoute><AdminContentEditor /></ProtectedRoute>
+              } />
+
+              {/* Admin Routes — User Management (Salman: F16) */}
+              <Route path="/admin/users" element={
+                <ProtectedRoute><AdminUsersPage /></ProtectedRoute>
               } />
             </Routes>
           </main>
