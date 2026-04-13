@@ -84,7 +84,7 @@ Based on a detailed audit of all component files and `git log`:
 **Branches:** `feature/salman-verification`, `feature/salman-admin-dashboard`
 
 | Sprint | Feature | Files Created |
-|--------|---------|--------------|
+|---|---|---|
 | 1 | F1: Registration & Profile | `RegisterPage.jsx`, `LoginPage.jsx`, `DonorProfilePage.jsx` |
 | 1 | F2: Availability Management | `AvailabilityToggle.jsx` |
 | 2 | F3: Notifications | `NotificationBell.jsx`, `NotificationPanel.jsx` |
