@@ -23,6 +23,7 @@ const CompatibilityResults = ({ requestId, neededBloodType }) => {
         if (requestId) {
             fetchCompatibleDonors();
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [requestId]);
 
     const fetchCompatibleDonors = async () => {
