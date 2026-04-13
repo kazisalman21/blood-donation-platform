@@ -182,10 +182,25 @@ const respondToRequest = async (req, res) => {
         }
 
         if (accept) {
+            // Prevent multiple donors from accepting the same request
+            if (request.matchedDonorId) {
+                return res.status(400).json({ message: 'This request already has a matched donor' });
+            }
+
             request.matchedDonorId = req.user._id;
             request.donorConsent = true;
             request.status = 'Donor Matched';
             request.statusHistory.push({ stage: 'Donor Matched', timestamp: new Date() });
+
+            // Notify the requester that a donor has accepted
+            await Notification.create({
+                donorId: request.requesterId,
+                requestId: request._id,
+                message: `A donor has accepted your ${request.bloodType} blood request for ${request.hospital}`,
+                bloodType: request.bloodType,
+                hospital: request.hospital,
+                urgency: request.urgency
+            });
         }
 
         await request.save();
