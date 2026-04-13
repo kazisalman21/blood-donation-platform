@@ -144,24 +144,24 @@ blood-donation-platform/
 |---|---------|-------|:------:|--------|
 | 1 | Donor Registration & Profile Management | Salman | 1 | ✅ Done |
 | 2 | Donor Availability Management (56-day rule) | Salman | 1 | ✅ Done |
-| 3 | Incoming Request Notifications (in-app + email) | Salman | 2 | ⏳ Pending |
-| 4 | Request Response & Dual-Consent Flow | Salman | 2 | ⏳ Pending |
+| 3 | Incoming Request Notifications (in-app + email) | Salman | 2 | ✅ Done |
+| 4 | Request Response & Dual-Consent Flow | Salman | 2 | ✅ Done |
 | 5 | Donation History & Statistics | Anika | 1 | ✅ Done |
-| 6 | Verification Badge System | Salman | 3 | ⏳ Pending |
-| 7 | Privacy-Protected Contact Sharing | Salman | 3 | ⏳ Pending |
+| 6 | Verification Badge System | Salman | 3 | ✅ Done |
+| 7 | Privacy-Protected Contact Sharing | Salman | 3 | ✅ Done |
 | 8 | Emergency Blood Request Posting | Athoy | 1 | ✅ Done |
 | 9 | Blood Compatibility Matching Algorithm | Athoy | 1 | ✅ Done |
 | 10 | Location-Based Donor Search (Leaflet + Haversine) | Athoy | 2 | ⏳ Pending |
 | 11 | Request Status Workflow Tracking (6-stage) | Athoy | 2 | ⏳ Pending |
 | 12 | Request History & Records | Anika | 1 | ✅ Done |
-| 13 | Donor Leaderboard & Recognition | Anika | 2 | ⏳ Pending |
-| 14 | Eligibility Reminder & Health Tips | Anika | 2 | ⏳ Pending |
-| 15 | Donor-Requester Feedback System | Anika | 3 | ⏳ Pending |
-| 16 | Admin User Management Dashboard | Salman | 3 | ⏳ Pending |
+| 13 | Donor Leaderboard & Recognition | Anika | 2 | ✅ Done |
+| 14 | Eligibility Reminder & Health Tips | Anika | 2 | ✅ Done |
+| 15 | Donor-Requester Feedback System | Anika | 3 | ✅ Done |
+| 16 | Admin User Management Dashboard | Salman | 3 | ✅ Done |
 | 17 | Blood Inventory & Supply Overview | Athoy | 3 | ⏳ Pending |
 | 18 | Platform Analytics & Reporting | Athoy | 3 | ⏳ Pending |
 | 19 | Broadcast Emergency Alerts | Athoy | 3 | ⏳ Pending |
-| 20 | Content & FAQ Management | Anika | 3 | ⏳ Pending |
+| 20 | Content & FAQ Management | Anika | 3 | ✅ Done |
 
 ---
 
