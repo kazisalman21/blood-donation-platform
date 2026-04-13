@@ -173,11 +173,14 @@
 }
 
 /* Panel Content */
+.notification-dropdown-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
 .notif-panel-content {
     flex: 1;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
 }
 
 .notif-panel-content::-webkit-scrollbar {

@@ -22,7 +22,7 @@ Additional documentation available in the [`docs/`](./docs/) directory:
 ## 👥 Team Members
 
 | Student ID | Name | Role / Module Responsibility |
-|:----------:|------|------|
+|---|---|---|
 | 23101209 | **Kazi Salman Salim** | Donor Interface + Admin (Features 1, 2, 3, 4, 6, 7, 16) |
 | 23101409 | **Miskatul Afrin Anika** | Community + History + Content (Features 5, 12, 13, 14, 15, 20) |
 | 23101197 | **Athoy Roy** | Patient Side + System + Analytics (Features 8, 9, 10, 11, 17, 18, 19) |
@@ -141,7 +141,7 @@ blood-donation-platform/
 ## ✨ Key Features (20 Total)
 
 | # | Feature | Owner | Sprint | Status |
-|---|---------|-------|:------:|--------|
+|---|---|---|---|---|
 | 1 | Donor Registration & Profile Management | Salman | 1 | ✅ Done |
 | 2 | Donor Availability Management (56-day rule) | Salman | 1 | ✅ Done |
 | 3 | Incoming Request Notifications (in-app + email) | Salman | 2 | ✅ Done |
