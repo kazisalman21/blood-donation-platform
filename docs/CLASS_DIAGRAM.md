@@ -100,7 +100,7 @@ classDiagram
         +String message
         +Number donorsNotified
         +ObjectId sentBy
-        +Date sentAt
+        +Date createdAt
     }
 
     %% ===== CONTROLLERS =====
@@ -118,9 +118,12 @@ classDiagram
         +createRequest(req, res)
         +getRequest(req, res)
         +getRequests(req, res)
+        +getMyRequests(req, res)
+        +getCompatibleDonors(req, res)
         +respondToRequest(req, res)
         +requesterConsent(req, res)
         +updateStatus(req, res)
+        +getContactInfo(req, res)
     }
 
     class CommunityController {
@@ -143,6 +146,7 @@ classDiagram
         +getMatchRate(req, res)
         +getResponseTime(req, res)
         +sendBroadcast(req, res)
+        +getBroadcastHistory(req, res)
         +createFAQ(req, res)
         +updateFAQ(req, res)
         +deleteFAQ(req, res)
@@ -150,18 +154,19 @@ classDiagram
 
     class NotificationController {
         +getNotifications(req, res)
+        +getUnreadCount(req, res)
         +markAsRead(req, res)
-        +sendNotification(donorId, requestId)
+        +markAllAsRead(req, res)
     }
 
-    class ContactController {
-        +getContactInfo(req, res)
-    }
+    %% ContactController removed — getContactInfo is now in RequestController
 
     %% ===== UTILITIES =====
     class BloodCompatibility {
         +Object compatibilityMap
         +getCompatibleDonorTypes(bloodType) String[]
+        +getCompatibilityScore(donor, needed) Number
+        +getMatchDetails(donor, needed) Object
         +findEligibleDonors(bloodType, city) Donor[]
     }
 
@@ -325,7 +330,7 @@ erDiagram
         String message
         Number donorsNotified
         ObjectId sentBy FK
-        Date sentAt
+        Date createdAt
     }
 ```
 

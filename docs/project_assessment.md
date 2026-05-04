@@ -75,9 +75,9 @@ The Blood Donation & Emergency Request Platform is a full-stack MERN web applica
 
 ---
 
-## 📈 Sprint 2 & 3 Progress Report (Updated April 14, 2026)
+## 📈 Sprint 2, 3 & 4 Progress Report (Updated May 5, 2026)
 
-Based on a detailed audit of all component files and `git log`:
+Based on a detailed audit of all component files, `git log`, and security review:
 
 ### ✅ Salman (100% Complete — 7/7 Features)
 **Features:** F1, F2, F3, F4, F6, F7, F16 — ALL DONE
@@ -93,23 +93,44 @@ Based on a detailed audit of all component files and `git log`:
 | 3 | F6: Verification Badge | `VerificationRequestForm.jsx`, `VerificationRequest.css` |
 | 3 | F16: Admin User Management | `AdminUsersPage.jsx`, `AdminUsers.css`, `AdminRoute.jsx` |
 
-**Security Fixes Applied:**
-- ✅ Authorization checks on `toggleAvailability` and `applyForVerification`
-- ✅ Prevented duplicate donor matches in `respondToRequest`
-- ✅ Requester notification created on donor acceptance
-- ✅ Profile edit mode with inline inputs (name, city, area, phone)
-- ✅ `AdminRoute.jsx` frontend guard — non-admin users redirected away from admin pages
-- ✅ Admin-only Navbar links (gold accent, conditionally rendered)
-- ✅ FAQ link added to Navbar
-- ✅ ESLint CI build warnings fixed for Vercel deployment
-
 ### ✅ Anika (100% Complete — 6/6 Features)
 **Features:** F5, F12, F13, F14, F15, F20 — ALL DONE
 All code is fully written, pushed, and merged to `dev`.
 
-### 🔴 Athoy (2/7 Features Complete)
-**Features Complete:** F8, F9
-**Features Pending:** F10 (Map), F11 (Status Tracker), F17 (Inventory), F18 (Analytics), F19 (Broadcast)
+### ✅ Athoy (100% Complete — 7/7 Features)
+**Features:** F8, F9, F10, F11, F17, F18, F19 — ALL DONE
 
-> **Team Action Required:** Athoy must urgently deliver F10, F11, F17, F18, F19 frontend components.
+| Sprint | Feature | Files Created |
+|---|---|---|
+| 1 | F8: Emergency Blood Request | `PostRequestPage.jsx`, `RequestCard.jsx`, `MyRequestsPage.jsx` |
+| 1 | F9: Matching Algorithm | `bloodCompatibility.js`, `CompatibilityResults.jsx`, `RequestDetailPage.jsx` |
+| 2 | F10: Location-Based Map | `DonorMapPage.jsx`, `DonorMapPage.css` |
+| 2 | F11: Status Tracker | `StatusTrackerPage.jsx`, `StatusTrackerPage.css` |
+| 3 | F17: Blood Inventory | `InventoryPage.jsx`, `InventoryPage.css` |
+| 3 | F18: Analytics Dashboard | `AnalyticsDashboard.jsx`, `AnalyticsDashboard.css` |
+| 3 | F19: Broadcast Alerts | `BroadcastPage.jsx`, `BroadcastPage.css` |
+
+---
+
+## 🔒 Security Audit (Sprint 4 — 30 Fixes Applied)
+
+| Category | Count | Examples |
+|---|---|---|
+| **IDOR Protection** | 6 | Ownership checks on profile edit, toggle, verification, notifications |
+| **Data Leak Prevention** | 4 | PII stripped from compatible donor results, error messages sanitized |
+| **Authorization** | 5 | Blood-type compatibility enforcement, owner-only access, admin self-lockout guard |
+| **Input Validation** | 5 | ObjectId validation on all `:id` routes, broadcast field validation |
+| **Infrastructure** | 6 | Helmet.js, rate limiting, 404 handler, global error middleware, CORS lockdown |
+| **Bug Fixes** | 4 | Variable shadowing, dead routes, duplicate feedback prevention, AlertLog timestamps |
+
+## 🧪 Testing & Quality Assurance (Sprint 4)
+
+| Item | Status |
+|---|---|
+| Unit Tests (Blood Compatibility) | ✅ 43 tests passing |
+| Unit Tests (API Validation) | ✅ 65 tests passing |
+| Database Seed Script | ✅ 12 donors, 8 requests, 6 donations, FAQs, alerts |
+| ESLint CI Build | ✅ All warnings resolved |
+| Vercel Deployment | ✅ Live at blood-donation-platform-one.vercel.app |
+
 
