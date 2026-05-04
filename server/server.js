@@ -4,10 +4,14 @@ dns.setServers(['8.8.8.8', '8.8.4.4']); // Google DNS — fixes ISP SRV record b
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const helmet = require('helmet');
 require('dotenv').config();
 const { startReminderJob } = require('./jobs/reminderJob');
 
 const app = express();
+
+// Security headers (Bug Fix: missing helmet.js)
+app.use(helmet());
 
 // Middleware
 const allowedOrigins = [
@@ -43,6 +47,19 @@ app.use('/api/admin', adminRoutes);
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// 404 catch-all handler (Bug Fix: no 404 handler)
+app.use((req, res) => {
+  res.status(404).json({ message: `Route not found: ${req.method} ${req.originalUrl}` });
+});
+
+// Global error handler (Bug Fix: no global error middleware)
+app.use((err, req, res, next) => {
+  console.error('Unhandled error:', err.message);
+  res.status(err.status || 500).json({
+    message: process.env.NODE_ENV === 'production' ? 'Internal server error' : err.message
+  });
 });
 
 // MongoDB connection

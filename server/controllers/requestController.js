@@ -2,7 +2,24 @@ const BloodRequest = require('../models/BloodRequest');
 const Notification = require('../models/Notification');
 const Donation = require('../models/Donation');
 const Donor = require('../models/Donor');
+const mongoose = require('mongoose');
 const { findEligibleDonors, getCompatibleDonorTypes, getMatchDetails } = require('../utils/bloodCompatibility');
+
+// Helper: strip sensitive fields from donor objects for public responses
+const sanitizeDonor = (donor) => ({
+    _id: donor._id,
+    name: donor.name,
+    bloodType: donor.bloodType,
+    city: donor.city,
+    area: donor.area,
+    isAvailable: donor.isAvailable,
+    isVerified: donor.isVerified,
+    donationCount: donor.donationCount,
+    badges: donor.badges,
+    compatibilityScore: donor.compatibilityScore,
+    compatibilityLabel: donor.compatibilityLabel,
+    compatibilityDescription: donor.compatibilityDescription
+});
 
 // @desc    Create a new blood request
 // @route   POST /api/requests
@@ -67,7 +84,7 @@ const createRequest = async (req, res) => {
             compatibleBloodTypes: getCompatibleDonorTypes(bloodType)
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -76,6 +93,10 @@ const createRequest = async (req, res) => {
 // @access  Private
 const getRequest = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid request ID' });
+        }
+
         const request = await BloodRequest.findById(req.params.id)
             .populate('requesterId', 'name bloodType city')
             .populate('matchedDonorId', 'name bloodType city isVerified');
@@ -84,9 +105,19 @@ const getRequest = async (req, res) => {
             return res.status(404).json({ message: 'Request not found' });
         }
 
-        res.json(request);
+        // Bug Fix (H1): strip sensitive fields for non-owner users
+        const isRequester = request.requesterId && request.requesterId._id.toString() === req.user._id.toString();
+        const isMatchedDonor = request.matchedDonorId && request.matchedDonorId._id.toString() === req.user._id.toString();
+
+        const requestObj = request.toObject();
+        if (!isRequester && !isMatchedDonor) {
+            delete requestObj.contactNumber;
+            delete requestObj.patientName;
+        }
+
+        res.json(requestObj);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -109,7 +140,7 @@ const getRequests = async (req, res) => {
 
         res.json(requests);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -130,7 +161,7 @@ const getMyRequests = async (req, res) => {
 
         res.json(requests);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -148,11 +179,14 @@ const getCompatibleDonors = async (req, res) => {
         const eligibleDonors = await findEligibleDonors(request.bloodType, request.location);
         const compatibleTypes = getCompatibleDonorTypes(request.bloodType);
 
+        // Bug Fix (C1): sanitize donor data — strip email, phone, medicalFlags
+        const safeDonors = eligibleDonors.map(sanitizeDonor);
+
         // Group by compatibility score
         const grouped = {
-            exactMatch: eligibleDonors.filter(d => d.compatibilityScore === 3),
-            rhCompatible: eligibleDonors.filter(d => d.compatibilityScore === 2),
-            crossCompatible: eligibleDonors.filter(d => d.compatibilityScore === 1)
+            exactMatch: safeDonors.filter(d => d.compatibilityScore === 3),
+            rhCompatible: safeDonors.filter(d => d.compatibilityScore === 2),
+            crossCompatible: safeDonors.filter(d => d.compatibilityScore === 1)
         };
 
         res.json({
@@ -160,12 +194,12 @@ const getCompatibleDonors = async (req, res) => {
             neededBloodType: request.bloodType,
             location: request.location,
             compatibleBloodTypes: compatibleTypes,
-            totalDonors: eligibleDonors.length,
+            totalDonors: safeDonors.length,
             donors: grouped,
-            allDonors: eligibleDonors
+            allDonors: safeDonors
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -185,6 +219,12 @@ const respondToRequest = async (req, res) => {
             // Prevent multiple donors from accepting the same request
             if (request.matchedDonorId) {
                 return res.status(400).json({ message: 'This request already has a matched donor' });
+            }
+
+            // Bug Fix (C2): verify the responding donor has compatible blood type
+            const compatibleTypes = getCompatibleDonorTypes(request.bloodType);
+            if (!compatibleTypes.includes(req.user.bloodType)) {
+                return res.status(403).json({ message: 'Your blood type is not compatible with this request' });
             }
 
             request.matchedDonorId = req.user._id;
@@ -210,7 +250,7 @@ const respondToRequest = async (req, res) => {
             request
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -241,7 +281,7 @@ const requesterConsent = async (req, res) => {
         await request.save();
         res.json({ message: 'Consent given', request });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -260,6 +300,13 @@ const updateStatus = async (req, res) => {
         const request = await BloodRequest.findById(req.params.id);
         if (!request) {
             return res.status(404).json({ message: 'Request not found' });
+        }
+
+        // Bug Fix: ownership check — only requester or matched donor can update status
+        const isRequester = request.requesterId.toString() === req.user._id.toString();
+        const isMatchedDonor = request.matchedDonorId && request.matchedDonorId.toString() === req.user._id.toString();
+        if (!isRequester && !isMatchedDonor) {
+            return res.status(403).json({ message: 'Not authorized to update this request' });
         }
 
         // Enforce linear progression — new status must be after current
@@ -318,7 +365,7 @@ const updateStatus = async (req, res) => {
 
         res.json({ message: 'Status updated', request });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -333,6 +380,13 @@ const getContactInfo = async (req, res) => {
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' });
+        }
+
+        // Bug Fix: ownership check — only requester or matched donor can view contact info
+        const isRequester = request.requesterId && request.requesterId._id.toString() === req.user._id.toString();
+        const isMatchedDonor = request.matchedDonorId && request.matchedDonorId._id.toString() === req.user._id.toString();
+        if (!isRequester && !isMatchedDonor) {
+            return res.status(403).json({ message: 'Not authorized to view contact info' });
         }
 
         // Masking function — hand-written, no library
@@ -383,7 +437,7 @@ const getContactInfo = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

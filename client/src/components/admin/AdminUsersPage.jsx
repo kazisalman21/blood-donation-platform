@@ -6,13 +6,15 @@ import './AdminUsers.css';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const AdminUsersPage = () => {
-    const { token } = useAuth();
+    const { token, user: currentUser } = useAuth();
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [search, setSearch] = useState('');
     const [roleFilter, setRoleFilter] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
     const [actionLoading, setActionLoading] = useState(null); // tracks which user ID is loading
+    const [actionError, setActionError] = useState(''); // Bug Fix: user-facing error messages
+    const [actionSuccess, setActionSuccess] = useState('');
 
     const fetchUsers = useCallback(async () => {
         try {
@@ -40,7 +42,14 @@ const AdminUsersPage = () => {
     }, [fetchUsers]);
 
     const handleSuspend = async (userId) => {
+        // Bug Fix: prevent admin from suspending themselves
+        if (currentUser?._id === userId) {
+            setActionError('You cannot suspend your own account');
+            setTimeout(() => setActionError(''), 3000);
+            return;
+        }
         setActionLoading(userId);
+        setActionError('');
         try {
             const res = await axios.put(`${API_URL}/admin/users/${userId}/suspend`, {}, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -48,8 +57,12 @@ const AdminUsersPage = () => {
             setUsers(prev => prev.map(u =>
                 u._id === userId ? { ...u, isSuspended: res.data.isSuspended } : u
             ));
+            setActionSuccess(res.data.isSuspended ? 'User suspended' : 'User unsuspended');
+            setTimeout(() => setActionSuccess(''), 3000);
         } catch (err) {
-            console.error('Suspend/unsuspend failed:', err);
+            // Bug Fix: show error to user instead of silent console.error
+            setActionError(err.response?.data?.message || 'Failed to suspend/unsuspend user');
+            setTimeout(() => setActionError(''), 3000);
         } finally {
             setActionLoading(null);
         }
@@ -57,6 +70,7 @@ const AdminUsersPage = () => {
 
     const handleVerification = async (userId, action) => {
         setActionLoading(userId);
+        setActionError('');
         try {
             const res = await axios.put(`${API_URL}/admin/users/${userId}/verify`, { action }, {
                 headers: { Authorization: `Bearer ${token}` }
@@ -68,8 +82,12 @@ const AdminUsersPage = () => {
                     isVerified: action === 'approve'
                 } : u
             ));
+            setActionSuccess(`Verification ${action}d successfully`);
+            setTimeout(() => setActionSuccess(''), 3000);
         } catch (err) {
-            console.error('Verification action failed:', err);
+            // Bug Fix: show error to user instead of silent console.error
+            setActionError(err.response?.data?.message || 'Verification action failed');
+            setTimeout(() => setActionError(''), 3000);
         } finally {
             setActionLoading(null);
         }
@@ -98,6 +116,10 @@ const AdminUsersPage = () => {
                         <span className="user-count">({totalUsers} users)</span>
                     </h1>
                 </div>
+
+                {/* Bug Fix: user-facing action feedback */}
+                {actionError && <div className="admin-action-error">{actionError}</div>}
+                {actionSuccess && <div className="admin-action-success">{actionSuccess}</div>}
 
                 {/* Stats */}
                 <div className="admin-stats-bar">

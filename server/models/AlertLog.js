@@ -22,11 +22,8 @@ const alertLogSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Donor',
         required: true
-    },
-    sentAt: {
-        type: Date,
-        default: Date.now
     }
+    // Bug Fix: removed manual sentAt — use timestamps.createdAt instead
 }, {
     timestamps: true
 });

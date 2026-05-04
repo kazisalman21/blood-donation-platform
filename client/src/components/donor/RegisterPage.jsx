@@ -31,6 +31,11 @@ const RegisterPage = () => {
             setError('Please fill in all required fields');
             return;
         }
+        // Bug Fix: client-side password length validation
+        if (step === 1 && formData.password.length < 6) {
+            setError('Password must be at least 6 characters');
+            return;
+        }
         if (step === 1 && formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
             return;

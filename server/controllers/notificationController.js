@@ -34,7 +34,7 @@ const getNotifications = async (req, res) => {
         res.json({ notifications, unreadCount });
     } catch (error) {
         console.error('Failed to fetch notifications:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -56,7 +56,7 @@ const getUnreadCount = async (req, res) => {
         res.json({ unreadCount });
     } catch (error) {
         console.error('Failed to fetch unread count:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -82,7 +82,7 @@ const markAsRead = async (req, res) => {
         res.json(notification);
     } catch (error) {
         console.error('Failed to mark notification as read:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -99,7 +99,7 @@ const markAllAsRead = async (req, res) => {
         res.json({ modifiedCount: result.modifiedCount });
     } catch (error) {
         console.error('Failed to mark all notifications as read:', error);
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

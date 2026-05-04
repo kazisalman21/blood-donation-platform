@@ -13,6 +13,11 @@ const getDonationHistory = async (req, res) => {
             return res.status(400).json({ message: 'Invalid donor ID' });
         }
 
+        // Bug Fix: ownership check — users can only view their own history
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized to view this history' });
+        }
+
         const { from, to, bloodType, status } = req.query;
         const query = { donorId: req.params.id };
 
@@ -30,7 +35,7 @@ const getDonationHistory = async (req, res) => {
 
         res.json(donations);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -42,6 +47,11 @@ const getDonorStats = async (req, res) => {
         const donorId = req.params.id;
         if (!mongoose.isValidObjectId(donorId)) {
             return res.status(400).json({ message: 'Invalid donor ID format' });
+        }
+
+        // Bug Fix: ownership check — users can only view their own stats
+        if (req.user._id.toString() !== donorId) {
+            return res.status(403).json({ message: 'Not authorized to view these stats' });
         }
 
         const totalDonations = await Donation.countDocuments({
@@ -76,7 +86,7 @@ const getDonorStats = async (req, res) => {
             monthlyBreakdown
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -87,6 +97,11 @@ const getRequesterHistory = async (req, res) => {
     try {
         if (!mongoose.isValidObjectId(req.params.id)) {
             return res.status(400).json({ message: 'Invalid requester ID format' });
+        }
+
+        // Bug Fix: ownership check — users can only view their own request history
+        if (req.user._id.toString() !== req.params.id) {
+            return res.status(403).json({ message: 'Not authorized to view this history' });
         }
 
         const { from, to, bloodType, status } = req.query;
@@ -106,7 +121,7 @@ const getRequesterHistory = async (req, res) => {
 
         res.json(requests);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -160,7 +175,7 @@ const getLeaderboard = async (req, res) => {
         const leaders = await Donation.aggregate(pipeline);
         res.json(leaders);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -185,6 +200,12 @@ const submitFeedback = async (req, res) => {
             return res.status(403).json({ message: 'Only the requester can submit feedback' });
         }
 
+        // Bug Fix: prevent duplicate feedback for same request+donor
+        const existingFeedback = await Feedback.findOne({ requestId, donorId });
+        if (existingFeedback) {
+            return res.status(400).json({ message: 'Feedback already submitted for this donation' });
+        }
+
         const feedback = await Feedback.create({
             donorId,
             requestId,
@@ -195,7 +216,7 @@ const submitFeedback = async (req, res) => {
 
         res.status(201).json(feedback);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -211,7 +232,7 @@ const getDonorFeedback = async (req, res) => {
 
         res.json(feedback);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -227,7 +248,7 @@ const getFAQs = async (req, res) => {
         const faqs = await FAQ.find(query).sort({ order: 1 });
         res.json(faqs);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 

@@ -34,7 +34,7 @@ const AdminContentEditor = () => {
     // Admin role check — redirect non-admins
     useEffect(() => {
         if (user && user.role !== 'admin') {
-            navigate('/dashboard');
+            navigate('/profile');
         }
     }, [user, navigate]);
 

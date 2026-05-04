@@ -30,4 +30,7 @@ const feedbackSchema = new mongoose.Schema({
     timestamps: true
 });
 
+// Bug Fix: prevent duplicate feedback — one feedback per request per donor
+feedbackSchema.index({ requestId: 1, donorId: 1 }, { unique: true });
+
 module.exports = mongoose.model('Feedback', feedbackSchema);

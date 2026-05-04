@@ -100,8 +100,8 @@ const DonorProfilePage = () => {
                         <span className="stat-label">Donations</span>
                     </div>
                     <div className="stat-card">
-                        <span className="stat-value">{profile.donationCount}</span>
-                        <span className="stat-label">Lives Helped</span>
+                        <span className="stat-value">{profile.donationCount * 3}</span>
+                        <span className="stat-label">Lives Impacted</span>
                     </div>
                     <div className="stat-card">
                         <span className="stat-value">

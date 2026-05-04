@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const rateLimit = require('express-rate-limit');
 const { protect } = require('../middleware/authMiddleware');
 const {
     registerDonor,
@@ -17,9 +18,26 @@ const {
     markAllAsRead
 } = require('../controllers/notificationController');
 
-// Public routes
-router.post('/register', registerDonor);
-router.post('/login', loginDonor);
+// Rate limiters (Bug Fix: brute-force protection)
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // 10 login attempts per window
+    message: { message: 'Too many login attempts. Please try again after 15 minutes.' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+const registerLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 5, // 5 registration attempts per window
+    message: { message: 'Too many registration attempts. Please try again after 15 minutes.' },
+    standardHeaders: true,
+    legacyHeaders: false
+});
+
+// Public routes (with rate limiting)
+router.post('/register', registerLimiter, registerDonor);
+router.post('/login', loginLimiter, loginDonor);
 
 // Protected routes
 router.get('/search', protect, searchDonors);

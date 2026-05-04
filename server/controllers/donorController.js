@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const Donor = require('../models/Donor');
 
 // Generate JWT token
@@ -50,7 +51,7 @@ const registerDonor = async (req, res) => {
             token: generateToken(donor._id)
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -94,7 +95,7 @@ const loginDonor = async (req, res) => {
             token: generateToken(donor._id)
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -103,13 +104,33 @@ const loginDonor = async (req, res) => {
 // @access  Private
 const getDonorProfile = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid donor ID' });
+        }
         const donor = await Donor.findById(req.params.id).select('-password');
         if (!donor) {
             return res.status(404).json({ message: 'Donor not found' });
         }
-        res.json(donor);
+
+        // Bug Fix: only return full profile to the owner; others get public fields only
+        const isOwner = req.user._id.toString() === req.params.id;
+        if (isOwner) {
+            res.json(donor);
+        } else {
+            res.json({
+                _id: donor._id,
+                name: donor.name,
+                bloodType: donor.bloodType,
+                city: donor.city,
+                area: donor.area,
+                isAvailable: donor.isAvailable,
+                isVerified: donor.isVerified,
+                donationCount: donor.donationCount,
+                badges: donor.badges
+            });
+        }
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -118,11 +139,28 @@ const getDonorProfile = async (req, res) => {
 // @access  Private
 const updateDonorProfile = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid donor ID' });
+        }
         const { name, city, area, phone, medicalFlags } = req.body;
 
         // Authorization: only allow users to edit their own profile
         if (req.user._id.toString() !== req.params.id) {
             return res.status(403).json({ message: 'Not authorized to edit this profile' });
+        }
+
+        // Bug Fix: input validation — enforce length limits
+        if (name && name.length > 100) {
+            return res.status(400).json({ message: 'Name must be 100 characters or less' });
+        }
+        if (city && city.length > 100) {
+            return res.status(400).json({ message: 'City must be 100 characters or less' });
+        }
+        if (area && area.length > 100) {
+            return res.status(400).json({ message: 'Area must be 100 characters or less' });
+        }
+        if (phone && (phone.length > 20 || phone.length < 7)) {
+            return res.status(400).json({ message: 'Phone must be between 7 and 20 characters' });
         }
 
         const donor = await Donor.findById(req.params.id);
@@ -140,7 +178,7 @@ const updateDonorProfile = async (req, res) => {
         await donor.save();
         res.json(donor);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -149,6 +187,9 @@ const updateDonorProfile = async (req, res) => {
 // @access  Private
 const toggleAvailability = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid donor ID' });
+        }
         const donor = await Donor.findById(req.params.id);
         if (!donor) {
             return res.status(404).json({ message: 'Donor not found' });
@@ -180,7 +221,7 @@ const toggleAvailability = async (req, res) => {
             nextEligibleDate: donor.nextEligibleDate
         });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -189,6 +230,9 @@ const toggleAvailability = async (req, res) => {
 // @access  Private
 const applyForVerification = async (req, res) => {
     try {
+        if (!mongoose.isValidObjectId(req.params.id)) {
+            return res.status(400).json({ message: 'Invalid donor ID' });
+        }
         const donor = await Donor.findById(req.params.id);
         if (!donor) {
             return res.status(404).json({ message: 'Donor not found' });
@@ -214,7 +258,7 @@ const applyForVerification = async (req, res) => {
 
         res.json({ message: 'Verification request submitted', verificationStatus: donor.verificationStatus });
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
@@ -230,13 +274,14 @@ const searchDonors = async (req, res) => {
         if (city) query.city = city;
         if (isAvailable !== undefined) query.isAvailable = isAvailable === 'true';
 
+        // Bug Fix: only return public-safe fields (no phone, medicalFlags)
         const donors = await Donor.find(query)
-            .select('-password')
+            .select('name bloodType city area isAvailable isVerified donationCount badges')
             .sort({ isVerified: -1 });
 
         res.json(donors);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        res.status(500).json({ message: 'Server error' });
     }
 };
 
