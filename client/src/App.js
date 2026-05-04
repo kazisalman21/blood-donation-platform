@@ -18,6 +18,11 @@ import VerificationRequestForm from './components/donor/VerificationRequestForm'
 import PostRequestPage from './components/patient/PostRequestPage';
 import MyRequestsPage from './components/patient/MyRequestsPage';
 import RequestDetailPage from './components/patient/RequestDetailPage';
+import DonorMapPage from './components/patient/DonorMapPage';
+import StatusTrackerPage from './components/patient/StatusTrackerPage';
+import InventoryPage from './components/patient/InventoryPage';
+import AnalyticsDashboard from './components/patient/AnalyticsDashboard';
+import BroadcastPage from './components/patient/BroadcastPage';
 
 // Pages — Community (Anika)
 import DonationHistoryPage from './components/community/DonationHistoryPage';
@@ -64,6 +69,14 @@ function App() {
                 <ProtectedRoute><RequestDetailPage /></ProtectedRoute>
               } />
 
+              {/* Protected Routes — Athoy: F10, F11 */}
+              <Route path="/donor-map" element={
+                <ProtectedRoute><DonorMapPage /></ProtectedRoute>
+              } />
+              <Route path="/status-tracker" element={
+                <ProtectedRoute><StatusTrackerPage /></ProtectedRoute>
+              } />
+
               {/* Protected Routes — Community */}
               <Route path="/history/donations" element={
                 <ProtectedRoute><DonationHistoryPage /></ProtectedRoute>
@@ -88,6 +101,17 @@ function App() {
               {/* Admin Routes — User Management (Salman: F16) */}
               <Route path="/admin/users" element={
                 <AdminRoute><AdminUsersPage /></AdminRoute>
+              } />
+
+              {/* Admin Routes — Athoy: F17, F18, F19 */}
+              <Route path="/admin/inventory" element={
+                <AdminRoute><InventoryPage /></AdminRoute>
+              } />
+              <Route path="/admin/analytics" element={
+                <AdminRoute><AnalyticsDashboard /></AdminRoute>
+              } />
+              <Route path="/admin/broadcast" element={
+                <AdminRoute><BroadcastPage /></AdminRoute>
               } />
             </Routes>
           </main>

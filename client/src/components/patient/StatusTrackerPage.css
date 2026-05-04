@@ -1,0 +1,281 @@
+/* ===== Status Tracker — Standalone Component ===== */
+
+.status-tracker-page {
+    min-height: calc(100vh - var(--nav-height));
+    background: var(--bg-primary);
+    padding-top: calc(var(--nav-height) + 2rem);
+    padding-bottom: 3rem;
+}
+
+.tracker-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.tracker-header {
+    margin-bottom: 2rem;
+}
+
+.tracker-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.tracker-header p {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.95rem;
+}
+
+/* Request selector */
+.tracker-request-select {
+    width: 100%;
+    max-width: 500px;
+    padding: 0.75rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    color: #fff;
+    font-size: 0.95rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 2rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff80' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+}
+
+.tracker-request-select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+/* Pipeline visualization */
+.pipeline-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: 2.5rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+.pipeline-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2rem;
+}
+
+.pipeline-steps {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    padding: 0 1rem;
+}
+
+.pipeline-steps::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 48px;
+    right: 48px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 2px;
+}
+
+.pipeline-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-node {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    transition: all 0.4s ease;
+    position: relative;
+}
+
+.step-node.done {
+    background: rgba(52, 211, 153, 0.15);
+    border: 2px solid #34d399;
+    box-shadow: 0 0 16px rgba(52, 211, 153, 0.2);
+}
+
+.step-node.active {
+    background: rgba(239, 68, 68, 0.15);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.step-node.pending {
+    background: rgba(255, 255, 255, 0.03);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.step-connector {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    width: 100%;
+    height: 3px;
+    z-index: -1;
+}
+
+.step-connector.done {
+    background: linear-gradient(90deg, #34d399, #34d399);
+}
+
+.step-connector.active {
+    background: linear-gradient(90deg, #34d399, var(--accent));
+}
+
+.step-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.4);
+    text-align: center;
+    max-width: 90px;
+    line-height: 1.3;
+}
+
+.step-name.highlight {
+    color: #fff;
+}
+
+.step-timestamp {
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: 0.3rem;
+    text-align: center;
+}
+
+/* Request info grid */
+.tracker-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tracker-info-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: var(--radius);
+    padding: 1.2rem;
+}
+
+.tracker-info-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.35);
+    margin-bottom: 0.4rem;
+}
+
+.tracker-info-value {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+/* Action buttons */
+.tracker-actions {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+}
+
+.tracker-btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.tracker-btn-primary {
+    background: var(--gradient-accent);
+    color: #fff;
+    box-shadow: var(--shadow-accent);
+}
+
+.tracker-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(239, 68, 68, 0.35);
+}
+
+.tracker-btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tracker-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.tracker-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .pipeline-steps {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 0;
+    }
+
+    .pipeline-steps::before {
+        top: 0;
+        bottom: 0;
+        left: 23px;
+        right: auto;
+        width: 3px;
+        height: auto;
+    }
+
+    .pipeline-step {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .step-name {
+        text-align: left;
+        max-width: none;
+    }
+
+    .step-connector {
+        display: none;
+    }
+
+    .tracker-container {
+        padding: 0 1.2rem;
+    }
+}
