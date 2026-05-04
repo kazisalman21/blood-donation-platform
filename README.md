@@ -151,16 +151,16 @@ blood-donation-platform/
 | 7 | Privacy-Protected Contact Sharing | Salman | 3 | ✅ Done |
 | 8 | Emergency Blood Request Posting | Athoy | 1 | ✅ Done |
 | 9 | Blood Compatibility Matching Algorithm | Athoy | 1 | ✅ Done |
-| 10 | Location-Based Donor Search (Leaflet + Haversine) | Athoy | 2 | ⏳ Pending |
-| 11 | Request Status Workflow Tracking (6-stage) | Athoy | 2 | ⏳ Pending |
+| 10 | Location-Based Donor Search (Leaflet + Haversine) | Athoy | 2 | ✅ Done |
+| 11 | Request Status Workflow Tracking (6-stage) | Athoy | 2 | ✅ Done |
 | 12 | Request History & Records | Anika | 1 | ✅ Done |
 | 13 | Donor Leaderboard & Recognition | Anika | 2 | ✅ Done |
 | 14 | Eligibility Reminder & Health Tips | Anika | 2 | ✅ Done |
 | 15 | Donor-Requester Feedback System | Anika | 3 | ✅ Done |
 | 16 | Admin User Management Dashboard | Salman | 3 | ✅ Done |
-| 17 | Blood Inventory & Supply Overview | Athoy | 3 | ⏳ Pending |
-| 18 | Platform Analytics & Reporting | Athoy | 3 | ⏳ Pending |
-| 19 | Broadcast Emergency Alerts | Athoy | 3 | ⏳ Pending |
+| 17 | Blood Inventory & Supply Overview | Athoy | 3 | ✅ Done |
+| 18 | Platform Analytics & Reporting | Athoy | 3 | ✅ Done |
+| 19 | Broadcast Emergency Alerts | Athoy | 3 | ✅ Done |
 | 20 | Content & FAQ Management | Anika | 3 | ✅ Done |
 
 ---

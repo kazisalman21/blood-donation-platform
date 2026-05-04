@@ -191,11 +191,11 @@ These backend + frontend pieces were built during Sprint 1 setup and are ready:
 |---|---------|--------|---------|----------|--------|
 | F8 | Emergency Blood Request Posting | 1 | ✅ Done | ✅ Done | ✅ Complete |
 | F9 | Blood Compatibility Matching Algorithm | 1 | ✅ Done | ✅ Done | ✅ Complete |
-| F10 | Location-Based Donor Search (Map) | 2 | ⚠️ Partial | ❌ Need DonorMapPage.jsx | Pending |
-| F11 | Request Status Workflow Tracker | 2 | ✅ Done | ❌ Need StatusTracker.jsx | Pending |
-| F17 | Blood Inventory & Supply Overview | 3 | ✅ Done | ❌ Need InventoryPage.jsx | Pending |
-| F18 | Platform Analytics & Reporting | 3 | ✅ Done | ❌ Need AnalyticsDashboard.jsx | Pending |
-| F19 | Broadcast Emergency Alerts | 3 | ✅ Done | ❌ Need BroadcastPage.jsx | Pending |
+| F10 | Location-Based Donor Search (Map) | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F11 | Request Status Workflow Tracker | 2 | ✅ Done | ✅ Done | ✅ Complete |
+| F17 | Blood Inventory & Supply Overview | 3 | ✅ Done | ✅ Done | ✅ Complete |
+| F18 | Platform Analytics & Reporting | 3 | ✅ Done | ✅ Done | ✅ Complete |
+| F19 | Broadcast Emergency Alerts | 3 | ✅ Done | ✅ Done | ✅ Complete |
 
 ### What Athoy Should Know
 
