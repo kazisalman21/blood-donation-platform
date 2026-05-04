@@ -31,6 +31,7 @@ const StatusTrackerPage = () => {
 
     useEffect(() => {
         fetchRequests();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const fetchRequests = async () => {
@@ -51,6 +52,7 @@ const StatusTrackerPage = () => {
 
     useEffect(() => {
         if (selectedId) fetchRequestDetail();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedId]);
 
     const fetchRequestDetail = async () => {

@@ -75,6 +75,7 @@ const MapRecenter = ({ center, zoom }) => {
     const map = useMap();
     useEffect(() => {
         map.setView(center, zoom);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [center, zoom]);
     return null;
 };
@@ -97,6 +98,7 @@ const DonorMapPage = () => {
 
     useEffect(() => {
         fetchDonors();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCity, bloodFilter]);
 
     const fetchDonors = async () => {

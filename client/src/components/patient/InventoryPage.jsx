@@ -24,6 +24,7 @@ const InventoryPage = () => {
 
     useEffect(() => {
         fetchInventory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedCity]);
 
     const fetchInventory = async () => {
