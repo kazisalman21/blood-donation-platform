@@ -1,0 +1,135 @@
+/* ===== Analytics Dashboard ===== */
+
+.analytics-page {
+    min-height: calc(100vh - var(--nav-height));
+    background: var(--bg-primary);
+    padding-top: calc(var(--nav-height) + 2rem);
+    padding-bottom: 3rem;
+}
+
+.analytics-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.analytics-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.analytics-header p {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* KPI row */
+.analytics-kpis {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.kpi-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+}
+
+.kpi-card.kpi-requests::before { background: linear-gradient(90deg, #ef4444, #f87171); }
+.kpi-card.kpi-donations::before { background: linear-gradient(90deg, #10b981, #34d399); }
+.kpi-card.kpi-matchrate::before { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+.kpi-card.kpi-response::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+.kpi-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.kpi-value {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.kpi-label {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+/* Chart panels */
+.analytics-charts {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+}
+
+.chart-panel {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+}
+
+.chart-panel h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-panel .recharts-cartesian-axis-tick-value {
+    fill: rgba(255, 255, 255, 0.4) !important;
+    font-size: 0.75rem;
+}
+
+.chart-panel .recharts-legend-item-text {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.78rem;
+}
+
+.chart-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.9rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .analytics-charts {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-container {
+        padding: 0 1.2rem;
+    }
+}
