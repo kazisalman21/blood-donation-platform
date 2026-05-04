@@ -29,6 +29,7 @@
   justify-content: space-between;
   align-items: center;
   height: var(--nav-height);
+  gap: 1.5rem;
 }
 
 /* Logo */
