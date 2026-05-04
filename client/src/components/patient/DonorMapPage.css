@@ -1,0 +1,285 @@
+/* ===== Donor Map Page — Leaflet + Glassmorphism ===== */
+
+.donor-map-page {
+    min-height: calc(100vh - var(--nav-height));
+    background: var(--bg-primary);
+    padding-top: calc(var(--nav-height) + 1.5rem);
+    padding-bottom: 2rem;
+}
+
+.donor-map-container {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.donor-map-header {
+    margin-bottom: 1.5rem;
+}
+
+.donor-map-header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.3rem;
+}
+
+.donor-map-header p {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.95rem;
+}
+
+/* Filters bar */
+.map-filters {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.map-filter-select {
+    padding: 0.6rem 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    color: #fff;
+    font-size: 0.85rem;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    outline: none;
+    transition: var(--transition-fast);
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23ffffff80' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    padding-right: 2.2rem;
+}
+
+.map-filter-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.map-filter-select option {
+    background: #1a1a2e;
+    color: #fff;
+}
+
+.map-stats-bar {
+    display: flex;
+    gap: 0.8rem;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.map-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.9rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-full);
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.map-stat strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+/* Map wrapper */
+.map-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.2rem;
+    min-height: 520px;
+}
+
+.leaflet-container-wrap {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    min-height: 520px;
+}
+
+.leaflet-container-wrap .leaflet-container {
+    height: 100%;
+    width: 100%;
+    min-height: 520px;
+    background: #0e0e1a;
+}
+
+/* Sidebar donor list */
+.map-sidebar {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    max-height: 520px;
+}
+
+.sidebar-header {
+    padding: 1rem 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-header h3 {
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.sidebar-header p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.78rem;
+}
+
+.sidebar-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem;
+}
+
+.sidebar-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.sidebar-donor {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 0.8rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.sidebar-donor:hover,
+.sidebar-donor.active {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-donor + .sidebar-donor {
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sidebar-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(239, 68, 68, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.sidebar-donor-info h4 {
+    color: #fff;
+    font-size: 0.88rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.sidebar-donor-info p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.75rem;
+}
+
+.sidebar-blood {
+    margin-left: auto;
+    padding: 0.2rem 0.55rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    color: var(--accent-light);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.sidebar-distance {
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 0.72rem;
+    margin-left: auto;
+    white-space: nowrap;
+}
+
+/* Empty / Loading states */
+.map-loading, .map-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    text-align: center;
+}
+
+.map-loading p, .map-empty p {
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.9rem;
+}
+
+.map-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 0.8rem;
+    opacity: 0.4;
+}
+
+/* Custom marker popup */
+.donor-popup h4 {
+    color: #1a1a2e;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.donor-popup p {
+    color: #555;
+    font-size: 0.82rem;
+    margin: 0.15rem 0;
+}
+
+.donor-popup .popup-blood {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    background: #fee2e2;
+    color: #dc2626;
+    border-radius: 4px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-top: 0.3rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+    .map-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .map-sidebar {
+        max-height: 300px;
+    }
+
+    .map-stats-bar {
+        margin-left: 0;
+    }
+
+    .donor-map-container {
+        padding: 0 1rem;
+    }
+}
