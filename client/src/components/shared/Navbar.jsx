@@ -47,6 +47,14 @@ const Navbar = () => {
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5h6m-3 7h.01M9 16h6" /></svg>
                                 My Requests
                             </Link>
+                            <Link to="/donor-map" className={`nav-link ${isActive('/donor-map') ? 'active' : ''}`}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></svg>
+                                Donor Map
+                            </Link>
+                            <Link to="/status-tracker" className={`nav-link ${isActive('/status-tracker') ? 'active' : ''}`}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
+                                Tracker
+                            </Link>
                             <Link to="/history/donations" className={`nav-link ${isActive('/history/donations') ? 'active' : ''}`}>
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                                 History
@@ -73,6 +81,18 @@ const Navbar = () => {
                                     <Link to="/admin/content" className={`nav-link nav-admin ${isActive('/admin/content') ? 'active' : ''}`}>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
                                         Content
+                                    </Link>
+                                    <Link to="/admin/inventory" className={`nav-link nav-admin ${isActive('/admin/inventory') ? 'active' : ''}`}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                                        Inventory
+                                    </Link>
+                                    <Link to="/admin/analytics" className={`nav-link nav-admin ${isActive('/admin/analytics') ? 'active' : ''}`}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 20V10M12 20V4M6 20v-6" /></svg>
+                                        Analytics
+                                    </Link>
+                                    <Link to="/admin/broadcast" className={`nav-link nav-admin ${isActive('/admin/broadcast') ? 'active' : ''}`}>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" /></svg>
+                                        Broadcast
                                     </Link>
                                 </>
                             )}
