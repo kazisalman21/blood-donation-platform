@@ -123,18 +123,20 @@ const StatusTrackerPage = () => {
                                     <div className="pipeline-steps">
                                         {STATUS_STAGES.map((stage, idx) => {
                                             const isDone = idx < currentIndex;
-                                            const isActive = idx === currentIndex;
-                                            const nodeClass = isDone ? 'done' : isActive ? 'active' : 'pending';
+                                            const isCurrent = idx === currentIndex;
+                                            const isCompleted = stage === 'Completed' && isCurrent;
+                                            // Completed stage should show as 'done' (green), not 'active' (red)
+                                            const nodeClass = (isDone || isCompleted) ? 'done' : isCurrent ? 'active' : 'pending';
 
                                             return (
                                                 <div className="pipeline-step" key={stage}>
                                                     {idx > 0 && idx <= currentIndex && (
-                                                        <div className={`step-connector ${isDone ? 'done' : 'active'}`} />
+                                                        <div className={`step-connector ${(isDone || isCompleted) ? 'done' : 'active'}`} />
                                                     )}
                                                     <div className={`step-node ${nodeClass}`}>
-                                                        {isDone ? '✓' : STAGE_ICONS[idx]}
+                                                        {(isDone || isCompleted) ? '✓' : STAGE_ICONS[idx]}
                                                     </div>
-                                                    <span className={`step-name ${(isDone || isActive) ? 'highlight' : ''}`}>
+                                                    <span className={`step-name ${(isDone || isCurrent) ? 'highlight' : ''}`}>
                                                         {stage}
                                                     </span>
                                                     {tsMap[stage] && (
@@ -196,6 +198,11 @@ const StatusTrackerPage = () => {
                                         onClick={() => navigate('/requests/my')}
                                         id="all-requests-btn">
                                         All My Requests
+                                    </button>
+                                    <button className="tracker-btn tracker-btn-secondary"
+                                        onClick={() => navigate(-1)}
+                                        id="back-btn">
+                                        ← Back
                                     </button>
                                 </div>
                             </>

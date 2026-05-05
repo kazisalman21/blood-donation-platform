@@ -134,8 +134,8 @@
 .step-connector {
     position: absolute;
     top: 24px;
-    left: 50%;
-    width: 100%;
+    right: 50%;
+    left: -50%;
     height: 3px;
     z-index: -1;
 }

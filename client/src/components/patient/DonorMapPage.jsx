@@ -14,7 +14,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
  * Covers major Bangladeshi cities for F10 Location-Based Donor Search.
  */
 const CITY_COORDS = {
-    'Dhaka':        { lat: 23.8103, lng: 90.4125 },
+    'Dhaka':        { lat: 23.7935, lng: 90.4066 },
     'Chittagong':   { lat: 22.3569, lng: 91.7832 },
     'Sylhet':       { lat: 24.8949, lng: 91.8687 },
     'Rajshahi':     { lat: 24.3636, lng: 88.6241 },
@@ -29,6 +29,41 @@ const CITY_COORDS = {
     "Cox's Bazar":  { lat: 21.4272, lng: 92.0058 },
     'Jessore':      { lat: 23.1667, lng: 89.2167 },
     'Dinajpur':     { lat: 25.6217, lng: 88.6354 }
+};
+
+/**
+ * Hand-written area-level coordinates for major neighborhoods.
+ * Falls back to city center if area not found.
+ */
+const AREA_COORDS = {
+    // Dhaka areas
+    'Gulshan':       { lat: 23.7925, lng: 90.4152 },
+    'Dhanmondi':     { lat: 23.7461, lng: 90.3742 },
+    'Uttara':        { lat: 23.8759, lng: 90.3795 },
+    'Mirpur':        { lat: 23.8042, lng: 90.3687 },
+    'Banani':        { lat: 23.7937, lng: 90.4030 },
+    'Mohakhali':     { lat: 23.7785, lng: 90.4070 },
+    'Motijheel':     { lat: 23.7332, lng: 90.4185 },
+    'Farmgate':      { lat: 23.7573, lng: 90.3874 },
+    'Tejgaon':       { lat: 23.7630, lng: 90.3972 },
+    'Bashundhara':   { lat: 23.8130, lng: 90.4310 },
+    'Shahbag':       { lat: 23.7392, lng: 90.3960 },
+    'Mohammadpur':   { lat: 23.7662, lng: 90.3587 },
+    'Lalmatia':      { lat: 23.7530, lng: 90.3680 },
+    'Badda':         { lat: 23.7872, lng: 90.4270 },
+    'Rampura':       { lat: 23.7620, lng: 90.4250 },
+    // Chittagong areas
+    'Agrabad':       { lat: 22.3260, lng: 91.8100 },
+    'Nasirabad':     { lat: 22.3620, lng: 91.8230 },
+    'GEC Circle':    { lat: 22.3590, lng: 91.8270 },
+    // Sylhet areas
+    'Zindabazar':    { lat: 24.8920, lng: 91.8710 },
+    // Rajshahi areas
+    'Shaheb Bazar':  { lat: 24.3750, lng: 88.6000 },
+    // Khulna areas
+    'Sonadanga':     { lat: 22.8200, lng: 89.5500 },
+    // Comilla areas
+    'Kandirpar':     { lat: 23.4580, lng: 91.1750 }
 };
 
 const BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
@@ -120,23 +155,63 @@ const DonorMapPage = () => {
 
     const cityCenter = CITY_COORDS[selectedCity] || CITY_COORDS['Dhaka'];
 
+    // Cache for geocoded areas (persists across re-renders)
+    const geoCache = React.useRef({ ...AREA_COORDS });
+    const [donorsWithCoords, setDonorsWithCoords] = useState([]);
+
     /**
-     * Hand-written donor positioning algorithm — no geocoding library.
-     * Assigns approximate lat/lng to donors based on their city + a deterministic offset
-     * derived from their name hash so pins don't overlap.
+     * Hand-written donor positioning with dynamic geocoding.
+     * 1. Check AREA_COORDS (instant, offline)
+     * 2. If not found, query OpenStreetMap Nominatim API
+     * 3. Cache result so we never query the same area twice
+     * 4. Fall back to city center + scatter if geocoding fails
      */
-    const donorsWithCoords = useMemo(() => {
-        return donors.map((donor, idx) => {
-            const base = CITY_COORDS[donor.city] || cityCenter;
-            // Deterministic scatter: use donor name chars as seed
-            const nameSum = (donor.name || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
-            const angle = ((nameSum + idx * 137) % 360) * (Math.PI / 180);
-            const dist = ((nameSum + idx * 73) % 100) / 100 * 0.04 + 0.005;
-            const lat = base.lat + Math.cos(angle) * dist;
-            const lng = base.lng + Math.sin(angle) * dist;
-            const distFromCenter = haversineDistance(cityCenter.lat, cityCenter.lng, lat, lng);
-            return { ...donor, lat, lng, distFromCenter };
-        });
+    useEffect(() => {
+        const positionDonors = async () => {
+            const results = [];
+            for (let idx = 0; idx < donors.length; idx++) {
+                const donor = donors[idx];
+                let base = null;
+
+                // Step 1: Check cache/static coords
+                if (donor.area && geoCache.current[donor.area]) {
+                    base = geoCache.current[donor.area];
+                }
+                // Step 2: Try geocoding unknown areas
+                else if (donor.area && !geoCache.current[donor.area]) {
+                    try {
+                        const query = `${donor.area}, ${donor.city}, Bangladesh`;
+                        const res = await fetch(
+                            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`,
+                            { headers: { 'Accept-Language': 'en' } }
+                        );
+                        const data = await res.json();
+                        if (data.length > 0) {
+                            base = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+                            geoCache.current[donor.area] = base; // Cache it
+                        }
+                    } catch {
+                        // Geocoding failed — will use city fallback
+                    }
+                }
+
+                // Step 3: Fall back to city center
+                if (!base) base = CITY_COORDS[donor.city] || cityCenter;
+
+                // Small deterministic scatter so pins don't stack
+                const nameSum = (donor.name || '').split('').reduce((acc, c) => acc + c.charCodeAt(0), 0);
+                const angle = ((nameSum + idx * 137) % 360) * (Math.PI / 180);
+                const maxDist = geoCache.current[donor.area] ? 0.005 : 0.04;
+                const dist = ((nameSum + idx * 73) % 100) / 100 * maxDist + 0.001;
+                const lat = base.lat + Math.cos(angle) * dist;
+                const lng = base.lng + Math.sin(angle) * dist;
+                const distFromCenter = haversineDistance(cityCenter.lat, cityCenter.lng, lat, lng);
+                results.push({ ...donor, lat, lng, distFromCenter });
+            }
+            setDonorsWithCoords(results);
+        };
+        if (donors.length > 0) positionDonors();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [donors, cityCenter]);
 
     // Filter by radius
