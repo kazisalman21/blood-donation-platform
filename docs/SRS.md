@@ -198,7 +198,7 @@ When a new blood request is posted, the system notifies all compatible and eligi
 | Layer | File | Functions |
 |---|---|---|
 | Model | `server/models/Notification.js` | Notification schema |
-| Controller | `server/controllers/notificationController.js` | `getNotifications()`, `markAsRead()`, `sendNotification()` |
+| Controller | `server/controllers/notificationController.js` | `getNotifications()`, `getUnreadCount()`, `markAsRead()`, `markAllAsRead()` |
 | Route | `server/routes/donorRoutes.js` | `GET /notifications/:donorId`, `PUT /notifications/:id/read` |
 | View | `client/src/components/donor/NotificationBell.jsx` | Bell icon with badge |
 | View | `client/src/components/donor/NotificationPanel.jsx` | Slide-out drawer |
@@ -318,7 +318,7 @@ Contact information (phone, email) is masked by default and only revealed after 
 | Layer | File | Functions |
 |---|---|---|
 | Model | `server/models/BloodRequest.js` | `donorConsent`, `requesterConsent` |
-| Controller | `server/controllers/contactController.js` | `getContactInfo()` |
+| Controller | `server/controllers/requestController.js` | `getContactInfo()` |
 | Route | `server/routes/requestRoutes.js` | `GET /:id/contact` |
 | View | `client/src/components/donor/MaskedContact.jsx` | Masked display |
 | View | `client/src/components/donor/ContactUnlocked.jsx` | Full contact |
@@ -437,7 +437,7 @@ Blood requests progress through a 6-stage workflow: Open → Donors Notified →
 | Model | `server/models/BloodRequest.js` | `status`, `statusHistory[]` |
 | Controller | `server/controllers/requestController.js` | `updateStatus()` |
 | Route | `server/routes/requestRoutes.js` | `GET /:id/status`, `PUT /:id/status` |
-| View | `client/src/components/patient/StatusTracker.jsx` | Progress bar |
+| View | `client/src/components/patient/StatusTrackerPage.jsx` | Progress bar |
 
 ---
 
@@ -583,8 +583,8 @@ Admins can view all registered users in a searchable/filterable table, suspend a
 |---|---|---|
 | Controller | `server/controllers/adminController.js` | `getAllUsers()`, `suspendUser()`, `approveVerification()` |
 | Route | `server/routes/adminRoutes.js` | `GET /users`, `PUT /users/:id/suspend`, `PUT /users/:id/verify` |
-| View | `client/src/components/admin/AdminLayout.jsx` | Sidebar layout |
-| View | `client/src/components/admin/UserManagementTable.jsx` | User table |
+| View | `client/src/components/admin/AdminUsersPage.jsx` | User management page |
+
 | View | `client/src/components/admin/ActivityLogModal.jsx` | Activity log |
 
 ---
@@ -613,7 +613,7 @@ An admin dashboard displaying available donor counts per blood type per city, wi
 |---|---|---|
 | Controller | `server/controllers/adminController.js` | `getBloodInventory()` |
 | Route | `server/routes/adminRoutes.js` | `GET /inventory` |
-| View | `client/src/components/patient/InventoryDashboard.jsx` | Blood type cards |
+| View | `client/src/components/patient/InventoryPage.jsx` | Blood type cards |
 | View | `client/src/components/patient/CriticalShortageAlert.jsx` | Alert banner |
 | View | `client/src/components/patient/BloodTypeBarChart.jsx` | Recharts bar chart |
 
@@ -673,7 +673,7 @@ Admins can send broadcast email alerts to all eligible donors matching a specifi
 | Model | `server/models/AlertLog.js` | AlertLog schema |
 | Controller | `server/controllers/adminController.js` | `sendBroadcast()` |
 | Route | `server/routes/adminRoutes.js` | `POST /broadcast`, `GET /broadcast/history` |
-| View | `client/src/components/patient/BroadcastAlertPage.jsx` | Form + preview |
+| View | `client/src/components/patient/BroadcastPage.jsx` | Form + preview + history |
 | View | `client/src/components/patient/AlertHistoryTable.jsx` | History table |
 
 ---

@@ -12,17 +12,23 @@ const MyRequestsPage = () => {
     const [loading, setLoading] = useState(true);
     const [statusFilter, setStatusFilter] = useState('');
     const [urgencyFilter, setUrgencyFilter] = useState('');
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState(null);
     const { token } = useAuth();
+
+    useEffect(() => {
+        setPage(1);
+    }, [statusFilter, urgencyFilter]);
 
     useEffect(() => {
         fetchMyRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [statusFilter, urgencyFilter]);
+    }, [statusFilter, urgencyFilter, page]);
 
     const fetchMyRequests = async () => {
         setLoading(true);
         try {
-            const params = {};
+            const params = { page, limit: 20 };
             if (statusFilter) params.status = statusFilter;
             if (urgencyFilter) params.urgency = urgencyFilter;
 
@@ -30,7 +36,9 @@ const MyRequestsPage = () => {
                 headers: { Authorization: `Bearer ${token}` },
                 params
             });
-            setRequests(res.data);
+            // Bug Fix BUG-NEW-H2: handle paginated response
+            setRequests(res.data.data || res.data);
+            setPagination(res.data.pagination || null);
         } catch (err) {
             console.error('Error fetching requests:', err);
         } finally {
@@ -130,11 +138,31 @@ const MyRequestsPage = () => {
                         )}
                     </div>
                 ) : (
-                    <div className="requests-grid">
-                        {requests.map(request => (
-                            <RequestCard key={request._id} request={request} />
-                        ))}
-                    </div>
+                    <>
+                        <div className="requests-grid">
+                            {requests.map(request => (
+                                <RequestCard key={request._id} request={request} />
+                            ))}
+                        </div>
+                        {/* Bug Fix BUG-NEW-H2: pagination controls */}
+                        {pagination && pagination.totalPages > 1 && (
+                            <div className="pagination-controls" style={{ display: 'flex', justifyContent: 'center', gap: '10px', margin: '24px 0' }}>
+                                <button
+                                    className="btn btn-secondary"
+                                    disabled={page <= 1}
+                                    onClick={() => setPage(p => p - 1)}
+                                >← Prev</button>
+                                <span style={{ color: 'rgba(255,255,255,0.7)', alignSelf: 'center' }}>
+                                    Page {pagination.page} of {pagination.totalPages}
+                                </span>
+                                <button
+                                    className="btn btn-secondary"
+                                    disabled={page >= pagination.totalPages}
+                                    onClick={() => setPage(p => p + 1)}
+                                >Next →</button>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

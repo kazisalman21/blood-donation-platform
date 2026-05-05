@@ -106,7 +106,8 @@ const findEligibleDonors = async (bloodType, city) => {
 
     const donors = await Donor.find({
         bloodType: { $in: compatibleTypes },
-        city: city,
+        // Bug Fix BUG-M1: case-insensitive city match — "dhaka" matches "Dhaka"
+        city: { $regex: new RegExp('^' + city.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i') },
         isAvailable: true,
         isSuspended: false,
         $or: [

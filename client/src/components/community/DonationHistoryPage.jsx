@@ -29,6 +29,10 @@ const DonationHistoryPage = () => {
     // Milestone popup state
     const [milestonePopup, setMilestonePopup] = useState(null);
 
+    // Bug Fix BUG-H2: pagination state
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState({ total: 0, totalPages: 1 });
+
     const bloodTypes = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
     const statuses = ['Scheduled', 'Completed', 'Cancelled'];
 
@@ -46,12 +50,16 @@ const DonationHistoryPage = () => {
             if (effectiveTo) params.append('to', effectiveTo);
             if (effectiveBlood) params.append('bloodType', effectiveBlood);
             if (effectiveStatus) params.append('status', effectiveStatus);
+            params.append('page', overrideFilters ? 1 : page);
+            params.append('limit', 20);
 
             const res = await axios.get(
                 `${API_URL}/community/donors/${user._id}/history?${params.toString()}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            setDonations(res.data);
+            // Bug Fix BUG-H2: handle paginated response shape
+            setDonations(res.data.data);
+            setPagination(res.data.pagination);
 
 
         } catch (err) {
@@ -64,10 +72,10 @@ const DonationHistoryPage = () => {
     const checkBadges = async () => {
         try {
             const allRes = await axios.get(
-                `${API_URL}/community/donors/${user._id}/history`,
+                `${API_URL}/community/donors/${user._id}/history?limit=100`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            const completedCount = allRes.data.filter(d => d.status === 'Completed').length;
+            const completedCount = (allRes.data.data || allRes.data).filter(d => d.status === 'Completed').length;
 
             const newBadge = ALL_BADGES
                 .filter(b => completedCount >= b.threshold)
@@ -91,6 +99,12 @@ const DonationHistoryPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, token]);
 
+    // Bug Fix BUG-H2: re-fetch when page changes
+    useEffect(() => {
+        if (user && page > 1) fetchHistory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
+
     const handleApplyFilters = () => {
         fetchHistory();
     };
@@ -100,6 +114,7 @@ const DonationHistoryPage = () => {
         setToDate('');
         setBloodTypeFilter('');
         setStatusFilter('');
+        setPage(1);
         // Fetch without filters after clearing (fixes setTimeout hack)
         fetchHistory({ fromDate: '', toDate: '', bloodTypeFilter: '', statusFilter: '' });
     };
@@ -233,6 +248,31 @@ const DonationHistoryPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                )}
+
+                {/* Bug Fix BUG-H2: Pagination Controls */}
+                {pagination.totalPages > 1 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '1.5rem', padding: '1rem 0' }}>
+                        <button
+                            onClick={() => { setPage(p => Math.max(1, p - 1)); }}
+                            disabled={page <= 1}
+                            className="btn btn-secondary"
+                            style={{ fontSize: '0.85rem', opacity: page <= 1 ? 0.4 : 1 }}
+                        >
+                            ← Previous
+                        </button>
+                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>
+                            Page {page} of {pagination.totalPages}
+                        </span>
+                        <button
+                            onClick={() => { setPage(p => Math.min(pagination.totalPages, p + 1)); }}
+                            disabled={page >= pagination.totalPages}
+                            className="btn btn-secondary"
+                            style={{ fontSize: '0.85rem', opacity: page >= pagination.totalPages ? 0.4 : 1 }}
+                        >
+                            Next →
+                        </button>
                     </div>
                 )}
             </div>

@@ -28,8 +28,20 @@ const getAllUsers = async (req, res) => {
             ];
         }
 
-        const users = await Donor.find(query).select('-password').sort({ createdAt: -1 });
-        res.json(users);
+        // Bug Fix BUG-H2: pagination — prevents unbounded result sets
+        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 20);
+        const skip  = (page - 1) * limit;
+
+        const [users, total] = await Promise.all([
+            Donor.find(query).select('-password').sort({ createdAt: -1 }).skip(skip).limit(limit),
+            Donor.countDocuments(query)
+        ]);
+
+        res.json({
+            data: users,
+            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -269,9 +281,11 @@ const sendBroadcast = async (req, res) => {
         }
 
         const compatTypes = getCompatibleDonorTypes(bloodType);
+        // Bug Fix BUG-NEW-C3: case-insensitive city match (same pattern as BUG-M1)
+        const cityRegex = { $regex: new RegExp('^' + city.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i') };
         const donors = await Donor.find({
             bloodType: { $in: compatTypes },
-            city,
+            city: cityRegex,
             isAvailable: true,
             isSuspended: false
         });
@@ -300,9 +314,11 @@ const sendBroadcast = async (req, res) => {
 // @access  Admin
 const getBroadcastHistory = async (req, res) => {
     try {
+        // Bug Fix BUG-NEW-M5: limit broadcast history to prevent unbounded results
         const history = await AlertLog.find()
             .populate('sentBy', 'name email')
-            .sort({ createdAt: -1 }); // Bug Fix: sentAt removed, use timestamps.createdAt
+            .sort({ createdAt: -1 })
+            .limit(50);
 
         res.json(history);
     } catch (error) {
@@ -361,8 +377,25 @@ const deleteFAQ = async (req, res) => {
     }
 };
 
+// Bug Fix BUG-M2: dedicated stats endpoint — returns true DB totals,
+// not counts derived from the currently filtered/paginated user list
+const getAdminStats = async (req, res) => {
+    try {
+        const [total, verified, pending, suspended] = await Promise.all([
+            Donor.countDocuments({}),
+            Donor.countDocuments({ isVerified: true }),
+            Donor.countDocuments({ verificationStatus: 'pending' }),
+            Donor.countDocuments({ isSuspended: true })
+        ]);
+        res.json({ total, verified, pending, suspended });
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 module.exports = {
     getAllUsers,
+    getAdminStats,
     suspendUser,
     approveVerification,
     getBloodInventory,

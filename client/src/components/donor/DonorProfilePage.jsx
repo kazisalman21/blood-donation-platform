@@ -11,7 +11,7 @@ import './DonorProfile.css';
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 const DonorProfilePage = () => {
-    const { user, token } = useAuth();
+    const { user, token, updateUser } = useAuth();
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
     const [editing, setEditing] = useState(false);
@@ -51,6 +51,8 @@ const DonorProfilePage = () => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setProfile(res.data);
+                // Bug Fix BUG-NEW-H1: sync updated fields to AuthContext/localStorage
+                updateUser({ name: res.data.name, city: res.data.city, area: res.data.area, phone: res.data.phone });
                 setEditing(false);
             } catch (err) {
                 setEditError(err.response?.data?.message || 'Failed to update profile');
@@ -99,9 +101,9 @@ const DonorProfilePage = () => {
                         <span className="stat-value">{profile.donationCount}</span>
                         <span className="stat-label">Donations</span>
                     </div>
-                    <div className="stat-card">
+                    <div className="stat-card" title="Each blood donation can save up to 3 lives (Red Cross estimate)">
                         <span className="stat-value">{profile.donationCount * 3}</span>
-                        <span className="stat-label">Lives Impacted</span>
+                        <span className="stat-label">Lives Impacted ℹ️</span>
                     </div>
                     <div className="stat-card">
                         <span className="stat-value">

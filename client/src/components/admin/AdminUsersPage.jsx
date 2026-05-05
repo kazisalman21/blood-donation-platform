@@ -14,6 +14,9 @@ const AdminUsersPage = () => {
     const [statusFilter, setStatusFilter] = useState('');
     const [actionLoading, setActionLoading] = useState(null); // tracks which user ID is loading
     const [actionError, setActionError] = useState(''); // Bug Fix: user-facing error messages
+    // Bug Fix BUG-H2: pagination state
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState({ total: 0, totalPages: 1 });
     const [actionSuccess, setActionSuccess] = useState('');
 
     const fetchUsers = useCallback(async () => {
@@ -22,17 +25,21 @@ const AdminUsersPage = () => {
             if (search) params.append('search', search);
             if (roleFilter) params.append('role', roleFilter);
             if (statusFilter) params.append('status', statusFilter);
+            params.append('page', page);
+            params.append('limit', 20);
 
             const res = await axios.get(`${API_URL}/admin/users?${params.toString()}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            setUsers(res.data);
+            // Bug Fix BUG-H2: handle paginated response shape
+            setUsers(res.data.data);
+            setPagination(res.data.pagination);
         } catch (err) {
             console.error('Failed to load users:', err);
         } finally {
             setLoading(false);
         }
-    }, [token, search, roleFilter, statusFilter]);
+    }, [token, search, roleFilter, statusFilter, page]);
 
     useEffect(() => {
         const debounce = setTimeout(() => {
@@ -40,6 +47,11 @@ const AdminUsersPage = () => {
         }, 300);
         return () => clearTimeout(debounce);
     }, [fetchUsers]);
+
+    // Reset to page 1 when filters change
+    useEffect(() => {
+        setPage(1);
+    }, [search, roleFilter, statusFilter]);
 
     const handleSuspend = async (userId) => {
         // Bug Fix: prevent admin from suspending themselves
@@ -59,6 +71,7 @@ const AdminUsersPage = () => {
             ));
             setActionSuccess(res.data.isSuspended ? 'User suspended' : 'User unsuspended');
             setTimeout(() => setActionSuccess(''), 3000);
+            refreshAfterAction(); // BUG-M2: refresh DB-level stats
         } catch (err) {
             // Bug Fix: show error to user instead of silent console.error
             setActionError(err.response?.data?.message || 'Failed to suspend/unsuspend user');
@@ -84,6 +97,7 @@ const AdminUsersPage = () => {
             ));
             setActionSuccess(`Verification ${action}d successfully`);
             setTimeout(() => setActionSuccess(''), 3000);
+            refreshAfterAction(); // BUG-M2: refresh DB-level stats
         } catch (err) {
             // Bug Fix: show error to user instead of silent console.error
             setActionError(err.response?.data?.message || 'Verification action failed');
@@ -93,11 +107,33 @@ const AdminUsersPage = () => {
         }
     };
 
-    // Compute stats
-    const totalUsers = users.length;
-    const verifiedCount = users.filter(u => u.isVerified).length;
-    const pendingCount = users.filter(u => u.verificationStatus === 'pending').length;
-    const suspendedCount = users.filter(u => u.isSuspended).length;
+    // Bug Fix BUG-M2: fetch true DB-level stats from dedicated endpoint
+    const [stats, setStats] = useState({ total: 0, verified: 0, pending: 0, suspended: 0 });
+
+    const fetchStats = useCallback(async () => {
+        try {
+            const res = await axios.get(`${API_URL}/admin/stats`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setStats(res.data);
+        } catch (err) {
+            console.error('Failed to load stats:', err);
+        }
+    }, [token]);
+
+    useEffect(() => {
+        fetchStats();
+    }, [fetchStats]);
+
+    // Refresh stats after suspend/verify actions
+    const refreshAfterAction = () => {
+        fetchStats();
+    };
+
+    const totalUsers = stats.total;
+    const verifiedCount = stats.verified;
+    const pendingCount = stats.pending;
+    const suspendedCount = stats.suspended;
 
     if (loading) return <div className="loading-screen">Loading users...</div>;
 
@@ -274,6 +310,29 @@ const AdminUsersPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                )}
+
+                {/* Bug Fix BUG-H2: Pagination Controls */}
+                {pagination.totalPages > 1 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '1.5rem', padding: '1rem 0' }}>
+                        <button
+                            onClick={() => setPage(p => Math.max(1, p - 1))}
+                            disabled={page <= 1}
+                            style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: page <= 1 ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)', color: page <= 1 ? 'rgba(255,255,255,0.3)' : '#fff', cursor: page <= 1 ? 'default' : 'pointer', fontSize: '0.85rem' }}
+                        >
+                            ← Previous
+                        </button>
+                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>
+                            Page {page} of {pagination.totalPages}
+                        </span>
+                        <button
+                            onClick={() => setPage(p => Math.min(pagination.totalPages, p + 1))}
+                            disabled={page >= pagination.totalPages}
+                            style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.15)', background: page >= pagination.totalPages ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.1)', color: page >= pagination.totalPages ? 'rgba(255,255,255,0.3)' : '#fff', cursor: page >= pagination.totalPages ? 'default' : 'pointer', fontSize: '0.85rem' }}
+                        >
+                            Next →
+                        </button>
                     </div>
                 )}
             </div>

@@ -4,6 +4,7 @@ const { protect } = require('../middleware/authMiddleware');
 const { adminOnly } = require('../middleware/adminOnly');
 const {
     getAllUsers,
+    getAdminStats,
     suspendUser,
     approveVerification,
     getBloodInventory,
@@ -24,6 +25,7 @@ router.use(adminOnly);
 
 // User management
 router.get('/users', getAllUsers);
+router.get('/stats', getAdminStats); // Bug Fix BUG-M2: true DB-level stats
 router.put('/users/:id/suspend', suspendUser);
 router.put('/users/:id/verify', approveVerification);
 

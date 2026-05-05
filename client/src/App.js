@@ -113,6 +113,15 @@ function App() {
               <Route path="/admin/broadcast" element={
                 <AdminRoute><BroadcastPage /></AdminRoute>
               } />
+
+              {/* Bug Fix BUG-NEW-L4: 404 catch-all route */}
+              <Route path="*" element={
+                <div style={{ textAlign: 'center', padding: '80px 20px', color: 'rgba(255,255,255,0.7)' }}>
+                  <h1 style={{ fontSize: '4rem', margin: '0' }}>404</h1>
+                  <p style={{ fontSize: '1.2rem', marginTop: '12px' }}>Page not found</p>
+                  <a href="/" style={{ color: '#ef4444', textDecoration: 'none', fontSize: '1rem' }}>← Back to Home</a>
+                </div>
+              } />
             </Routes>
           </main>
           <Footer />

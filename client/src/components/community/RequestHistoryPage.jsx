@@ -31,6 +31,10 @@ const RequestHistoryPage = () => {
     const [expandedRow, setExpandedRow] = useState(null);
     const [feedbackOpen, setFeedbackOpen] = useState(null);
 
+    // Bug Fix BUG-H2: pagination state
+    const [page, setPage] = useState(1);
+    const [pagination, setPagination] = useState({ total: 0, totalPages: 1 });
+
     const fetchHistory = async (overrideFilters = null) => {
         setLoading(true);
         try {
@@ -45,12 +49,16 @@ const RequestHistoryPage = () => {
             if (effectiveTo) params.append('to', effectiveTo);
             if (effectiveBlood) params.append('bloodType', effectiveBlood);
             if (effectiveStatus) params.append('status', effectiveStatus);
+            params.append('page', overrideFilters ? 1 : page);
+            params.append('limit', 20);
 
             const res = await axios.get(
                 `${API_URL}/community/requesters/${user._id}/history?${params.toString()}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
-            setRequests(res.data);
+            // Bug Fix BUG-H2: handle paginated response shape
+            setRequests(res.data.data);
+            setPagination(res.data.pagination);
         } catch (err) {
             console.error('Failed to load request history:', err);
         } finally {
@@ -63,6 +71,12 @@ const RequestHistoryPage = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user, token]);
 
+    // Bug Fix BUG-H2: re-fetch when page changes
+    useEffect(() => {
+        if (user && page > 1) fetchHistory();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [page]);
+
     const handleApplyFilters = () => {
         fetchHistory();
     };
@@ -72,6 +86,7 @@ const RequestHistoryPage = () => {
         setToDate('');
         setBloodTypeFilter('');
         setStatusFilter('');
+        setPage(1);
         fetchHistory({ fromDate: '', toDate: '', bloodTypeFilter: '', statusFilter: '' });
     };
 
@@ -322,6 +337,31 @@ const RequestHistoryPage = () => {
                                 ))}
                             </tbody>
                         </table>
+                    </div>
+                )}
+
+                {/* Bug Fix BUG-H2: Pagination Controls */}
+                {pagination.totalPages > 1 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '1rem', marginTop: '1.5rem', padding: '1rem 0' }}>
+                        <button
+                            onClick={() => { setPage(p => Math.max(1, p - 1)); }}
+                            disabled={page <= 1}
+                            className="btn btn-secondary"
+                            style={{ fontSize: '0.85rem', opacity: page <= 1 ? 0.4 : 1 }}
+                        >
+                            ← Previous
+                        </button>
+                        <span style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem' }}>
+                            Page {page} of {pagination.totalPages}
+                        </span>
+                        <button
+                            onClick={() => { setPage(p => Math.min(pagination.totalPages, p + 1)); }}
+                            disabled={page >= pagination.totalPages}
+                            className="btn btn-secondary"
+                            style={{ fontSize: '0.85rem', opacity: page >= pagination.totalPages ? 0.4 : 1 }}
+                        >
+                            Next →
+                        </button>
                     </div>
                 )}
             </div>

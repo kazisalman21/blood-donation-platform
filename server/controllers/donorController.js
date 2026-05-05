@@ -169,10 +169,12 @@ const updateDonorProfile = async (req, res) => {
         }
 
         // Only allow updating specific fields (not email, bloodType, password)
-        if (name) donor.name = name;
-        if (city) donor.city = city;
-        if (area) donor.area = area;
-        if (phone) donor.phone = phone;
+        // Bug Fix BUG-NEW-M1: use !== undefined instead of falsy check
+        // so users can clear optional fields by sending empty strings
+        if (name !== undefined) donor.name = name;
+        if (city !== undefined) donor.city = city;
+        if (area !== undefined) donor.area = area;
+        if (phone !== undefined) donor.phone = phone;
         if (medicalFlags) donor.medicalFlags = medicalFlags;
 
         await donor.save();
@@ -271,7 +273,8 @@ const searchDonors = async (req, res) => {
         const query = { isSuspended: false };
 
         if (bloodType) query.bloodType = bloodType;
-        if (city) query.city = city;
+        // Bug Fix BUG-NEW-C2: case-insensitive city match (same pattern as BUG-M1)
+        if (city) query.city = { $regex: new RegExp('^' + city.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '$', 'i') };
         if (isAvailable !== undefined) query.isAvailable = isAvailable === 'true';
 
         // Bug Fix: only return public-safe fields (no phone, medicalFlags)

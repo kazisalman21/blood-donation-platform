@@ -134,11 +134,24 @@ const getRequests = async (req, res) => {
         if (status) query.status = status;
         if (city) query.location = city;
 
-        const requests = await BloodRequest.find(query)
-            .populate('requesterId', 'name city')
-            .sort({ createdAt: -1 });
+        // Bug Fix BUG-H2: pagination — prevents unbounded result sets
+        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 20);
+        const skip  = (page - 1) * limit;
 
-        res.json(requests);
+        const [requests, total] = await Promise.all([
+            BloodRequest.find(query)
+                .populate('requesterId', 'name city')
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+            BloodRequest.countDocuments(query)
+        ]);
+
+        res.json({
+            data: requests,
+            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -155,11 +168,24 @@ const getMyRequests = async (req, res) => {
         if (status) query.status = status;
         if (urgency) query.urgency = urgency;
 
-        const requests = await BloodRequest.find(query)
-            .populate('matchedDonorId', 'name bloodType city isVerified')
-            .sort({ createdAt: -1 });
+        // Bug Fix BUG-NEW-H2: pagination — was missing from the original H2 fix
+        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 20);
+        const skip  = (page - 1) * limit;
 
-        res.json(requests);
+        const [requests, total] = await Promise.all([
+            BloodRequest.find(query)
+                .populate('matchedDonorId', 'name bloodType city isVerified')
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+            BloodRequest.countDocuments(query)
+        ]);
+
+        res.json({
+            data: requests,
+            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -174,6 +200,11 @@ const getCompatibleDonors = async (req, res) => {
 
         if (!request) {
             return res.status(404).json({ message: 'Request not found' });
+        }
+
+        // Bug Fix BUG-NEW-M6: only the requester should see compatible donor list
+        if (request.requesterId.toString() !== req.user._id.toString()) {
+            return res.status(403).json({ message: 'Not authorized to view compatible donors for this request' });
         }
 
         const eligibleDonors = await findEligibleDonors(request.bloodType, request.location);
@@ -216,37 +247,54 @@ const respondToRequest = async (req, res) => {
         }
 
         if (accept) {
-            // Prevent multiple donors from accepting the same request
-            if (request.matchedDonorId) {
-                return res.status(400).json({ message: 'This request already has a matched donor' });
+            // Bug Fix BUG-NEW-H4: prevent requester from accepting their own request
+            if (request.requesterId.toString() === req.user._id.toString()) {
+                return res.status(400).json({ message: 'You cannot accept your own blood request' });
             }
 
-            // Bug Fix (C2): verify the responding donor has compatible blood type
+            // Bug Fix BUG-C2: atomic match — prevents race condition where two donors
+            // accept simultaneously before either write completes
             const compatibleTypes = getCompatibleDonorTypes(request.bloodType);
             if (!compatibleTypes.includes(req.user.bloodType)) {
                 return res.status(403).json({ message: 'Your blood type is not compatible with this request' });
             }
 
-            request.matchedDonorId = req.user._id;
-            request.donorConsent = true;
-            request.status = 'Donor Matched';
-            request.statusHistory.push({ stage: 'Donor Matched', timestamp: new Date() });
+            const updated = await BloodRequest.findOneAndUpdate(
+                { _id: req.params.id, matchedDonorId: null },  // only matches if still unmatched
+                {
+                    $set: {
+                        matchedDonorId: req.user._id,
+                        donorConsent: true,
+                        status: 'Donor Matched'
+                    },
+                    $push: {
+                        statusHistory: { stage: 'Donor Matched', timestamp: new Date() }
+                    }
+                },
+                { new: true }
+            );
 
-            // Notify the requester that a donor has accepted
+            if (!updated) {
+                return res.status(409).json({ message: 'This request has already been matched by another donor' });
+            }
+
             await Notification.create({
-                donorId: request.requesterId,
-                requestId: request._id,
-                message: `A donor has accepted your ${request.bloodType} blood request for ${request.hospital}`,
-                bloodType: request.bloodType,
-                hospital: request.hospital,
-                urgency: request.urgency
+                donorId: updated.requesterId,
+                requestId: updated._id,
+                message: `A donor has accepted your ${updated.bloodType} blood request for ${updated.hospital}`,
+                bloodType: updated.bloodType,
+                hospital: updated.hospital,
+                urgency: updated.urgency
             });
+
+            return res.json({ message: 'Request accepted', request: updated });
         }
 
+        // Decline path — no changes needed, just save
         await request.save();
 
         res.json({
-            message: accept ? 'Request accepted' : 'Request declined',
+            message: 'Request declined',
             request
         });
     } catch (error) {
@@ -324,6 +372,16 @@ const updateStatus = async (req, res) => {
         // 🟢 FIX: If the request is completed, generate a permanent Donation record 
         // This is required for Anika's F5 (History) and F13 (Leaderboard) to work
         if (newStatus === 'Completed' && request.matchedDonorId) {
+            // Bug Fix BUG-NEW-C1: idempotency guard — prevent duplicate Donation
+            // records if this endpoint is called multiple times (network retry, double-click)
+            const existingDonation = await Donation.findOne({
+                requestId: request._id,
+                donorId: request.matchedDonorId
+            });
+            if (existingDonation) {
+                return res.json({ message: 'Status updated (donation already recorded)', request });
+            }
+
             await Donation.create({
                 donorId: request.matchedDonorId,
                 requestId: request._id,

@@ -22,9 +22,11 @@ const getNotifications = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized to view these notifications' });
         }
 
+        // Bug Fix BUG-NEW-H3: limit notifications to prevent unbounded result sets
         const notifications = await Notification.find({ donorId: req.params.id })
             .populate('requestId', 'bloodType hospital urgency status')
-            .sort({ createdAt: -1 });
+            .sort({ createdAt: -1 })
+            .limit(100);
 
         const unreadCount = await Notification.countDocuments({
             donorId: req.params.id,

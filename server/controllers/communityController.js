@@ -29,11 +29,24 @@ const getDonationHistory = async (req, res) => {
             if (to) query.donationDate.$lte = new Date(to);
         }
 
-        const donations = await Donation.find(query)
-            .sort({ donationDate: -1 })
-            .populate('requestId', 'hospital urgency');
+        // Bug Fix BUG-H2: pagination — prevents unbounded result sets
+        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 20);
+        const skip  = (page - 1) * limit;
 
-        res.json(donations);
+        const [donations, total] = await Promise.all([
+            Donation.find(query)
+                .sort({ donationDate: -1 })
+                .populate('requestId', 'hospital urgency')
+                .skip(skip)
+                .limit(limit),
+            Donation.countDocuments(query)
+        ]);
+
+        res.json({
+            data: donations,
+            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -115,11 +128,24 @@ const getRequesterHistory = async (req, res) => {
             if (to) query.createdAt.$lte = new Date(to);
         }
 
-        const requests = await BloodRequest.find(query)
-            .populate('matchedDonorId', 'name bloodType isVerified')
-            .sort({ createdAt: -1 });
+        // Bug Fix BUG-H2: pagination — prevents unbounded result sets
+        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const limit = Math.min(100, parseInt(req.query.limit) || 20);
+        const skip  = (page - 1) * limit;
 
-        res.json(requests);
+        const [requests, total] = await Promise.all([
+            BloodRequest.find(query)
+                .populate('matchedDonorId', 'name bloodType isVerified')
+                .sort({ createdAt: -1 })
+                .skip(skip)
+                .limit(limit),
+            BloodRequest.countDocuments(query)
+        ]);
+
+        res.json({
+            data: requests,
+            pagination: { total, page, limit, totalPages: Math.ceil(total / limit) }
+        });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -131,33 +157,45 @@ const getRequesterHistory = async (req, res) => {
 const getLeaderboard = async (req, res) => {
     try {
         const { type, city } = req.query;
-        const matchStage = {};
 
-        if (city) matchStage['donor.city'] = city;
+        const initialMatch = { status: 'Completed' };
 
         // Monthly filter
         if (type === 'monthly') {
             const startOfMonth = new Date();
             startOfMonth.setDate(1);
             startOfMonth.setHours(0, 0, 0, 0);
-            matchStage.donationDate = { $gte: startOfMonth };
+            initialMatch.donationDate = { $gte: startOfMonth };
         }
 
         const pipeline = [
-            { $match: { status: 'Completed', ...(matchStage.donationDate ? { donationDate: matchStage.donationDate } : {}) } },
-            { $group: { _id: '$donorId', totalDonations: { $sum: 1 } } },
-            { $sort: { totalDonations: -1 } },
-            { $limit: 20 },
+            // Bug Fix BUG-H1: match completed donations first
+            { $match: initialMatch },
+
+            // Join donor data BEFORE grouping so we can filter by city
             {
                 $lookup: {
                     from: 'donors',
-                    localField: '_id',
+                    localField: 'donorId',
                     foreignField: '_id',
                     as: 'donor'
                 }
             },
             { $unwind: '$donor' },
+
+            // Bug Fix BUG-H1: city filter NOW (before $limit) — not after
             ...(city ? [{ $match: { 'donor.city': city } }] : []),
+
+            // Now group, sort, and limit on the already-filtered set
+            {
+                $group: {
+                    _id: '$donorId',
+                    totalDonations: { $sum: 1 },
+                    donor: { $first: '$donor' }
+                }
+            },
+            { $sort: { totalDonations: -1 } },
+            { $limit: 20 },
             {
                 $project: {
                     _id: 1,
@@ -198,6 +236,11 @@ const submitFeedback = async (req, res) => {
         // Only the requester can submit feedback
         if (request.requesterId.toString() !== req.user._id.toString()) {
             return res.status(403).json({ message: 'Only the requester can submit feedback' });
+        }
+
+        // Bug Fix BUG-NEW-H5: validate donorId matches the request's actual matched donor
+        if (!request.matchedDonorId || request.matchedDonorId.toString() !== donorId) {
+            return res.status(400).json({ message: 'Feedback must target the matched donor for this request' });
         }
 
         // Bug Fix: prevent duplicate feedback for same request+donor

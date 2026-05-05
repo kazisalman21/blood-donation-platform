@@ -37,11 +37,14 @@ const StatusTrackerPage = () => {
     const fetchRequests = async () => {
         try {
             const res = await axios.get(`${API_URL}/requests/my`, {
-                headers: { Authorization: `Bearer ${token}` }
+                headers: { Authorization: `Bearer ${token}` },
+                params: { limit: 100 }  // fetch more for the dropdown
             });
-            setRequests(res.data);
-            if (res.data.length > 0) {
-                setSelectedId(res.data[0]._id);
+            // Bug Fix BUG-NEW-H2: handle paginated response
+            const data = res.data.data || res.data;
+            setRequests(data);
+            if (data.length > 0) {
+                setSelectedId(data[0]._id);
             }
         } catch (err) {
             console.error('Error:', err);
