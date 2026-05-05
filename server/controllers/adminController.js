@@ -1,6 +1,7 @@
 const Donor = require('../models/Donor');
 const BloodRequest = require('../models/BloodRequest');
 const Donation = require('../models/Donation');
+const Notification = require('../models/Notification');
 const FAQ = require('../models/FAQ');
 const AlertLog = require('../models/AlertLog');
 const { getCompatibleDonorTypes } = require('../utils/bloodCompatibility');
@@ -290,10 +291,18 @@ const sendBroadcast = async (req, res) => {
             isSuspended: false
         });
 
-        // In production, send emails via Nodemailer here
-        // for (const donor of donors) {
-        //   await sendBroadcastEmail(donor.email, donor.name, message);
-        // }
+        // Create in-app notifications for each matched donor
+        if (donors.length > 0) {
+            const notifications = donors.map(donor => ({
+                donorId: donor._id,
+                requestId: null,
+                message: `📢 Emergency Broadcast: ${message}`,
+                bloodType,
+                hospital: `Broadcast — ${city}`,
+                urgency: 'Critical'
+            }));
+            await Notification.insertMany(notifications);
+        }
 
         const log = await AlertLog.create({
             bloodType,

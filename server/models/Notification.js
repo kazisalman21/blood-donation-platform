@@ -9,7 +9,7 @@ const notificationSchema = new mongoose.Schema({
     requestId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'BloodRequest',
-        required: true
+        default: null
     },
     message: {
         type: String,
