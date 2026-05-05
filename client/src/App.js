@@ -18,6 +18,7 @@ import VerificationRequestForm from './components/donor/VerificationRequestForm'
 import PostRequestPage from './components/patient/PostRequestPage';
 import MyRequestsPage from './components/patient/MyRequestsPage';
 import RequestDetailPage from './components/patient/RequestDetailPage';
+import GlobalRequestsPage from './components/patient/GlobalRequestsPage';
 import DonorMapPage from './components/patient/DonorMapPage';
 import StatusTrackerPage from './components/patient/StatusTrackerPage';
 import InventoryPage from './components/patient/InventoryPage';
@@ -61,6 +62,9 @@ function App() {
               {/* Protected Routes — Patient (Athoy: F8, F9) */}
               <Route path="/request/new" element={
                 <ProtectedRoute><PostRequestPage /></ProtectedRoute>
+              } />
+              <Route path="/requests/all" element={
+                <ProtectedRoute><GlobalRequestsPage /></ProtectedRoute>
               } />
               <Route path="/requests/my" element={
                 <ProtectedRoute><MyRequestsPage /></ProtectedRoute>

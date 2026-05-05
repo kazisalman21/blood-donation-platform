@@ -285,6 +285,296 @@
     color: var(--accent-light);
 }
 
+/* ===== WORKFLOW SECTIONS ===== */
+
+.workflow-section {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.5s ease-out 0.2s both;
+}
+
+.workflow-section h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 1rem 0;
+}
+
+/* Matched Donor Card */
+.matched-donor-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 1.25rem;
+}
+
+.matched-donor-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.matched-donor-info {
+    flex: 1;
+}
+
+.matched-donor-info h3 {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.matched-donor-info .verified-badge {
+    color: #4caf50;
+    font-size: 0.85rem;
+}
+
+.matched-donor-info p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.consent-status-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.consent-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.25rem 0.65rem;
+    border-radius: 20px;
+    white-space: nowrap;
+}
+
+.consent-badge.given {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.12);
+    border: 1px solid rgba(76, 175, 80, 0.25);
+}
+
+.consent-badge.pending {
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.1);
+    border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+/* Contact Info Section */
+.contact-section {
+    border-color: rgba(76, 175, 80, 0.2);
+}
+
+.contact-section.masked {
+    border-color: rgba(251, 191, 36, 0.2);
+}
+
+.contact-unlock-msg {
+    color: #4caf50;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+}
+
+.contact-lock-msg {
+    color: #fbbf24;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.contact-card.masked {
+    opacity: 0.7;
+}
+
+.contact-card-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(255, 255, 255, 0.4);
+    margin-bottom: 0.5rem;
+}
+
+.contact-card-name {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 0.6rem;
+}
+
+.contact-card-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.88rem;
+    margin-bottom: 0.35rem;
+}
+
+.contact-card-row.masked-text {
+    color: rgba(255, 255, 255, 0.35);
+    font-style: italic;
+}
+
+/* Action Section */
+.action-section {
+    border-color: rgba(239, 68, 68, 0.2);
+    background: rgba(239, 68, 68, 0.03);
+}
+
+.action-description {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.88rem;
+    margin: 0 0 1.25rem 0;
+    line-height: 1.5;
+}
+
+.workflow-action-btn {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.workflow-action-btn.consent-btn {
+    background: linear-gradient(135deg, #4caf50, #388e3c);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+}
+
+.workflow-action-btn.consent-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.workflow-action-btn.status-btn {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.25);
+}
+
+.workflow-action-btn.status-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+}
+
+.workflow-action-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.action-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.action-msg {
+    text-align: center;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    animation: fadeInMsg 0.3s ease;
+}
+
+.action-msg.success {
+    color: #4caf50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.action-msg.error {
+    color: #ef5350;
+    background: rgba(239, 83, 80, 0.1);
+}
+
+@keyframes fadeInMsg {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Completed Banner */
+.completed-section {
+    border-color: rgba(52, 211, 153, 0.2);
+    background: rgba(52, 211, 153, 0.03);
+}
+
+.completed-banner {
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.completed-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.completed-banner h2 {
+    color: #34d399;
+    font-size: 1.4rem;
+    margin: 0 0 0.5rem 0;
+}
+
+.completed-banner p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     .request-detail-container {
@@ -329,5 +619,19 @@
     .step-label {
         text-align: left;
         max-width: none;
+    }
+
+    .matched-donor-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .consent-status-badges {
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
     }
 }

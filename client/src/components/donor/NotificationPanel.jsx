@@ -53,6 +53,8 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [respondingTo, setRespondingTo] = useState(null); // track which notif is being responded to
+    const [responseMsg, setResponseMsg] = useState(null);   // success/error feedback
 
     // Fetch all notifications when panel opens
     useEffect(() => {
@@ -108,6 +110,39 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
             onCountUpdate(0);
         } catch (err) {
             console.error('Failed to mark all as read:', err);
+        }
+    };
+
+    // Accept or Decline a blood request from the notification
+    const handleRespond = async (notif, accept) => {
+        if (!notif.requestId) return;
+        const requestId = typeof notif.requestId === 'object' ? notif.requestId._id : notif.requestId;
+        setRespondingTo(`${notif._id}-${accept ? 'accept' : 'decline'}`);
+        setResponseMsg(null);
+        try {
+            await axios.put(`${API_URL}/requests/${requestId}/respond`,
+                { accept },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            setResponseMsg({ id: notif._id, type: 'success', text: accept ? 'Request accepted! ✓' : 'Request declined.' });
+            // Mark notification as read after responding
+            if (!notif.isRead) {
+                handleMarkAsRead(notif._id);
+            }
+            // Update notification in local state to show responded status
+            setNotifications(prev =>
+                prev.map(n => n._id === notif._id
+                    ? { ...n, responded: true, acceptedByMe: accept, isRead: true }
+                    : n
+                )
+            );
+        } catch (err) {
+            const errMsg = err.response?.data?.message || 'Failed to respond';
+            setResponseMsg({ id: notif._id, type: 'error', text: errMsg });
+        } finally {
+            setRespondingTo(null);
+            // Clear message after 4 seconds
+            setTimeout(() => setResponseMsg(null), 4000);
         }
     };
 
@@ -199,8 +234,52 @@ const NotificationPanel = ({ isOpen, onClose, onCountUpdate }) => {
                                     {getRelativeTime(notif.createdAt)}
                                 </span>
                             </div>
+
+                            {/* Accept / Decline buttons for blood request notifications */}
+                            {notif.requestId && !notif.responded && (
+                                <div className="notif-respond-actions">
+                                    <button
+                                        className="notif-accept-btn"
+                                        onClick={() => handleRespond(notif, true)}
+                                        disabled={respondingTo !== null}
+                                        title="Accept this blood request"
+                                    >
+                                        {respondingTo === `${notif._id}-accept` ? (
+                                            <span className="notif-btn-spinner" />
+                                        ) : (
+                                            <>✓ Accept</>
+                                        )}
+                                    </button>
+                                    <button
+                                        className="notif-decline-btn"
+                                        onClick={() => handleRespond(notif, false)}
+                                        disabled={respondingTo !== null}
+                                        title="Decline this blood request"
+                                    >
+                                        {respondingTo === `${notif._id}-decline` ? (
+                                            <span className="notif-btn-spinner" />
+                                        ) : (
+                                            <>✗ Decline</>
+                                        )}
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Show response result */}
+                            {notif.responded && (
+                                <div className={`notif-responded-tag ${notif.acceptedByMe ? 'accepted' : 'declined'}`}>
+                                    {notif.acceptedByMe ? '✓ You accepted this request' : '✗ Declined'}
+                                </div>
+                            )}
+
+                            {/* Inline feedback message */}
+                            {responseMsg && responseMsg.id === notif._id && (
+                                <div className={`notif-response-msg ${responseMsg.type}`}>
+                                    {responseMsg.text}
+                                </div>
+                            )}
                         </div>
-                        {!notif.isRead && (
+                        {!notif.isRead && !notif.responded && (
                             <button
                                 className="notif-read-btn"
                                 onClick={() => handleMarkAsRead(notif._id)}
