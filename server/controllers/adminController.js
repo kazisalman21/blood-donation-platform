@@ -30,9 +30,9 @@ const getAllUsers = async (req, res) => {
         }
 
         // Bug Fix BUG-H2: pagination — prevents unbounded result sets
-        const page  = Math.max(1, parseInt(req.query.page)  || 1);
+        const page = Math.max(1, parseInt(req.query.page) || 1);
         const limit = Math.min(100, parseInt(req.query.limit) || 20);
-        const skip  = (page - 1) * limit;
+        const skip = (page - 1) * limit;
 
         const [users, total] = await Promise.all([
             Donor.find(query).select('-password').sort({ createdAt: -1 }).skip(skip).limit(limit),

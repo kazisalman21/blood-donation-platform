@@ -124,6 +124,10 @@ const Navbar = () => {
                                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
                                             Donation History
                                         </Link>
+                                        <Link to="/history/requests" className={`nav-dropdown-item ${isActive('/history/requests') ? 'active' : ''}`}>
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2M9 5h6m-3 7h.01M9 16h6" /></svg>
+                                            Request History
+                                        </Link>
                                         <Link to="/leaderboard" className={`nav-dropdown-item ${isActive('/leaderboard') ? 'active' : ''}`}>
                                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M8 21h8m-4-4v4M6 3h12l-1.5 6h-9L6 3Zm1.5 6 1 4h7l1-4" /></svg>
                                             Leaderboard
