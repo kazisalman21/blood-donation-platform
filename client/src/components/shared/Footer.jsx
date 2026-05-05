@@ -35,12 +35,12 @@ const Footer = () => {
                         <Link to="/profile">Donor Profile</Link>
                     </div>
 
-                    {/* Project */}
+                    {/* Resources */}
                     <div className="footer-col">
-                        <h4>Project</h4>
-                        <a href="https://github.com/kazisalman21/blood-donation-platform" target="_blank" rel="noreferrer">GitHub Repository</a>
-                        <a href="https://docs.google.com/document/d/1tLieUNqrSS-HghBV5eOAdE_CtdKRPXOHXDnVw7Eo8YA/edit?usp=sharing" target="_blank" rel="noreferrer">SRS Document</a>
-                        <span className="footer-link-muted">CSE470 — Spring 2026</span>
+                        <h4>Resources</h4>
+                        <Link to="/faq">FAQ</Link>
+                        <Link to="/donor-map">Find Donors</Link>
+                        <Link to="/leaderboard">Leaderboard</Link>
                     </div>
                 </div>
 
